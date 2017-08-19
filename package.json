@@ -75,6 +75,8 @@
   "devDependencies": {
     "@types/jest": "^20.0.0",
     "@types/node": "^8.0.0",
+    "@types/q": "^1.0.3",
+    "chai": "^4.1.1",
     "colors": "^1.1.2",
     "commitizen": "^2.9.6",
     "coveralls": "^2.13.1",
@@ -102,5 +104,10 @@
     "typedoc": "^0.7.1",
     "typescript": "^2.3.4",
     "validate-commit-msg": "^2.12.2"
+  },
+  "dependencies": {
+    "dropbox": "^2.5.7",
+    "easyimage": "^2.1.0",
+    "q": "^1.5.0"
   }
 }
