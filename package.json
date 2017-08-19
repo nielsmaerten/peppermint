@@ -107,7 +107,7 @@
   },
   "dependencies": {
     "dropbox": "^2.5.7",
-    "easyimage": "^2.1.0",
-    "q": "^1.5.0"
+    "q": "^1.5.0",
+    "request-image-size": "^2.0.0"
   }
 }
