@@ -35,6 +35,10 @@
     conventional-changelog "1.1.4"
     github-url-from-git "^1.4.0"
 
+"@types/chai@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.3.tgz#6c2264b195cd2bb4c95c108487e13df0c8567c3e"
+
 "@types/fs-extra@^3.0.0":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-3.0.2.tgz#00cbf48563f377f9ce5cf24237b21b3d9779e055"

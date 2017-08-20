@@ -64,7 +64,7 @@
       "/node_modules/",
       "/test/"
     ],
-    "DIASABLEDcoverageThreshold": {
+    "coverageThreshold": {
       "global": {
         "branches": 90,
         "functions": 95,
@@ -108,6 +108,7 @@
     "validate-commit-msg": "^2.12.2"
   },
   "dependencies": {
+    "@types/chai": "^4.0.3",
     "dropbox": "^2.5.7",
     "q": "^1.5.0",
     "request-image-size": "^2.0.0"
