@@ -24,6 +24,7 @@
     "build": "tsc && rollup -c && rimraf compiled && typedoc --out dist/docs --target es6 --theme minimal src",
     "start": "tsc-watch --onSuccess \"rollup -c\"",
     "test": "jest",
+    "test:debug": "node --debug-brk=5858 ./node_modules/jest/bin/jest.js --runInBand",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
@@ -63,7 +64,7 @@
       "/node_modules/",
       "/test/"
     ],
-    "coverageThreshold": {
+    "DIASABLEDcoverageThreshold": {
       "global": {
         "branches": 90,
         "functions": 95,
@@ -95,6 +96,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "semantic-release": "^7.0.2",
+    "sinon": "^3.2.1",
     "ts-jest": "^20.0.6",
     "ts-node": "^3.0.6",
     "tsc-watch": "^1.0.5",

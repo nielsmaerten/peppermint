@@ -1,14 +1,16 @@
-import DummyClass from "../src/peppermint"
+import Peppermint from "../src/peppermint"
+import { expect, assert } from "chai"
 
 /**
- * Dummy test
+ * Main Peppermint tests
  */
-describe("Dummy test", () => {
-  it("works if true is truthy", () => {
-    expect(true).toBeTruthy()
+describe("Peppermint", () => {
+  xit("should have a newImageAdded Function", () => {
+    expect(new Peppermint().newImageAdded).to.be.a("function")
   })
 
-  it("DummyClass is instantiable", () => {
-    expect(new DummyClass()).toBeInstanceOf(DummyClass)
+  xit("should have a function to add an Image to a Dropbox", () => {
+    let peppermint = new Peppermint()
+    expect(peppermint.addImageToDropbox).to.be.a("function")
   })
 })
