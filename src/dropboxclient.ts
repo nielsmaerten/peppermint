@@ -9,10 +9,7 @@ export default class DropboxClient {
     })
   }
 
-  public uploadImage(
-    imageUrl: string,
-    filename: string
-  ): Promise<DropboxTypes.files.SaveUrlResult> {
+  public uploadImage(imageUrl: string, filename: string) {
     return this.dropbox.filesSaveUrl({
       path: `/${filename}`,
       url: imageUrl
