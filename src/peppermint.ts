@@ -1,5 +1,5 @@
 export default class Peppermint {
-    /**
+  /**
      * Triggered every n minutes.
      * Checks the current list of top-posts on /r/earthporn
      * against an internal master list.
@@ -7,10 +7,10 @@ export default class Peppermint {
      * If new images exist on Reddit, they are added to the master list
      */
   onCheckReddit() {
-     throw new Error("pending implementation")
+    let topPosts = RedditClient.getTopPosts("/r/earthporn")
   }
 
-    /**
+  /**
      * Triggered when a new image is added to the master list
      * (by the onCheckReddit function)
      *
@@ -22,10 +22,10 @@ export default class Peppermint {
      * 3. Adds the image to the personal list of these users
      */
   onNewMasterImage() {
-     throw new Error("pending implementation")
+    throw new Error("pending implementation")
   }
 
-    /**
+  /**
      * Triggered when a new image is added to a user's personal list
      * (by the onNewMasterImage function)
      *
@@ -37,6 +37,6 @@ export default class Peppermint {
      * are no longer wanted from the user's list, and dropbox
      */
   onNewUserImage() {
-     throw new Error("pending implementation")
+    throw new Error("pending implementation")
   }
 }
