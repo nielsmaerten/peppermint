@@ -1,4 +1,4 @@
-import DropboxClient from "../src/dropboxclient"
+import DropboxClient from "../src/dropbox-client"
 import Dropbox from "dropbox"
 import { expect, assert } from "chai"
 import * as sinon from "sinon"
