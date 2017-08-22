@@ -39,6 +39,12 @@
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.3.tgz#6c2264b195cd2bb4c95c108487e13df0c8567c3e"
 
+"@types/form-data@*":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/form-data/-/form-data-2.2.0.tgz#a98aac91dc99857b6af24caef7ca6df302f31565"
+  dependencies:
+    "@types/node" "*"
+
 "@types/fs-extra@^3.0.0":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-3.0.2.tgz#00cbf48563f377f9ce5cf24237b21b3d9779e055"
@@ -76,6 +82,13 @@
 "@types/q@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.0.3.tgz#08e99d20f7abfc0fe202b6d5a0921bfafcdea8d0"
+
+"@types/request@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/request/-/request-2.0.2.tgz#d2cb5684e994e744afbc2c90df989b904133ff65"
+  dependencies:
+    "@types/form-data" "*"
+    "@types/node" "*"
 
 "@types/shelljs@^0.7.0":
   version "0.7.1"
