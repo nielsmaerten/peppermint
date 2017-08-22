@@ -1,4 +1,5 @@
 import Peppermint from "../src/peppermint"
+import FirebaseClient from "../src/firebase-client"
 import { expect, assert } from "chai"
 
 /**
@@ -24,5 +25,13 @@ describe("Peppermint", () => {
 
   it("should expose an onNewUserImage function", () => {
     expect(peppermint.onNewUserImage).to.be.a("function")
+  })
+
+  // TODO:
+  it("should add items not already in the master list", () => {
+    let initialSize = FirebaseClient.getInstance().getMasterList().length
+    peppermint.onCheckReddit()
+    let newSize = FirebaseClient.getInstance().getMasterList().length
+    expect(newSize).to.be.above(initialSize)
   })
 })
