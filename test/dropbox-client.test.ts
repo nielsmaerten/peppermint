@@ -23,9 +23,12 @@ describe("DropboxClient", () => {
   it("should upload an image to my dropbox", done => {
     let imageUrl = "http://placehold.it/500x500.jpg?text=Hello%20World!"
     let filename = "testfile.jpg"
-    client.uploadImage(imageUrl, filename).then(() => {
-      assert(fileSaveUrlStub.called === true)
-      done()
-    })
+    client
+      .uploadImage(imageUrl, filename)
+      .then(() => {
+        assert(fileSaveUrlStub.called === true)
+        done()
+      })
+      .catch(fail)
   })
 })
