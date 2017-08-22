@@ -4,12 +4,15 @@ import { expect, assert } from "chai"
 import * as sinon from "sinon"
 
 describe("RedditClient", () => {
-  it("should get the top posts from a subreddit", () => {
-    RedditClient.getTopPosts("/r/earthporn").then(posts => {
-      // tslint:disable-next-line:no-unused-expression
-      expect(posts).not.to.be.undefined
-      expect(posts.length).to.be.least(1)
-    })
+  it("should get the top posts from a subreddit", done => {
+    RedditClient.getTopPosts()
+      .then(posts => {
+        // tslint:disable-next-line:no-unused-expression
+        expect(posts).not.to.be.undefined
+        expect(posts.length).to.be.least(1)
+        done()
+      })
+      .catch(fail)
   })
 
   it("should parse a response from reddit to posts", () => {
