@@ -3,11 +3,11 @@ import RedditPost from "../src/reddit-post"
 import { expect, assert } from "chai"
 import * as sinon from "sinon"
 
+// tslint:disable:no-unused-expression
 describe("RedditClient", () => {
   it("should get the top posts from a subreddit", done => {
     RedditClient.getTopPosts()
       .then(posts => {
-        // tslint:disable-next-line:no-unused-expression
         expect(posts).not.to.be.undefined
         expect(posts.length).to.be.least(1)
         done()
@@ -16,11 +16,11 @@ describe("RedditClient", () => {
   })
 
   it("should parse a response from reddit to posts", () => {
-    let posts = RedditClient.parseResponse(
-      require("./reddit-test-payload").json
-    )
-    // tslint:disable-next-line:no-unused-expression
+    let example = require("./reddit-test-payload")
+
+    let posts = RedditClient.parseResponse(example.json)
     expect(posts).not.to.be.undefined
+
     posts.forEach(post => {
       expect(post).to.have.property("imageUrl")
     })
