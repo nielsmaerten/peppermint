@@ -23,7 +23,7 @@ export default class RedditClient {
 
     // fire off the request
     request.get(requestUrl, requestOptions, (error, response, body) => {
-      if (error) deferred.reject(error)
+      if (error || response.statusCode !== 200) deferred.reject(error)
       else deferred.resolve(this.parseResponse(body))
     })
 

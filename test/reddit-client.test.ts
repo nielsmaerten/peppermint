@@ -29,4 +29,9 @@ describe("RedditClient", () => {
       "https://i.redditmedia.com/ycDpouFO79-fN1NVCUZUbfxBO4sUlXdB2zTDsJBHxa8.jpg?s=68041c0aaa86722789e4bed8dabe1388"
     )
   })
+
+  it("should reject a failed api request", done => {
+    let invalidUrl = "http://example.com/404"
+    expect(RedditClient.getTopPosts(invalidUrl).catch(done))
+  })
 })
