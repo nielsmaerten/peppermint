@@ -15,22 +15,18 @@ export default class RedditClient {
   ): Q.Promise<RedditPost[]> {
     let deferred = Q.defer<RedditPost[]>()
 
-    // build the requestUrl
+    // build the request
     subreddit = subreddit || Config.subreddit
     topPostCount = topPostCount || Config.topPostCount
     let requestUrl = `${subreddit}/top/.json?count=${topPostCount}`.toLowerCase()
+    let requestOptions = { baseUrl: Config.redditBaseUrl }
 
     // fire off the request
-    request.get(
-      requestUrl,
-      { baseUrl: Config.redditBaseUrl },
-      (error, response, body) => {
-        if (error) deferred.reject(error)
-        else deferred.resolve(this.parseResponse(body))
-      }
-    )
+    request.get(requestUrl, requestOptions, (error, response, body) => {
+      if (error) deferred.reject(error)
+      else deferred.resolve(this.parseResponse(body))
+    })
 
-    // return promise
     return deferred.promise
   }
 

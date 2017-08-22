@@ -1,3 +1,5 @@
+import RedditClient from "./reddit-client"
+
 export default class Peppermint {
   /**
    * Triggered every n minutes.
