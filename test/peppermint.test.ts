@@ -9,6 +9,7 @@ describe("Peppermint", () => {
   let peppermint
   beforeAll(() => {
     peppermint = new Peppermint()
+    require("./firebase-mock-creator").initMockFirebase()
   })
 
   it("should be initializable", () => {

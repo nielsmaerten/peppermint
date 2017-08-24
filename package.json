@@ -109,8 +109,13 @@
   },
   "dependencies": {
     "@types/chai": "^4.0.3",
+    "@types/firebase": "^2.4.32",
     "@types/request": "^2.0.2",
     "dropbox": "^2.5.7",
+    "firebase": "^4.3.0",
+    "firebase-admin": "^5.2.1",
+    "firebase-functions": "^0.6.2",
+    "firebase-mock": "^1.1.5",
     "q": "^1.5.0",
     "request-image-size": "^2.0.0"
   }
