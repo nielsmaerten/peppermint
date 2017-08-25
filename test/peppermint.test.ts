@@ -1,6 +1,9 @@
 import Peppermint from "../src/peppermint"
 import FirebaseClient from "../src/firebase-client"
+import RedditPost from "../src/reddit-post"
+import FirebaseMockCreator from "./firebase-mock-creator"
 import { expect, assert } from "chai"
+import * as Q from "q"
 
 /**
  * Main Peppermint tests
@@ -9,7 +12,7 @@ describe("Peppermint", () => {
   let peppermint
   beforeAll(() => {
     peppermint = new Peppermint()
-    require("./firebase-mock-creator").initMockFirebase()
+    FirebaseMockCreator.initMockFirebase()
   })
 
   it("should be initializable", () => {
@@ -29,10 +32,29 @@ describe("Peppermint", () => {
   })
 
   // TODO:
-  it("should add items not already in the master list", () => {
-    let initialSize = FirebaseClient.getInstance().getMasterList().length
-    peppermint.onCheckReddit()
-    let newSize = FirebaseClient.getInstance().getMasterList().length
-    expect(newSize).to.be.above(initialSize)
+  it("should add items not already in the master list", done => {
+    let newPost = new RedditPost("this-is-a-new-post-" + Date.now())
+    let postExistsInMasterList = FirebaseClient.getInstance()
+      .postExistsInMasterList
+    postExistsInMasterList(newPost).then(exists => {
+      try {
+        assert(
+          exists === false,
+          "Post expected not to exist was found in database"
+        )
+        peppermint.onCheckReddit()
+        postExistsInMasterList(newPost).then(exists => {
+          try {
+            assert(exists === true, "Post expected in database was not found")
+          } catch (error) {
+            fail(error)
+          } finally {
+            done()
+          }
+        })
+      } catch (error) {
+        fail(error)
+      }
+    })
   })
 })
