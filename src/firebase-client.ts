@@ -3,6 +3,7 @@ import * as firebase from "firebase"
 import * as functions from "firebase-functions"
 import * as admin from "firebase-admin"
 import * as Q from "q"
+import Config from "../src/config"
 
 export default class FirebaseClient {
   private static _instance: FirebaseClient
@@ -18,15 +19,20 @@ export default class FirebaseClient {
     return this._instance
   }
 
-  public getMasterList(subreddit?: string): Q.Promise<RedditPost[]> {
-    let deferred = Q.defer<RedditPost[]>()
+  public postExistsInMasterList(
+    redditPost: RedditPost,
+    subreddit?: string
+  ): Q.Promise<boolean> {
+    // TODO: Can this be done faster? Like batching?
+    subreddit = subreddit || Config.subreddit
+    let deferred = Q.defer<boolean>()
 
     admin
       .database()
-      .ref(`/masterlists/${subreddit}`)
+      .ref(`${Config.masterListsRef}/${subreddit}/${redditPost.id}`)
       .once("value")
-      .then((snaptshot: firebase.database.DataSnapshot) => {
-        deferred.resolve(snaptshot.val())
+      .then((snaptshot: FirebaseDataSnapshot) => {
+        deferred.resolve(snaptshot.val() !== null)
       })
       .catch(deferred.reject)
 
