@@ -34,4 +34,15 @@ describe("RedditClient", () => {
     let invalidUrl = "http://example.com/404"
     expect(RedditClient.getTopPosts(invalidUrl).catch(done))
   })
+
+  it("should reject a new RedditPost with an empty url", () => {
+    expect(() => {
+      new RedditPost("")
+    }).to.throw()
+  })
+
+  it("should create an id for a new RedditPost", () => {
+    let post = new RedditPost("http://example.com/image.jpg")
+    assert.equal(post.id, "httpexamplecomimagejpg")
+  })
 })
