@@ -43,6 +43,6 @@ describe("RedditClient", () => {
 
   it("should create an id for a new RedditPost", () => {
     let post = new RedditPost("http://example.com/image.jpg")
-    assert.equal(post.id, "httpexamplecomimagejpg")
+    assert.equal(post.id, "7fe4804da7f85b2118f8bb341f838b1e3af52994")
   })
 })

@@ -1,11 +1,12 @@
+import * as crypto from "crypto"
+
 export default class RedditPost {
   public id: string
   constructor(public imageUrl: string) {
-    let regexMatches = imageUrl.match(/\w+/g)
-    if (regexMatches != null) {
-      this.id = regexMatches.join("")
-    } else {
+    if (this.imageUrl === "") {
       throw new Error("Invalid URL!")
+    } else {
+      this.id = crypto.createHash("sha").update(imageUrl).digest("hex")
     }
   }
 }
