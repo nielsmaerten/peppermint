@@ -5,7 +5,7 @@ import * as sinon from "sinon"
 
 describe("DropboxClient", () => {
   let client: DropboxClient
-  let fileSaveUrlStub
+  let fileSaveUrlStub: any
 
   beforeAll(() => {
     fileSaveUrlStub = sinon.stub(Dropbox.prototype, "filesSaveUrl").resolves()
@@ -20,15 +20,10 @@ describe("DropboxClient", () => {
     expect(client.uploadImage).to.be.a("function")
   })
 
-  it("should upload an image to my dropbox", done => {
+  it("should upload an image to my dropbox", async () => {
     let imageUrl = "http://placehold.it/500x500.jpg?text=Hello%20World!"
     let filename = "testfile.jpg"
-    client
-      .uploadImage(imageUrl, filename)
-      .then(() => {
-        assert(fileSaveUrlStub.called === true)
-        done()
-      })
-      .catch(fail)
+    await client.uploadImage(imageUrl, filename)
+    assert.isTrue(fileSaveUrlStub.called)
   })
 })

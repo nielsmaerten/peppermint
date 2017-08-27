@@ -5,14 +5,10 @@ import * as sinon from "sinon"
 
 // tslint:disable:no-unused-expression
 describe("RedditClient", () => {
-  it("should get the top posts from a subreddit", done => {
-    RedditClient.getTopPosts()
-      .then(posts => {
-        expect(posts).not.to.be.undefined
-        expect(posts.length).to.be.least(1)
-        done()
-      })
-      .catch(fail)
+  it("should get the top posts from a subreddit", async () => {
+    let posts = await RedditClient.getTopPosts()
+    expect(posts).not.to.be.undefined
+    expect(posts.length).to.be.least(1)
   })
 
   it("should parse a response from reddit to posts", () => {

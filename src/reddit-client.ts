@@ -12,22 +12,20 @@ export default class RedditClient {
   public static getTopPosts(
     subreddit?: string,
     topPostCount?: number
-  ): Q.Promise<RedditPost[]> {
-    let deferred = Q.defer<RedditPost[]>()
+  ): Promise<RedditPost[]> {
+    return new Promise((resolve, reject) => {
+      // build the request
+      subreddit = subreddit || Config.subreddit
+      topPostCount = topPostCount || Config.topPostCount
+      let requestUrl = `${subreddit}/top/.json?count=${topPostCount}`.toLowerCase()
+      let requestOptions = { baseUrl: Config.redditBaseUrl }
 
-    // build the request
-    subreddit = subreddit || Config.subreddit
-    topPostCount = topPostCount || Config.topPostCount
-    let requestUrl = `${subreddit}/top/.json?count=${topPostCount}`.toLowerCase()
-    let requestOptions = { baseUrl: Config.redditBaseUrl }
-
-    // fire off the request
-    request.get(requestUrl, requestOptions, (error, response, body) => {
-      if (error || response.statusCode !== 200) deferred.reject(error)
-      else deferred.resolve(this.parseResponse(body))
+      // fire off the request
+      request.get(requestUrl, requestOptions, (error, response, body) => {
+        if (error || response.statusCode !== 200) reject(error)
+        else resolve(this.parseResponse(body))
+      })
     })
-
-    return deferred.promise
   }
 
   public static parseResponse(payload: any): RedditPost[] {
