@@ -1,4 +1,6 @@
 import RedditClient from "./reddit-client"
+import FirebaseClient from "./firebase-client"
+import Config from "./config"
 
 export default class Peppermint {
   /**
@@ -8,8 +10,15 @@ export default class Peppermint {
    *
    * If new images exist on Reddit, they are added to the master list
    */
-  onCheckReddit() {
-    let topPosts = RedditClient.getTopPosts("/r/earthporn")
+  static async onCheckReddit() {
+    let firebase = FirebaseClient.getInstance()
+    let topPosts = await RedditClient.getTopPosts(Config.subreddit)
+
+    for (let i = 0; i < topPosts.length; i++) {
+      if (!await firebase.getPost(topPosts[i])) {
+        await firebase.addPost(topPosts[i])
+      }
+    }
   }
 
   /**
@@ -23,7 +32,7 @@ export default class Peppermint {
    *
    * 3. Adds the image to the personal list of these users
    */
-  onNewMasterImage() {
+  static onNewMasterImage() {
     throw new Error("pending implementation")
   }
 
@@ -38,7 +47,7 @@ export default class Peppermint {
    * 3. If the dropbox needs maintenance, removes images that
    * are no longer wanted from the user's list, and dropbox
    */
-  onNewUserImage() {
+  static onNewUserImage() {
     throw new Error("pending implementation")
   }
 }
