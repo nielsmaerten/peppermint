@@ -1,13 +1,13 @@
 import FirebaseClient from "../src/firebase-client"
 import RedditPost from "../src/reddit-post"
-import FirebaseMockCreator from "./firebase-mock-creator"
+import RedditClient from "../src/reddit-client"
+import StubCreator from "./stub-creator"
 import { expect, assert } from "chai"
 import * as Q from "q"
 
 describe("Firebase Client", () => {
-  beforeAll(done => {
-    FirebaseMockCreator.initMockFirebase().then(done)
-  })
+  beforeEach(StubCreator.stubFirebase)
+  afterEach(StubCreator.restoreFirebase)
 
   it("should be a singleton", () => {
     let one = FirebaseClient.getInstance()
@@ -16,22 +16,12 @@ describe("Firebase Client", () => {
     assert.strictEqual(one, two)
   })
 
-  it("should check if a post already exists in the masterlist", done => {
-    let existingPost = FirebaseMockCreator.examplePosts[0]
-    let newPost = new RedditPost("this-post-does-not-exist-in-the-masterlist")
+  it("should add a post to Firebase", async () => {
+    let firebase = FirebaseClient.getInstance()
+    let post = new RedditPost("this-is-some-random-stuff")
 
-    let p1 = FirebaseClient.getInstance().postExistsInMasterList(existingPost)
-    let p2 = FirebaseClient.getInstance().postExistsInMasterList(newPost)
-
-    Q.all([p1, p2]).then(results => {
-      try {
-        assert(results[0] === true)
-        assert(results[1] === false)
-      } catch (error) {
-        fail(error)
-      } finally {
-        done()
-      }
-    })
+    assert.isNull(await firebase.getPost(post))
+    await firebase.addPost(post)
+    assert.isNotNull(await firebase.getPost(post))
   })
 })
