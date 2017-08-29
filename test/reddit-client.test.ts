@@ -3,11 +3,10 @@ import RedditPost from "../src/reddit-post"
 import { expect, assert } from "chai"
 import * as sinon from "sinon"
 
-// tslint:disable:no-unused-expression
 describe("RedditClient", () => {
   it("should get the top posts from a subreddit", async () => {
     let posts = await RedditClient.getTopPosts()
-    expect(posts).not.to.be.undefined
+    assert.isDefined(posts)
     expect(posts.length).to.be.least(1)
   })
 
@@ -15,7 +14,7 @@ describe("RedditClient", () => {
     let example = require("./reddit-test-payload")
 
     let posts = RedditClient.parseResponse(example.json)
-    expect(posts).not.to.be.undefined
+    assert.isDefined(posts)
 
     posts.forEach(post => {
       expect(post).to.have.property("imageUrl")
@@ -32,9 +31,7 @@ describe("RedditClient", () => {
   })
 
   it("should reject a new RedditPost with an empty url", () => {
-    expect(() => {
-      new RedditPost("")
-    }).to.throw()
+    assert.throw(() => new RedditPost(""))
   })
 
   it("should create an id for a new RedditPost", () => {
