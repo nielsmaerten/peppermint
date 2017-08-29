@@ -53,6 +53,7 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "mapCoverage": true,
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -96,7 +97,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "sinon": "^3.2.1",
-    "ts-jest": "^20.0.6",
+    "ts-jest": "^20.0.11",
     "ts-node": "^3.0.6",
     "tsc-watch": "^1.0.5",
     "tslint": "^5.4.3",

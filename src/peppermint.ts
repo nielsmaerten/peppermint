@@ -32,6 +32,7 @@ export default class Peppermint {
    *
    * 3. Adds the image to the personal list of these users
    */
+  /* istanbul ignore next */
   static onNewMasterImage() {
     throw new Error("pending implementation")
   }
@@ -47,6 +48,7 @@ export default class Peppermint {
    * 3. If the dropbox needs maintenance, removes images that
    * are no longer wanted from the user's list, and dropbox
    */
+  /* istanbul ignore next */
   static onNewUserImage() {
     throw new Error("pending implementation")
   }
