@@ -8,11 +8,11 @@ const libraryName = 'peppermint'
 
 export default {
   input: `compiled/${libraryName}.js`,
-  output: [/*{
+  output: [{
       file: pkg.main,
       name: camelCase(libraryName),
       format: 'umd'
-    },*/
+    },
     {
       file: pkg.module,
       format: 'es'
