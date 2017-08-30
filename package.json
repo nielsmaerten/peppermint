@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "",
   "keywords": [],
+  "private": true,
   "main": "dist/peppermint.umd.js",
   "module": "dist/peppermint.es5.js",
   "typings": "dist/types/peppermint.d.ts",

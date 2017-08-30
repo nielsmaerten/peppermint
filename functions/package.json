@@ -4,7 +4,7 @@
   "dependencies": {
     "firebase-admin": "~4.2.1",
     "firebase-functions": "^0.5.7",
-    "peppermint": "git+https://github.com/nielsmaerten/peppermint"
+    "peppermint": "https://github.com/nielsmaerten/peppermint/archive/master.tar.gz"
   },
   "private": true
 }
