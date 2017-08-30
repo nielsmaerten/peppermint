@@ -20,6 +20,7 @@
   },
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "postinstall": "npm run build",
     "prebuild": "rimraf dist",
     "build": "tsc && rollup -c && rimraf compiled && typedoc --out dist/docs --target es6 --theme minimal src",
     "start": "tsc-watch --onSuccess \"rollup -c\"",
@@ -73,7 +74,9 @@
     }
   },
   "devDependencies": {
-    "@types/jest": "^20.0.0",
+
+  },
+  "dependencies": {"@types/jest": "^20.0.0",
     "@types/node": "^8.0.0",
     "@types/q": "^1.0.3",
     "@types/sinon": "^2.3.3",
@@ -105,9 +108,7 @@
     "tslint-config-standard": "^6.0.0",
     "typedoc": "^0.7.1",
     "typescript": "^2.4.2",
-    "validate-commit-msg": "^2.12.2"
-  },
-  "dependencies": {
+    "validate-commit-msg": "^2.12.2",
     "@types/chai": "^4.0.3",
     "@types/firebase": "^2.4.32",
     "@types/request": "^2.0.2",
