@@ -11,7 +11,7 @@ import RedditPost from "../src/objects/reddit-post"
  */
 describe("Peppermint", () => {
   it("should expose an onCheckReddit function", () => {
-    expect(Peppermint.onCheckReddit).to.be.a("function")
+    expect(Peppermint.onTriggerRedditUpdate).to.be.a("function")
   })
 
   it("should expose an onNewMasterImage function", () => {

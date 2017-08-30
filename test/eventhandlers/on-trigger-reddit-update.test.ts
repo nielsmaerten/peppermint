@@ -11,7 +11,7 @@ import StubCreator from "../helpers/stub-creator"
 /**
  * Main Peppermint tests
  */
-describe("Peppermint.onCheckReddit", () => {
+describe("Peppermint.onTriggerRedditUpdate", () => {
   let firebase: FirebaseClient
   let admin: any
   beforeEach(() => {
@@ -27,7 +27,7 @@ describe("Peppermint.onCheckReddit", () => {
     assert.isNull(admin.database().ref(Config.masterListsRef).getData())
 
     // Fill firebase with posts from reddit
-    await Peppermint.onCheckReddit()
+    await Peppermint.onTriggerRedditUpdate()
 
     // Confirm data is present in Firebase
     assert.isNotNull(admin.database().ref(Config.masterListsRef).getData())
@@ -35,7 +35,7 @@ describe("Peppermint.onCheckReddit", () => {
 
   it("should add a new item to Firebase", async () => {
     // Put some testdata in Firebase
-    await Peppermint.onCheckReddit()
+    await Peppermint.onTriggerRedditUpdate()
 
     // Add a new post to Reddit
     let newPost = new RedditPost("XXXXX")
@@ -48,7 +48,7 @@ describe("Peppermint.onCheckReddit", () => {
     let spy = sinon.spy(firebase, "addPost")
 
     // Sync firebase with Reddit
-    await Peppermint.onCheckReddit()
+    await Peppermint.onTriggerRedditUpdate()
 
     // firebase.addPost should have been caled exactly once
     assert(spy.calledOnce)
