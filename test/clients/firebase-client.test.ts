@@ -1,9 +1,9 @@
-import FirebaseClient from "../src/firebase-client"
-import RedditPost from "../src/reddit-post"
-import RedditClient from "../src/reddit-client"
-import StubCreator from "./stub-creator"
-import { expect, assert } from "chai"
 import * as Q from "q"
+import { assert, expect } from "chai"
+import FirebaseClient from "../../src/clients/firebase-client"
+import RedditClient from "../../src/clients/reddit-client"
+import RedditPost from "../../src/objects/reddit-post"
+import StubCreator from "../helpers/stub-creator"
 
 describe("Firebase Client", () => {
   beforeEach(StubCreator.stubFirebase)

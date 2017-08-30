@@ -1,7 +1,7 @@
-import RedditClient from "../src/reddit-client"
-import RedditPost from "../src/reddit-post"
-import { expect, assert } from "chai"
 import * as sinon from "sinon"
+import { assert, expect } from "chai"
+import RedditPost from "../../src/objects/reddit-post"
+import RedditClient from "../../src/clients/reddit-client"
 
 describe("RedditClient", () => {
   it("should get the top posts from a subreddit", async () => {
@@ -11,7 +11,7 @@ describe("RedditClient", () => {
   })
 
   it("should parse a response from reddit to posts", () => {
-    let example = require("./reddit-test-payload")
+    let example = require("../helpers/reddit-test-payload")
 
     let posts = RedditClient.parseResponse(example.json)
     assert.isDefined(posts)

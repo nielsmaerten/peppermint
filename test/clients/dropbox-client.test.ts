@@ -1,7 +1,7 @@
-import DropboxClient from "../src/dropbox-client"
-import Dropbox from "dropbox"
-import { expect, assert } from "chai"
 import * as sinon from "sinon"
+import { assert, expect } from "chai"
+import Dropbox from "dropbox"
+import DropboxClient from "../../src/clients/dropbox-client"
 
 describe("DropboxClient", () => {
   let client: DropboxClient

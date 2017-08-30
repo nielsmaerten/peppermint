@@ -1,7 +1,7 @@
-import RedditPost from "./reddit-post"
-import * as functions from "firebase-functions"
 import * as admin from "firebase-admin"
-import Config from "./config"
+import * as functions from "firebase-functions"
+import Config from "../objects/config"
+import RedditPost from "../objects/reddit-post"
 
 export default class FirebaseClient {
   private static _instance: FirebaseClient

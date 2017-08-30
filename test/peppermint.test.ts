@@ -1,10 +1,10 @@
-import Peppermint from "../src/peppermint"
-import FirebaseClient from "../src/firebase-client"
-import RedditPost from "../src/reddit-post"
-import RedditClient from "../src/reddit-client"
-import { expect, assert } from "chai"
-import * as sinon from "sinon"
 import * as Q from "q"
+import * as sinon from "sinon"
+import { assert, expect } from "chai"
+import FirebaseClient from "../src/clients/firebase-client"
+import Peppermint from "../src/peppermint"
+import RedditClient from "../src/clients/reddit-client"
+import RedditPost from "../src/objects/reddit-post"
 
 /**
  * Main Peppermint tests

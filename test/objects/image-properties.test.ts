@@ -1,5 +1,5 @@
-import getImageProperties from "../src/image-properties"
 import { expect } from "chai"
+import getImageProperties from "../../src/objects/image-properties"
 
 /**
  * Main Peppermint tests
