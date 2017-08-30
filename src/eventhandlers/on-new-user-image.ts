@@ -9,7 +9,6 @@
  * 3. If the dropbox needs maintenance, removes images that
  * are no longer wanted from the user's list, and dropbox
  */
-export default /* istanbul ignore next */
-() => {
+export default () => {
   throw new Error("Not implemented")
 }

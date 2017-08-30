@@ -21,4 +21,9 @@ describe("Peppermint", () => {
   it("should expose an onNewUserImage function", () => {
     expect(Peppermint.onNewUserImage).to.be.a("function")
   })
+
+  it("should throw errors for unimplemented functions", () => {
+    assert.throws(Peppermint.onNewMasterImage)
+    assert.throws(Peppermint.onNewUserImage)
+  })
 })

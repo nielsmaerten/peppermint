@@ -9,7 +9,6 @@
  *
  * 3. Adds the image to the personal list of these users
  */
-export default /* istanbul ignore next */
-() => {
+export default () => {
   throw new Error("Not implemented")
 }
