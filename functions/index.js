@@ -3,5 +3,10 @@ const peppermint = require('peppermint')
 
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   global.peppermintFirebaseConfig = functions.config().firebase
-  return peppermint.onTriggerRedditUpdate()
+  peppermint.onTriggerRedditUpdate()
+    .then(() => response.sendStatus(200))
+    .catch(error => {
+      console.error(error)
+      response.sendStatus(500)
+    })
 });
