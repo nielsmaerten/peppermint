@@ -9,6 +9,7 @@
  *
  * 3. Adds the image to the personal list of these users
  */
-export default () => {
+export default (event: any) => {
+  console.log(JSON.stringify(event))
   throw new Error("Not implemented")
 }
