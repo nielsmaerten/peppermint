@@ -3,7 +3,7 @@ export default class Config {
   public static masterListsRef = "masterlists"
 
   public static redditBaseUrl = process.env.PPM_REDDIT_BASE_URL ||
-    "https://www.reddit.com"
+    "https://reddit.com"
 
   public static topPostCount = parseInt(
     process.env.PPM_TOP_POST_COUNT as string,

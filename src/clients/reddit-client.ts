@@ -21,11 +21,14 @@ export default class RedditClient {
       let requestOptions = { baseUrl: Config.redditBaseUrl }
 
       // fire off the request
-      console.log(`Requesting: ${requestUrl}`)
+      console.log(`Requesting: ${requestOptions.baseUrl}/${requestUrl}`)
       request.get(requestUrl, requestOptions, (error, response, body) => {
         if (error || response.statusCode !== 200) reject(error)
         else {
-          console.log(`Received ${response.headers["Content-Length"]} bytes.`)
+          console.log(
+            `${response.statusCode} ${response.statusMessage}: ` +
+              `Received ${response.headers["content-length"]} bytes.`
+          )
           resolve(this.parseResponse(body))
         }
       })
