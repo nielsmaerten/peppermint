@@ -12,10 +12,13 @@ import RedditClient from "../clients/reddit-client"
 export default async () => {
   let firebase = FirebaseClient.getInstance()
   let topPosts = await RedditClient.getTopPosts(Config.subreddit)
+  let newPosts = 0
 
   for (let i = 0; i < topPosts.length; i++) {
     if (!await firebase.getPost(topPosts[i])) {
+      newPosts++
       await firebase.addPost(topPosts[i])
     }
   }
+  console.log(`${newPosts} new post(s) added to Masterlist`)
 }

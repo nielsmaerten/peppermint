@@ -17,13 +17,17 @@ export default class RedditClient {
       // build the request
       subreddit = subreddit || Config.subreddit
       topPostCount = topPostCount || Config.topPostCount
-      let requestUrl = `${subreddit}/top/.json?count=${topPostCount}`.toLowerCase()
+      let requestUrl = `${subreddit}/top/.json?limit=${topPostCount}`.toLowerCase()
       let requestOptions = { baseUrl: Config.redditBaseUrl }
 
       // fire off the request
+      console.log(`Requesting: ${requestUrl}`)
       request.get(requestUrl, requestOptions, (error, response, body) => {
         if (error || response.statusCode !== 200) reject(error)
-        else resolve(this.parseResponse(body))
+        else {
+          console.log(`Received ${response.headers["Content-Length"]} bytes.`)
+          resolve(this.parseResponse(body))
+        }
       })
     })
   }
@@ -41,6 +45,7 @@ export default class RedditClient {
         posts.push(new RedditPost(element.data.preview.images[0].source.url))
       }
     }
+    console.log(`Request parsed into ${posts.length} RedditPost(s).`)
     return posts
   }
 }
