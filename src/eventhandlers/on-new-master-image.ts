@@ -1,3 +1,6 @@
+import * as firebase from "firebase"
+import getImageProperties from "../objects/image-properties"
+
 /**
  * Triggered when a new image is added to the master list
  * (by the onCheckReddit function)
@@ -9,7 +12,6 @@
  *
  * 3. Adds the image to the personal list of these users
  */
-export default (event: any) => {
-  console.log(JSON.stringify(event))
-  throw new Error("Not implemented")
+export default async (event: any) => {
+  getImageProperties(event.data.imageUrl)
 }
