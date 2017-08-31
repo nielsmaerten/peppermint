@@ -18,3 +18,12 @@ script:
 after_success:
   - npm run report-coverage
   - npm run deploy-docs
+before_deploy:
+  - cd functions/
+  - yarn
+  - cd ..
+deploy:
+  skip_cleanup: true
+  provider: firebase
+  token: "$FIREBASE_TOKEN"
+  message: "Deployed by Travis CI"
