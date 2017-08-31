@@ -8,8 +8,9 @@ exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   processPromise(peppermint.onTriggerRedditUpdate(), response)
 });
 
-exports.newMasterImage = functions.database.ref("masterlists/r/earthporn").onCreate(event => {
+exports.newMasterImage = functions.database.ref("masterlists/r/earthporn/{postId}").onCreate(event => {
   console.log("New master image triggered.")
+  console.log(JSON.stringify(event.params))
   processPromise(peppermint.onNewMasterImage(event), response)
 })
 
