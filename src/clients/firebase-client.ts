@@ -7,7 +7,14 @@ export default class FirebaseClient {
   private static _instance: FirebaseClient
 
   private constructor() {
-    admin.initializeApp(functions.config().firebase)
+    /* istanbul ignore else */
+    if (admin.apps.length === 0) {
+      /*
+        If length > 0, the app has already been
+        initialized by the Cloud Functions Runtime
+       */
+      admin.initializeApp(functions.config().firebase)
+    }
   }
 
   public static getInstance() {
