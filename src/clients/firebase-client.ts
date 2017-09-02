@@ -37,4 +37,17 @@ export default class FirebaseClient {
       .once("value")
     return snapshot.val()
   }
+
+  public async setPostProperties(
+    postId: string,
+    properties: { width: number; height: number }
+  ) {
+    await admin
+      .database()
+      .ref(`${Config.masterListsRef}/${Config.subreddit}/${postId}`)
+      .update({
+        height: properties.height,
+        width: properties.width
+      })
+  }
 }
