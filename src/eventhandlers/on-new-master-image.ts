@@ -15,10 +15,10 @@ import FirebaseClient from "../clients/firebase-client"
 export default async (event: any) => {
   console.log(event)
   console.log(event.data)
-  console.log(event.data.imageUrl)
+  console.log(event.data.val().imageUrl)
   console.log(JSON.stringify(event.data))
   console.log(JSON.stringify(event))
-  let properties = await getImageProperties(event.data.imageUrl)
+  let properties = await getImageProperties(event.dataL.val().imageUrl)
   await FirebaseClient.getInstance().setPostProperties(
     event.params.postId,
     properties
