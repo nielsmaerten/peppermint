@@ -13,5 +13,5 @@ import getImageProperties from "../objects/image-properties"
  * 3. Adds the image to the personal list of these users
  */
 export default async (event: any) => {
-  getImageProperties(event.data.imageUrl)
+  let properties = await getImageProperties(event.data.imageUrl)
 }
