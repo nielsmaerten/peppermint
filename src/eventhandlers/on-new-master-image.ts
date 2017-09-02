@@ -1,5 +1,5 @@
-import * as firebase from "firebase"
 import getImageProperties from "../objects/image-properties"
+import FirebaseClient from "../clients/firebase-client"
 
 /**
  * Triggered when a new image is added to the master list
@@ -14,4 +14,8 @@ import getImageProperties from "../objects/image-properties"
  */
 export default async (event: any) => {
   let properties = await getImageProperties(event.data.imageUrl)
+  await FirebaseClient.getInstance().setPostProperties(
+    event.params.postId,
+    properties
+  )
 }

@@ -5,16 +5,32 @@ import StubCreator from "../helpers/stub-creator"
 import * as admin from "firebase-admin"
 import Config from "../../src/objects/config"
 
-// A test event referring to one of the posts in the test reddit payload
-let testEvent = require("../helpers/new-masterimage-event").event
+describe("Peppermint.onNewMasterImage", () => {
+  // test event referring to one of the posts in the test reddit payload
+  let testEvent = require("../helpers/new-masterimage-event").event
 
-describe("Peppermint.onNewMasterImage (getting img props)", () => {
-  beforeAll(() => {
+  beforeEach(async () => {
+    // Stub firebase with test posts
+    StubCreator.stubFirebase()
+    StubCreator.stubRedditTopPosts()
+    await Peppermint.onTriggerRedditUpdate()
+
     // mock requestImageSize so we can spy on calls
-    jest.mock("request-image-size")
+    jest.mock("request-image-size", () =>
+      jest.fn(() => {
+        return { width: 1337, height: 42 }
+      })
+    )
+  })
+
+  afterEach(() => {
+    StubCreator.restoreAll()
   })
 
   it("should request properties of the new image", async () => {
+    // mock shouldn't have been called yet
+    assert.lengthOf(require("request-image-size").mock.calls, 0)
+
     // trigger the event handler with the test event
     await Peppermint.onNewMasterImage(testEvent)
 
@@ -25,34 +41,13 @@ describe("Peppermint.onNewMasterImage (getting img props)", () => {
     )
   })
 
-  afterAll(() => {
-    // restore the mock to its original, so it doesn't interfere with other tests
-    jest.mock("request-image-size", () =>
-      require.requireActual("request-image-size")
-    )
-  })
-})
-
-describe("Peppermint.onNewMasterImage", () => {
-  beforeEach(async () => {
-    // Stub firebase with test posts
-    StubCreator.stubFirebase()
-    StubCreator.stubRedditTopPosts()
-    await Peppermint.onTriggerRedditUpdate()
-  })
-
-  afterEach(() => {
-    StubCreator.restoreAll()
-  })
-
   it("should store image properties with the image in firebase", async () => {
     // Get the event's test post from firebase
+    let firebaseUri = `${Config.masterListsRef}/${Config.subreddit}/${testEvent
+      .params.postId}`
     let redditPost: RedditPost = (await admin
       .database()
-      .ref(
-        `${Config.masterListsRef}/${Config.subreddit}/${testEvent.params
-          .postId}`
-      )
+      .ref(firebaseUri)
       .once("value")).val()
 
     // Assert width and heigth are not (yet) defined
@@ -63,16 +58,10 @@ describe("Peppermint.onNewMasterImage", () => {
     await Peppermint.onNewMasterImage(testEvent)
 
     // Get the test post back from firebase
-    redditPost = (await admin
-      .database()
-      .ref(
-        `${Config.masterListsRef}/${Config.subreddit}/${testEvent.params
-          .postId}`
-      )
-      .once("value")).val()
+    redditPost = (await admin.database().ref(firebaseUri).once("value")).val()
 
     // Assert width and heigth are now defined
-    assert.isDefined(redditPost.width)
-    assert.isDefined(redditPost.height)
+    assert.isNumber(redditPost.width)
+    assert.isNumber(redditPost.height)
   })
 })
