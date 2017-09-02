@@ -8,6 +8,7 @@ import Config from "../../src/objects/config"
 describe("Peppermint.onNewMasterImage", () => {
   // test event referring to one of the posts in the test reddit payload
   let testEvent = require("../helpers/new-masterimage-event").event
+  testEvent.data.val = () => testEvent.data
 
   beforeEach(async () => {
     // Stub firebase with test posts

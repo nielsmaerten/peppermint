@@ -18,7 +18,7 @@ export default async (event: any) => {
   console.log(event.data.val().imageUrl)
   console.log(JSON.stringify(event.data))
   console.log(JSON.stringify(event))
-  let properties = await getImageProperties(event.dataL.val().imageUrl)
+  let properties = await getImageProperties(event.data.val().imageUrl)
   await FirebaseClient.getInstance().setPostProperties(
     event.params.postId,
     properties
