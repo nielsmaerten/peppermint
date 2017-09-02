@@ -13,6 +13,11 @@ import FirebaseClient from "../clients/firebase-client"
  * 3. Adds the image to the personal list of these users
  */
 export default async (event: any) => {
+  console.log(event)
+  console.log(event.data)
+  console.log(event.data.imageUrl)
+  console.log(JSON.stringify(event.data))
+  console.log(JSON.stringify(event))
   let properties = await getImageProperties(event.data.imageUrl)
   await FirebaseClient.getInstance().setPostProperties(
     event.params.postId,
