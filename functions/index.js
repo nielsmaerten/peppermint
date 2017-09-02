@@ -1,3 +1,4 @@
+require('@google-cloud/debug-agent').start({ allowExpressions: true });
 const functions = require('firebase-functions');
 const peppermint = require('peppermint')
 
