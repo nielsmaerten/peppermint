@@ -9,12 +9,13 @@ cache:
   yarn: true
   directories:
     - node_modules
+    - functions/node_modules
 notifications:
   email: false
 node_js:
   - '7.5'
-before_script:
-  - npm prune && npm cache clean
+#before_script:
+#  - npm prune && npm cache clean
 script:
   - npm run test:prod && npm run build
 after_success:
