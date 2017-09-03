@@ -4,6 +4,8 @@ import RedditPost from "../../src/objects/reddit-post"
 import StubCreator from "../helpers/stub-creator"
 import * as admin from "firebase-admin"
 import Config from "../../src/objects/config"
+import User from "../../src/objects/user"
+import FirebaseClient from "../../src/clients/firebase-client"
 
 describe("Peppermint.onNewMasterImage", () => {
   // test event referring to one of the posts in the test reddit payload
@@ -64,5 +66,34 @@ describe("Peppermint.onNewMasterImage", () => {
     // Assert width and heigth are now defined
     assert.isNumber(redditPost.width)
     assert.isNumber(redditPost.height)
+  })
+
+  it("should add a post to list of interested users", async () => {
+    let interestedUser = new User("TEST_TOKEN", 1, 1)
+    let uninterestedUser = new User("TEST_TOKEN", 90000, 90000)
+
+    await FirebaseClient.getInstance().addUser(interestedUser)
+    await FirebaseClient.getInstance().addUser(uninterestedUser)
+
+    await Peppermint.onNewMasterImage(testEvent)
+
+    let postInUninterestedUsersList = require("firebase-admin")
+      .database()
+      .ref(
+        `${Config.userListRef}/${uninterestedUser.id}/${Config.personalLisRef}/${testEvent
+          .params.postId}`
+      )
+      .getData()
+
+    let postInInterestedUsersList = require("firebase-admin")
+      .database()
+      .ref(
+        `${Config.userListRef}/${interestedUser.id}/${Config.personalLisRef}/${testEvent
+          .params.postId}`
+      )
+      .getData()
+
+    assert.isNull(postInUninterestedUsersList)
+    assert.isNotNull(postInInterestedUsersList)
   })
 })

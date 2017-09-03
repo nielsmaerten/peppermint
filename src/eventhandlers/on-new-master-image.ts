@@ -1,5 +1,6 @@
 import getImageProperties from "../objects/image-properties"
 import FirebaseClient from "../clients/firebase-client"
+import RedditPost from "../objects/reddit-post"
 
 /**
  * Triggered when a new image is added to the master list
@@ -25,12 +26,16 @@ export default async (event: any) => {
   await FirebaseClient.getInstance().setPostProperties(postId, properties)
   console.log("Properties saved in Firebase.")
 
-  let interestedUsers = await FirebaseClient.getInstance().getInterestedUsers({
+  let post: RedditPost = {
     id: postId,
     imageUrl: imageUrl,
     width: properties.width,
     height: properties.height
-  })
+  }
+
+  let interestedUsers = await FirebaseClient.getInstance().getInterestedUsers(
+    post
+  )
   console.log(
     `Found ${interestedUsers.length} user(s) interested in this image.`
   )
@@ -38,6 +43,6 @@ export default async (event: any) => {
   console.log("Adding post to personal list of interested user(s)")
   for (let i = 0; i < interestedUsers.length; i++) {
     let user = interestedUsers[i]
-    await FirebaseClient.getInstance().addPostToUserList(postId, user.id)
+    await FirebaseClient.getInstance().addPostToUserList(post, user.id)
   }
 }
