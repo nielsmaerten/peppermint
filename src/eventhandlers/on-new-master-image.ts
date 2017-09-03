@@ -34,4 +34,10 @@ export default async (event: any) => {
   console.log(
     `Found ${interestedUsers.length} user(s) interested in this image.`
   )
+
+  console.log("Adding post to personal list of interested user(s)")
+  for (let i = 0; i < interestedUsers.length; i++) {
+    let user = interestedUsers[i]
+    await FirebaseClient.getInstance().addPostToUserList(postId, user.id)
+  }
 }
