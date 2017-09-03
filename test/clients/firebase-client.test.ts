@@ -69,4 +69,21 @@ describe("Firebase Client", () => {
       // cf: https://github.com/soumak77/firebase-mock/blob/314419ee18c8505299175a019033f6113d8fa291/tutorials/spies.md
     }
   })
+
+  it("should add a post to a user's personal list", async () => {
+    let post = new RedditPost("https://placehold.it/500")
+    let testuser = new User("TEST_TOKEN", 500, 500)
+
+    await FirebaseClient.getInstance().addUser(testuser)
+    await FirebaseClient.getInstance().addPostToUserList(post, testuser.id)
+
+    let postInUserList = require("firebase-admin")
+      .database()
+      .ref(
+        `${Config.userListRef}/${testuser.id}/${Config.personalLisRef}/${post.id}`
+      )
+      .getData()
+
+    assert.deepEqual(post, postInUserList)
+  })
 })

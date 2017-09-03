@@ -4,6 +4,7 @@ export default class Config {
   public static subreddit = process.env.PPM_SUBREDDIT || "r/earthporn"
   public static masterListsRef = "masterlists"
   public static userListRef = "users"
+  public static personalLisRef = "images"
 
   public static redditBaseUrl = process.env.PPM_REDDIT_BASE_URL ||
     "https://reddit.com"

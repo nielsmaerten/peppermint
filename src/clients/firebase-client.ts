@@ -73,4 +73,13 @@ export default class FirebaseClient {
 
     return users
   }
+
+  public async addPostToUserList(post: RedditPost, userId: string) {
+    await admin
+      .database()
+      .ref(
+        `${Config.userListRef}/${userId}/${Config.personalLisRef}/${post.id}`
+      )
+      .set(post)
+  }
 }
