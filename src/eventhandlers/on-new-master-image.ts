@@ -24,4 +24,14 @@ export default async (event: any) => {
 
   await FirebaseClient.getInstance().setPostProperties(postId, properties)
   console.log("Properties saved in Firebase.")
+
+  let interestedUsers = await FirebaseClient.getInstance().getInterestedUsers({
+    id: postId,
+    imageUrl: imageUrl,
+    width: properties.width,
+    height: properties.height
+  })
+  console.log(
+    `Found ${interestedUsers.length} user(s) interested in this image.`
+  )
 }
