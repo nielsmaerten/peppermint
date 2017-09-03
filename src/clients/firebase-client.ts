@@ -1,6 +1,7 @@
 import * as admin from "firebase-admin"
 import * as functions from "firebase-functions"
 import Config from "../objects/config"
+import User from "../objects/user"
 import RedditPost from "../objects/reddit-post"
 
 export default class FirebaseClient {
@@ -49,5 +50,27 @@ export default class FirebaseClient {
         height: properties.height,
         width: properties.width
       })
+  }
+
+  public async addUser(user: User) {
+    await admin.database().ref(`${Config.userListRef}/${user.id}`).set(user)
+  }
+
+  public async getInterestedUsers(redditpost: RedditPost): Promise<User[]> {
+    let users: User[] = []
+    let presortedUsers = (await admin
+      .database()
+      .ref(Config.userListRef)
+      .orderByChild("prefMinWidth")
+      .endAt(redditpost.width)
+      .once("value")).val()
+
+    for (let userId in presortedUsers) {
+      if (presortedUsers[userId].prefMinHeight <= redditpost.height) {
+        users.push(presortedUsers[userId])
+      }
+    }
+
+    return users
   }
 }

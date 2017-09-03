@@ -1,6 +1,9 @@
 export default class Config {
+  public static defaultMinHeight = 1080
+  public static defaultMinWidth = 1920
   public static subreddit = process.env.PPM_SUBREDDIT || "r/earthporn"
   public static masterListsRef = "masterlists"
+  public static userListRef = "users"
 
   public static redditBaseUrl = process.env.PPM_REDDIT_BASE_URL ||
     "https://reddit.com"
