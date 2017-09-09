@@ -21,4 +21,8 @@ describe("Peppermint", () => {
   it("should expose an onNewUserImage function", () => {
     expect(Peppermint.onNewUserImage).to.be.a("function")
   })
+
+  it("should expose a connectUser function", () => {
+    expect(Peppermint.connectUser).to.be.a("function")
+  })
 })

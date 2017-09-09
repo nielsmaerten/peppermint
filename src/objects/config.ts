@@ -5,6 +5,9 @@ export default class Config {
   public static masterListsRef = "masterlists"
   public static userListRef = "users"
   public static personalLisRef = "images"
+  public static dropbox = {
+    oauthUri: "https://api.dropboxapi.com/oauth2/token"
+  }
 
   public static redditBaseUrl = process.env.PPM_REDDIT_BASE_URL ||
     "https://reddit.com"
