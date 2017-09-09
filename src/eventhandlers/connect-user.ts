@@ -1,7 +1,7 @@
 import Config from "../objects/config"
 import User from "../objects/user"
 
-export default async (req: any) => {
+export default async (req: any): Promise<string> => {
   const request = require("request-promise")
   const functions = require("firebase-functions")
   const FirebaseClient = require("../clients/firebase-client")
@@ -25,6 +25,8 @@ export default async (req: any) => {
   await FirebaseClient.getInstance().addUser(
     new User(response.access_token, undefined, undefined, response.account_id)
   )
+
+  return functions.config().redirectAfterConnect
 }
 
 // tslint:disable variable-name
