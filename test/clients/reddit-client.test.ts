@@ -26,7 +26,8 @@ describe("RedditClient", () => {
   })
 
   it("should reject a failed api request", done => {
-    let invalidUrl = "http://example.com/404"
+    let invalidUrl =
+      "THIS-URL-DOES-NOT-EXIST-656b21d51aad04b7297cd1a7b63db9ebed1a08ed"
     expect(RedditClient.getTopPosts(invalidUrl).catch(done))
   })
 
