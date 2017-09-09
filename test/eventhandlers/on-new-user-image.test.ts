@@ -13,6 +13,10 @@ describe("Peppermint.onNewUserImage", () => {
       DropboxClient.prototype.filesSaveUrl = jest.fn()
       return DropboxClient
     })
+
+    // data is actually a Firebase DeltaSnapshot,
+    // so let's fake it's 'val()' function:
+    fakeEvent.data.val = () => fakeEvent.data
   })
 
   afterEach(() => {
