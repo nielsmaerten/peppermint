@@ -8,9 +8,6 @@ import RedditClient from "../../src/clients/reddit-client"
 import RedditPost from "../../src/objects/reddit-post"
 import StubCreator from "../helpers/stub-creator"
 
-/**
- * Main Peppermint tests
- */
 describe("Peppermint.onTriggerRedditUpdate", () => {
   let firebase: FirebaseClient
   let admin: any
