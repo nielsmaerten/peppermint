@@ -1,5 +1,7 @@
 # Peppermint
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nielsmaerten/peppermint.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/nielsmaerten/peppermint.svg?branch=master)](https://travis-ci.org/nielsmaerten/peppermint)
 [![Coverage Status](https://coveralls.io/repos/github/nielsmaerten/peppermint/badge.svg?branch=master)](https://coveralls.io/github/nielsmaerten/peppermint?branch=master)
 
