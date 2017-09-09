@@ -8,10 +8,9 @@ export default class FirebaseClient {
   private static _instance: FirebaseClient
 
   private constructor() {
-    admin.initializeApp(
-      (global as any).peppermintFirebaseConfig.firebase ||
-        functions.config().firebase
-    )
+    const config =
+      (global as any).peppermintFirebaseConfig || functions.config()
+    admin.initializeApp(config.firebase)
   }
 
   public static getInstance() {

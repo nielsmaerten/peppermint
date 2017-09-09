@@ -15,6 +15,9 @@ describe("Peppermint.connectUser", () => {
             dropbox: {
               client_id: "XXX",
               client_secret: "XXX"
+            },
+            oauth: {
+              redirect_after_connect: "https://google.com"
             }
           }
         }
