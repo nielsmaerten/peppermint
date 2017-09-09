@@ -19,6 +19,10 @@ export default async (event: any) => {
   let dropbox = new DropboxClient(token)
 
   console.log(`Uploading post ${event.params.postId} user's to dropbox...`)
+  console.log(event)
+  console.log(event.data)
+  console.log(JSON.stringify(event.data))
+  console.log(JSON.stringify(event))
   return dropbox.uploadImage(
     event.data.imageUrl,
     `${event.params.postId}.${event.data.type}`

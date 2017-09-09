@@ -11,16 +11,9 @@ export default class DropboxClient {
   }
 
   public uploadImage(imageUrl: string, filename: string) {
-    let args = {
+    return this.client.filesSaveUrl({
       path: `/${filename}`,
       url: imageUrl
-    }
-    console.log(
-      "Calling dropbox(",
-      this.accessToken,
-      ").filesSaveUrl with",
-      JSON.stringify(args)
-    )
-    return this.client.filesSaveUrl(args)
+    })
   }
 }
