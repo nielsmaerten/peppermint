@@ -5,7 +5,8 @@ export default async (req: any): Promise<string> => {
   const request = require("request-promise")
   const functions = require("firebase-functions")
   const FirebaseClient = require("../clients/firebase-client")
-  const firebaseConfig = functions.config()
+  const firebaseConfig =
+    (global as any).peppermintFirebaseConfig || functions.config()
 
   console.log("Exchanging auth code with Dropbox API for an access token...")
   let response: DropboxToken = await request.post({
@@ -26,7 +27,7 @@ export default async (req: any): Promise<string> => {
     new User(response.access_token, undefined, undefined, response.account_id)
   )
 
-  return functions.config().redirectAfterConnect
+  return firebaseConfig.oauth.redirect_after_connect
 }
 
 // tslint:disable variable-name

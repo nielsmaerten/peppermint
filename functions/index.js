@@ -4,7 +4,7 @@ require('@google-cloud/debug-agent').start({
 const functions = require('firebase-functions');
 const peppermint = require('peppermint')
 
-global.peppermintFirebaseConfig = functions.config().firebase
+global.peppermintFirebaseConfig = functions.config()
 
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   console.log("Reddit Update triggered.")
