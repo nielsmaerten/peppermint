@@ -41,14 +41,15 @@ export default class FirebaseClient {
 
   public async setPostProperties(
     postId: string,
-    properties: { width: number; height: number }
+    properties: { width: number; height: number; type: string }
   ) {
     await admin
       .database()
       .ref(`${Config.masterListsRef}/${Config.subreddit}/${postId}`)
       .update({
         height: properties.height,
-        width: properties.width
+        width: properties.width,
+        type: properties.type
       })
   }
 
