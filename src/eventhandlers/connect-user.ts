@@ -7,6 +7,7 @@ export default async (req: any) => {
   const FirebaseClient = require("../clients/firebase-client")
   const firebaseConfig = functions.config()
 
+  console.log("Exchanging auth code with Dropbox API for an access token...")
   let response: DropboxToken = await request.post({
     url: Config.dropbox.oauthUri,
     formData: {
@@ -19,10 +20,14 @@ export default async (req: any) => {
       pass: firebaseConfig.dropbox.client_secret
     }
   })
+  console.log("Success. Storing access token in database...")
 
-  FirebaseClient.getInstance().addUser(new User(response.access_token))
+  await FirebaseClient.getInstance().addUser(
+    new User(response.access_token, undefined, undefined, response.account_id)
+  )
 }
 
+// tslint:disable variable-name
 class DropboxToken {
   access_token: string
   account_id: string
