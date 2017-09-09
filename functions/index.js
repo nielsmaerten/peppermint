@@ -20,3 +20,8 @@ exports.newMasterImage = functions.database.ref("masterlists/r/earthporn/{postId
   console.log("New master image triggered.")
   return peppermint.onNewMasterImage(event)
 })
+
+exports.newUserImage = functions.database.ref("users/{userId}/images/{postId}").onCreate(event => {
+  console.log("New user image triggered.")
+  return peppermint.onNewUserImage(event)
+})

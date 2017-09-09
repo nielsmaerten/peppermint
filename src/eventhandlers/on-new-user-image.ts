@@ -12,11 +12,13 @@ import DropboxClient from "../clients/dropbox-client"
  * are no longer wanted from the user's list, and dropbox
  */
 export default async (event: any) => {
+  console.log(`Getting token for user ${event.params.userId}...`)
   let token = await FirebaseClient.getInstance().getUserToken(
     event.params.userId
   )
   let dropbox = new DropboxClient(token)
 
+  console.log(`Uploading post ${event.params.postId} user's to dropbox...`)
   return dropbox.uploadImage(
     event.data.imageUrl,
     `${event.params.postId}.${event.data.type}`
