@@ -2,6 +2,7 @@ import * as crypto from "crypto"
 
 export default class RedditPost {
   public id: string
+  public type: string
   public width: number
   public height: number
 

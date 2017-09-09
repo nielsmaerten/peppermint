@@ -28,6 +28,7 @@ export default async (event: any) => {
 
   let post: RedditPost = {
     id: postId,
+    type: properties.type,
     imageUrl: imageUrl,
     width: properties.width,
     height: properties.height
