@@ -54,6 +54,8 @@ export default class FirebaseClient {
   }
 
   public async addUser(user: User) {
+    console.log(`${Config.userListRef}/${user.id}`)
+    console.log(user)
     await admin.database().ref(`${Config.userListRef}/${user.id}`).set(user)
   }
 

@@ -21,7 +21,7 @@ export default async (req: any): Promise<string> => {
       pass: firebaseConfig.dropbox.client_secret
     }
   })
-  console.log("Success. Storing access token in database...")
+  console.log("Success. Storing access token in database...", response)
 
   await FirebaseClient.getInstance().addUser(
     new User(response.access_token, undefined, undefined, response.account_id)
