@@ -29,7 +29,9 @@ exports.newUserImage = functions.database.ref("users/{userId}/images/{postId}").
 exports.connectUser = functions.https.onRequest((request, response) => {
   console.log("Connect user triggered.")
   peppermint.connectUser(request)
-    .then(response.redirect)
+    .then(url => {
+      response.redirect(url)
+    })
     .catch(error => {
       console.error(error)
       response.sendStatus(500)
