@@ -10,6 +10,7 @@ export default async (req: any): Promise<string> => {
 
   console.log("Exchanging auth code with Dropbox API for an access token...")
   let response: DropboxToken = await request.post({
+    json: true,
     url: Config.dropbox.oauthUri,
     formData: {
       code: req.query.code,
@@ -21,7 +22,7 @@ export default async (req: any): Promise<string> => {
       pass: firebaseConfig.dropbox.client_secret
     }
   })
-  console.log("Success. Storing access token in database...", response)
+  console.log("Success. Storing access token in database...")
 
   await FirebaseClient.getInstance().addUser(
     new User(response.access_token, undefined, undefined, response.account_id)
