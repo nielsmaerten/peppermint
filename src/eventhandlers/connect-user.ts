@@ -1,10 +1,10 @@
 import Config from "../objects/config"
 import User from "../objects/user"
+import FirebaseClient from "../clients/firebase-client"
 
 export default async (req: any): Promise<string> => {
   const request = require("request-promise")
   const functions = require("firebase-functions")
-  const FirebaseClient = require("../clients/firebase-client")
   const firebaseConfig =
     (global as any).peppermintFirebaseConfig || functions.config()
 

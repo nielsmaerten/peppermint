@@ -30,7 +30,9 @@ export default class StubCreator {
         // Fake urls, because Firebase complains if we leave them undefined
         databaseURL: "https://mock-firebase.firebaseio.com",
         storageBucket: "mock-firebase.appspot.com"
-      }
+      },
+      dropbox: {},
+      oauth: {}
     })
 
     // Create stub firebase database and enable autoflushing
