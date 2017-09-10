@@ -8,3 +8,14 @@
 
 ## Earth's best wallpapers: in your Dropbox.
 Powered by Reddit's [r/earthporn](https://reddit.com/r/earthporn)
+
+### Peppermint is now in Alpha!
+[Connect your Dropbox](https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=xjn72n4rmx0gw0w&redirect_uri=https://us-central1-peppermint-wallpapers.cloudfunctions.net/connectUser) to try it
+
+### What _is_ Peppermint?
+Peppermint takes the top-rated images from [r/earthporn](https://reddit.com/r/earthporn), and saves them to your Dropbox.  
+Configure your system to cycle through them, and you'll have an always up-to-date collection of amazing wallpapers.
+
+### How to I set Peppermint as my wallpaper?
+[Windows Instructions](https://www.google.com/search?q=wallpaper+slideshow+windows)  
+[Mac OS Instructions](https://www.google.com/search?q=wallpaper+slideshow+mac+os)
