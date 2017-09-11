@@ -1,14 +1,30 @@
 import { assert, expect } from "chai"
 import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
+import * as admin from "firebase-admin"
+import Config from "../../src/objects/config"
+import User from "../../src/objects/user"
+import RedditPost from "../../src/objects/reddit-post"
 
 describe("Peppermint.onNewUserImage.maintenance", () => {
+  let fakeUser = require("../helpers/fake-user").user
+  let fakeEvent = require("../helpers/new-userimage-event").event
+  fakeEvent.data.val = () => fakeEvent.data
+
   beforeEach(StubCreator.stubFirebase)
   afterEach(StubCreator.restoreFirebase)
 
-  it("should check when the dropbox was last maintained", () => {
-    // https://github.com/nielsmaerten/peppermint/issues/14
+  it("should check when the dropbox was last maintained", async () => {
+    let fakeUserRef = admin
+      .database()
+      .ref(`${Config.userListRef}/${fakeUser.id}`)
+    await fakeUserRef.set(fakeUser)
+    await fakeUserRef.update({
+      // Way in the past :)
+      lastMaintained: new Date().setFullYear(2000)
+    })
     // trigger with fake event
+    await Peppermint.onNewUserImage(fakeEvent)
     // assert dropboxClient.removeFile() was called
     // assert user's list no longer contains the (deprecated) files
     // - Check when the dropbox was last maintained, if > maintenance interval, continue maintenance
