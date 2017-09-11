@@ -1,8 +1,12 @@
 {
   "name": "peppermint",
-  "version": "0.0.0-development",
-  "description": "",
-  "keywords": [],
+  "version": "0.1.0-alpha",
+  "description": "Earth's best wallpapers: in your Dropbox",
+  "keywords": [
+    "wallpapers",
+    "dropbox",
+    "reddit"
+  ],
   "private": true,
   "main": "dist/peppermint.umd.js",
   "module": "dist/peppermint.es5.js",
