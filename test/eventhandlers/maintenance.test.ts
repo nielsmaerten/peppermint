@@ -11,23 +11,36 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
   let fakeEvent = require("../helpers/new-userimage-event").event
   fakeEvent.data.val = () => fakeEvent.data
 
+  beforeAll(() => {
+    jest.mock("dropbox", () => {
+      let Dropbox = jest.fn()
+      Dropbox.prototype.filesSaveUrl = jest.fn()
+      return Dropbox
+    })
+  })
+
   beforeEach(StubCreator.stubFirebase)
   afterEach(StubCreator.restoreFirebase)
 
-  it("should check when the dropbox was last maintained", async () => {
+  it("should remove some posts from user's list", async () => {
     let fakeUserRef = admin
       .database()
       .ref(`${Config.userListRef}/${fakeUser.id}`)
+
     await fakeUserRef.set(fakeUser)
     await fakeUserRef.update({
       // Way in the past :)
-      lastMaintained: new Date().setFullYear(2000)
+      lastMaintained: new Date().setFullYear(2000).toString()
     })
+
+    let getNrOfPosts = () =>
+      Object.keys((fakeUserRef as any).getData().images).length
+    let originalNrOfPosts = getNrOfPosts()
+
     // trigger with fake event
     await Peppermint.onNewUserImage(fakeEvent)
-    // assert dropboxClient.removeFile() was called
-    // assert user's list no longer contains the (deprecated) files
-    // - Check when the dropbox was last maintained, if > maintenance interval, continue maintenance
+
+    assert.isBelow(getNrOfPosts(), originalNrOfPosts)
   })
 
   it("should remove images that don't meet user's requirements from their list", () => {
