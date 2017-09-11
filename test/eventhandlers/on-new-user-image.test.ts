@@ -9,9 +9,9 @@ describe("Peppermint.onNewUserImage", () => {
     StubCreator.stubFirebase()
 
     jest.mock("dropbox", () => {
-      let DropboxClient = jest.fn()
-      DropboxClient.prototype.filesSaveUrl = jest.fn()
-      return DropboxClient
+      let Dropbox = jest.fn()
+      Dropbox.prototype.filesSaveUrl = jest.fn()
+      return Dropbox
     })
 
     // data is actually a Firebase DeltaSnapshot,
@@ -33,13 +33,4 @@ describe("Peppermint.onNewUserImage", () => {
       url: fakeEvent.data.imageUrl
     })
   })
-
-  /*it("should remove old files from Dropbox", () => {
-    // https://github.com/nielsmaerten/peppermint/issues/14
-    // mock: dropboxClient.removeFile()
-    // fill user's list with some fake entries
-    // trigger with fake event
-    // assert dropboxClient.removeFile() was called
-    // assert user's list no longer contains the (deprecated) files
-  })*/
 })
