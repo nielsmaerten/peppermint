@@ -5,6 +5,7 @@ import * as admin from "firebase-admin"
 import Config from "../../src/objects/config"
 import User from "../../src/objects/user"
 import RedditPost from "../../src/objects/reddit-post"
+import FirebaseClient from "../../src/clients/firebase-client"
 
 describe("Peppermint.onNewUserImage.maintenance", () => {
   let fakeUser = require("../helpers/fake-user").user
@@ -43,8 +44,22 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     assert.isBelow(getNrOfPosts(), originalNrOfPosts)
   })
 
-  it("should remove images that don't meet user's requirements from their list", () => {
+  it("should remove images that don't meet user's requirements from their list", async () => {
     // - Remove all images that no longer meet the user's requirements* from the user's list
+    let userId = fakeEvent.params.userId
+    let deprecatedPost = new RedditPost("http://placehold.it/73x42")
+    deprecatedPost.height = 73
+    deprecatedPost.width = 42
+    await FirebaseClient.getInstance().addPostToUserList(deprecatedPost, userId)
+
+    // TODO: RUN MAINTENANCE
+
+    assert.isNull(
+      require("firebase-admin")
+        .database()
+        .ref(`${Config.userListRef}/${userId}/images/${deprecatedPost.id}`)
+        .getData()
+    )
     // (*) Requirements can include: width, heigth, max-age, max-number-of-files (optional),...
   })
 
