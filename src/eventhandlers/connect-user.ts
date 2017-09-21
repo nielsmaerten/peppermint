@@ -1,6 +1,6 @@
+import FirebaseClient from "../clients/firebase-client"
 import Config from "../objects/config"
 import User from "../objects/user"
-import FirebaseClient from "../clients/firebase-client"
 
 export default async (req: any): Promise<string> => {
   const request = require("request-promise")

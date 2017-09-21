@@ -1,5 +1,5 @@
-import FirebaseClient from "../clients/firebase-client"
 import DropboxClient from "../clients/dropbox-client"
+import FirebaseClient from "../clients/firebase-client"
 /**
  * Triggered when a new image is added to a user's personal list
  * (by the onNewMasterImage function)

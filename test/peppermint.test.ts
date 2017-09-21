@@ -1,10 +1,10 @@
+import { assert, expect } from "chai"
 import * as Q from "q"
 import * as sinon from "sinon"
-import { assert, expect } from "chai"
 import FirebaseClient from "../src/clients/firebase-client"
-import Peppermint from "../src/peppermint"
 import RedditClient from "../src/clients/reddit-client"
 import RedditPost from "../src/objects/reddit-post"
+import Peppermint from "../src/peppermint"
 
 /**
  * Main Peppermint tests

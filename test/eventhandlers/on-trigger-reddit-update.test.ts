@@ -1,11 +1,11 @@
+import { assert, expect } from "chai"
 import * as Q from "q"
 import * as sinon from "sinon"
-import { assert, expect } from "chai"
-import Config from "../../src/objects/config"
 import FirebaseClient from "../../src/clients/firebase-client"
-import Peppermint from "../../src/peppermint"
 import RedditClient from "../../src/clients/reddit-client"
+import Config from "../../src/objects/config"
 import RedditPost from "../../src/objects/reddit-post"
+import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
 
 describe("Peppermint.onTriggerRedditUpdate", () => {
@@ -21,13 +21,23 @@ describe("Peppermint.onTriggerRedditUpdate", () => {
 
   it("should add items from Reddit to Firebase", async () => {
     // Confirm firebase is empty
-    assert.isNull(admin.database().ref(Config.masterListsRef).getData())
+    assert.isNull(
+      admin
+        .database()
+        .ref(Config.masterListsRef)
+        .getData()
+    )
 
     // Fill firebase with posts from reddit
     await Peppermint.onTriggerRedditUpdate()
 
     // Confirm data is present in Firebase
-    assert.isNotNull(admin.database().ref(Config.masterListsRef).getData())
+    assert.isNotNull(
+      admin
+        .database()
+        .ref(Config.masterListsRef)
+        .getData()
+    )
   })
 
   it("should add a new item to Firebase", async () => {

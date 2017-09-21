@@ -1,9 +1,9 @@
-import * as Q from "q"
 import { assert, expect } from "chai"
+import * as Q from "q"
 import FirebaseClient from "../../src/clients/firebase-client"
 import RedditClient from "../../src/clients/reddit-client"
-import RedditPost from "../../src/objects/reddit-post"
 import Config from "../../src/objects/config"
+import RedditPost from "../../src/objects/reddit-post"
 import User from "../../src/objects/user"
 import StubCreator from "../helpers/stub-creator"
 

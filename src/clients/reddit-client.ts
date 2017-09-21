@@ -1,7 +1,7 @@
-import Config from "../objects/config"
 import Q from "q"
-import RedditPost from "../objects/reddit-post"
 import request from "request"
+import Config from "../objects/config"
+import RedditPost from "../objects/reddit-post"
 
 export default class RedditClient {
   /**

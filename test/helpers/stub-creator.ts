@@ -1,11 +1,11 @@
-import * as Q from "q"
 import * as admin from "firebase-admin"
 import * as functions from "firebase-functions"
+import * as Q from "q"
 import * as sinon from "sinon"
-import Config from "../../src/objects/config"
-import Peppermint from "../../src/peppermint"
 import RedditClient from "../../src/clients/reddit-client"
+import Config from "../../src/objects/config"
 import RedditPost from "../../src/objects/reddit-post"
+import Peppermint from "../../src/peppermint"
 
 export default class StubCreator {
   /**

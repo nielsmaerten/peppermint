@@ -1,5 +1,5 @@
-import getImageProperties from "../objects/image-properties"
 import FirebaseClient from "../clients/firebase-client"
+import getImageProperties from "../objects/image-properties"
 import RedditPost from "../objects/reddit-post"
 
 /**

@@ -1,6 +1,6 @@
+import { assert } from "chai"
 import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
-import { assert } from "chai"
 
 describe("Peppermint.connectUser", () => {
   beforeEach(() => {

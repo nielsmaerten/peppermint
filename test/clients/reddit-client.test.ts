@@ -1,7 +1,7 @@
-import * as sinon from "sinon"
 import { assert, expect } from "chai"
-import RedditPost from "../../src/objects/reddit-post"
+import * as sinon from "sinon"
 import RedditClient from "../../src/clients/reddit-client"
+import RedditPost from "../../src/objects/reddit-post"
 
 describe("RedditClient", () => {
   it("should get the top posts from a subreddit", async () => {
