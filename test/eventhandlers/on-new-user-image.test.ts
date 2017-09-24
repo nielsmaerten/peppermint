@@ -33,4 +33,10 @@ describe("Peppermint.onNewUserImage", () => {
       url: fakeEvent.data.imageUrl
     })
   })
+
+  it("should run maintenance for the user", async () => {
+    const maintenance = require("../agents/maintenance")
+    await Peppermint.onNewUserImage(fakeEvent)
+    assert.lengthOf(maintenance.prototype.RUN_FOR_USER.mock.calls, 1)
+  })
 })

@@ -1,5 +1,8 @@
+import * as Q from "q"
+import Maintenance from "../agents/maintenance"
 import DropboxClient from "../clients/dropbox-client"
 import FirebaseClient from "../clients/firebase-client"
+
 /**
  * Triggered when a new image is added to a user's personal list
  * (by the onNewMasterImage function)
@@ -19,8 +22,9 @@ export default async (event: any) => {
   let dropbox = new DropboxClient(token)
 
   console.log(`Uploading post ${event.params.postId} to user's dropbox...`)
-  return dropbox.uploadImage(
+  await dropbox.uploadImage(
     event.data.val().imageUrl,
     `${event.params.postId}.${event.data.val().type}`
   )
+  await Maintenance.RUN_FOR_USER(event.params.userId)
 }
