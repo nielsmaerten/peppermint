@@ -1,4 +1,3 @@
-import Q from "q"
 import request from "request"
 import Config from "../objects/config"
 import RedditPost from "../objects/reddit-post"
@@ -9,7 +8,7 @@ export default class RedditClient {
    * @param subreddit name of the subreddit to get posts from, including /r/. Eg: /r/earthporn. Defaults to /r/earthporn if undefined
    * @param topPostCount number of posts to get. defaults to 10
    */
-  public static getTopPosts(
+  public static GET_TOP_POSTS(
     subreddit?: string,
     topPostCount?: number
   ): Promise<RedditPost[]> {
@@ -29,13 +28,13 @@ export default class RedditClient {
             `${response.statusCode} ${response.statusMessage}: ` +
               `Received ${response.headers["content-length"]} bytes.`
           )
-          resolve(this.parseResponse(body))
+          resolve(this.PARSE_RESPONSE(body))
         }
       })
     })
   }
 
-  public static parseResponse(payload: any): RedditPost[] {
+  public static PARSE_RESPONSE(payload: any): RedditPost[] {
     if (typeof payload === "string") {
       payload = JSON.parse(payload)
     }

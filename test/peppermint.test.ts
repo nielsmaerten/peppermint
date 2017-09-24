@@ -1,9 +1,4 @@
-import { assert, expect } from "chai"
-import * as Q from "q"
-import * as sinon from "sinon"
-import FirebaseClient from "../src/clients/firebase-client"
-import RedditClient from "../src/clients/reddit-client"
-import RedditPost from "../src/objects/reddit-post"
+import { expect } from "chai"
 import Peppermint from "../src/peppermint"
 
 /**

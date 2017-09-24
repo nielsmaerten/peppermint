@@ -1,11 +1,10 @@
 import { assert, expect } from "chai"
-import * as sinon from "sinon"
 import RedditClient from "../../src/clients/reddit-client"
 import RedditPost from "../../src/objects/reddit-post"
 
 describe("RedditClient", () => {
   it("should get the top posts from a subreddit", async () => {
-    let posts = await RedditClient.getTopPosts()
+    let posts = await RedditClient.GET_TOP_POSTS()
     assert.isDefined(posts)
     expect(posts.length).to.be.least(1)
   })
@@ -13,7 +12,7 @@ describe("RedditClient", () => {
   it("should parse a response from reddit to posts", () => {
     let example = require("../helpers/reddit-test-payload")
 
-    let posts = RedditClient.parseResponse(example.json)
+    let posts = RedditClient.PARSE_RESPONSE(example.json)
     assert.isDefined(posts)
 
     posts.forEach(post => {
@@ -28,7 +27,7 @@ describe("RedditClient", () => {
   it("should reject a failed api request", done => {
     let invalidUrl =
       "THIS-URL-DOES-NOT-EXIST-656b21d51aad04b7297cd1a7b63db9ebed1a08ed"
-    expect(RedditClient.getTopPosts(invalidUrl).catch(done))
+    expect(RedditClient.GET_TOP_POSTS(invalidUrl).catch(done))
   })
 
   it("should reject a new RedditPost with an empty url", () => {

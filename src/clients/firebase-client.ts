@@ -13,7 +13,7 @@ export default class FirebaseClient {
     admin.initializeApp(config.firebase)
   }
 
-  public static getInstance() {
+  public static GET_INSTANCE() {
     if (!this._instance) {
       this._instance = new FirebaseClient()
     }

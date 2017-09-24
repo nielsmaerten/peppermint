@@ -23,7 +23,7 @@ export default async (event: any) => {
     `Width: ${properties.width}, Height: ${properties.height}. Updating Firebase...`
   )
 
-  await FirebaseClient.getInstance().setPostProperties(postId, properties)
+  await FirebaseClient.GET_INSTANCE().setPostProperties(postId, properties)
   console.log("Properties saved in Firebase.")
 
   let post: RedditPost = {
@@ -34,7 +34,7 @@ export default async (event: any) => {
     height: properties.height
   }
 
-  let interestedUsers = await FirebaseClient.getInstance().getInterestedUsers(
+  let interestedUsers = await FirebaseClient.GET_INSTANCE().getInterestedUsers(
     post
   )
   console.log(
@@ -44,6 +44,6 @@ export default async (event: any) => {
   console.log("Adding post to personal list of interested user(s)")
   for (let i = 0; i < interestedUsers.length; i++) {
     let user = interestedUsers[i]
-    await FirebaseClient.getInstance().addPostToUserList(post, user.id)
+    await FirebaseClient.GET_INSTANCE().addPostToUserList(post, user.id)
   }
 }

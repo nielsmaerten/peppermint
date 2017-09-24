@@ -1,25 +1,23 @@
-import { assert, expect } from "chai"
-import * as Q from "q"
+import { assert } from "chai"
 import FirebaseClient from "../../src/clients/firebase-client"
-import RedditClient from "../../src/clients/reddit-client"
 import Config from "../../src/objects/config"
 import RedditPost from "../../src/objects/reddit-post"
 import User from "../../src/objects/user"
 import StubCreator from "../helpers/stub-creator"
 
 describe("Firebase Client", () => {
-  beforeEach(StubCreator.stubFirebase)
-  afterEach(StubCreator.restoreFirebase)
+  beforeEach(StubCreator.STUB_FIREBASE)
+  afterEach(StubCreator.RESTORE_FIREBASE)
 
   it("should be a singleton", () => {
-    let one = FirebaseClient.getInstance()
-    let two = FirebaseClient.getInstance()
+    let one = FirebaseClient.GET_INSTANCE()
+    let two = FirebaseClient.GET_INSTANCE()
 
     assert.strictEqual(one, two)
   })
 
   it("should add a post to Firebase", async () => {
-    let firebase = FirebaseClient.getInstance()
+    let firebase = FirebaseClient.GET_INSTANCE()
     let post = new RedditPost("this-is-some-random-stuff")
 
     assert.isNull(await firebase.getPost(post))
@@ -28,7 +26,7 @@ describe("Firebase Client", () => {
   })
 
   it("should add a new user to Firebase", async () => {
-    let firebase = FirebaseClient.getInstance()
+    let firebase = FirebaseClient.GET_INSTANCE()
     let newUser = new User("EXAMPLE_TOKEN" + require("cuid")())
 
     await firebase.addUser(newUser)
@@ -40,12 +38,11 @@ describe("Firebase Client", () => {
   })
 
   it("should get a list of users interested in a post", async () => {
-    let firebase = FirebaseClient.getInstance()
+    let firebase = FirebaseClient.GET_INSTANCE()
     let getRandomHeight = () => Math.floor(Math.random() * 8000) + 750
     let getRandomWidth = () => Math.floor(Math.random() * 10000) + 1000
 
     // Add random users
-    let testUsers = []
     for (let i = 0; i < 100; i++) {
       await firebase.addUser(
         new User(require("cuid")(), getRandomWidth(), getRandomHeight())
@@ -74,8 +71,8 @@ describe("Firebase Client", () => {
     let post = new RedditPost("https://placehold.it/500")
     let testuser = new User("TEST_TOKEN", 500, 500)
 
-    await FirebaseClient.getInstance().addUser(testuser)
-    await FirebaseClient.getInstance().addPostToUserList(post, testuser.id)
+    await FirebaseClient.GET_INSTANCE().addUser(testuser)
+    await FirebaseClient.GET_INSTANCE().addPostToUserList(post, testuser.id)
 
     let postInUserList = require("firebase-admin")
       .database()

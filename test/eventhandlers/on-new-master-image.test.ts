@@ -1,4 +1,4 @@
-import { assert, expect } from "chai"
+import { assert } from "chai"
 import * as admin from "firebase-admin"
 import FirebaseClient from "../../src/clients/firebase-client"
 import Config from "../../src/objects/config"
@@ -14,8 +14,8 @@ describe("Peppermint.onNewMasterImage", () => {
 
   beforeEach(async () => {
     // Stub firebase with test posts
-    StubCreator.stubFirebase()
-    StubCreator.stubRedditTopPosts()
+    StubCreator.STUB_FIREBASE()
+    StubCreator.STUB_REDDIT_TOP_POSTS()
     await Peppermint.onTriggerRedditUpdate()
 
     // mock requestImageSize so we can spy on calls
@@ -75,8 +75,8 @@ describe("Peppermint.onNewMasterImage", () => {
     let interestedUser = new User("TEST_TOKEN", 1, 1)
     let uninterestedUser = new User("TEST_TOKEN", 90000, 90000)
 
-    await FirebaseClient.getInstance().addUser(interestedUser)
-    await FirebaseClient.getInstance().addUser(uninterestedUser)
+    await FirebaseClient.GET_INSTANCE().addUser(interestedUser)
+    await FirebaseClient.GET_INSTANCE().addUser(uninterestedUser)
 
     await Peppermint.onNewMasterImage(testEvent)
 

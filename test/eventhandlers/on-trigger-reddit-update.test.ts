@@ -1,4 +1,4 @@
-import { assert, expect } from "chai"
+import { assert } from "chai"
 import * as Q from "q"
 import * as sinon from "sinon"
 import FirebaseClient from "../../src/clients/firebase-client"
@@ -12,9 +12,9 @@ describe("Peppermint.onTriggerRedditUpdate", () => {
   let firebase: FirebaseClient
   let admin: any
   beforeEach(() => {
-    StubCreator.stubFirebase()
-    StubCreator.stubRedditTopPosts()
-    firebase = FirebaseClient.getInstance()
+    StubCreator.STUB_FIREBASE()
+    StubCreator.STUB_REDDIT_TOP_POSTS()
+    firebase = FirebaseClient.GET_INSTANCE()
     admin = require("firebase-admin")
   })
   afterEach(StubCreator.restoreAll)
@@ -63,26 +63,26 @@ describe("Peppermint.onTriggerRedditUpdate", () => {
     // Firebase should have the post now
     assert.isNotNull(await firebase.getPost(newPost))
   })
+
+  /**
+   * Gets the current list of top posts from RedditClient.GET_TOP_POSTS.
+   * Then adds @param newPost to the list, and stubs RedditClient with the new list
+   * @param newPost New post to add to the mock GET_TOP_POSTS call
+   */
+  const addPostToStub = async (newPost: RedditPost) => {
+    // Get the current list of topPosts
+    let posts = await RedditClient.GET_TOP_POSTS()
+
+    // Restore the stub to its original state
+    ;(RedditClient.GET_TOP_POSTS as any).restore()
+
+    // Add the newPost to the list
+    posts.push(newPost)
+
+    // Re-stub with the augmented list
+    sinon.stub(RedditClient, "GET_TOP_POSTS").returns(Q.resolve(posts))
+
+    // Verify the post has been added
+    assert((await RedditClient.GET_TOP_POSTS()).indexOf(newPost) !== -1)
+  }
 })
-
-/**
- * Gets the current list of top posts from RedditClient.getTopPosts.
- * Then adds @param newPost to the list, and stubs RedditClient with the new list
- * @param newPost New post to add to the mock getTopPosts call
- */
-let addPostToStub = async (newPost: RedditPost) => {
-  // Get the current list of topPosts
-  let posts = await RedditClient.getTopPosts()
-
-  // Restore the stub to its original state
-  ;(RedditClient.getTopPosts as any).restore()
-
-  // Add the newPost to the list
-  posts.push(newPost)
-
-  // Re-stub with the augmented list
-  sinon.stub(RedditClient, "getTopPosts").returns(Q.resolve(posts))
-
-  // Verify the post has been added
-  assert((await RedditClient.getTopPosts()).indexOf(newPost) !== -1)
-}

@@ -1,4 +1,4 @@
-import { assert, expect } from "chai"
+import { assert } from "chai"
 import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
 
@@ -6,7 +6,7 @@ describe("Peppermint.onNewUserImage", () => {
   let fakeEvent = require("../helpers/new-userimage-event").event
 
   beforeEach(async () => {
-    StubCreator.stubFirebase()
+    StubCreator.STUB_FIREBASE()
 
     jest.mock("dropbox", () => {
       let DropboxClient = jest.fn()
@@ -20,7 +20,7 @@ describe("Peppermint.onNewUserImage", () => {
   })
 
   afterEach(() => {
-    StubCreator.restoreFirebase()
+    StubCreator.RESTORE_FIREBASE()
   })
 
   it("should save a newly added image to Dropbox", async () => {
