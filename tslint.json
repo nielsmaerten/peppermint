@@ -11,6 +11,6 @@
       "severity": "warning"
     },
     "ordered-imports": true,
-    "no-relative-imports": true
+    "function-name": true
   }
 }
