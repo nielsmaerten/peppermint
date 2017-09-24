@@ -2,7 +2,7 @@ import { assert } from "chai"
 import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
 
-describe("Peppermint.connectUser", () => {
+describe("Peppermint.onUserAuthorized", () => {
   beforeEach(() => {
     jest.mock("request-promise", () => {
       return {
@@ -15,7 +15,7 @@ describe("Peppermint.connectUser", () => {
   afterEach(StubCreator.RESTORE_FIREBASE)
 
   it("should exchange an authCode for an access token", async () => {
-    await Peppermint.connectUser({
+    await Peppermint.onUserAuthorized({
       query: { code: "FAKE_AUTH_CODE" }
     })
 
