@@ -18,6 +18,6 @@ describe("Peppermint", () => {
   })
 
   it("should expose a connectUser function", () => {
-    expect(Peppermint.connectUser).to.be.a("function")
+    expect(Peppermint.onUserAuthorized).to.be.a("function")
   })
 })
