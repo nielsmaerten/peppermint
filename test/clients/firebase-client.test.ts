@@ -39,23 +39,18 @@ describe("Firebase Client", () => {
 
   it("should get a list of users interested in a post", async () => {
     let firebase = FirebaseClient.GET_INSTANCE()
-    let getRandomHeight = () => Math.floor(Math.random() * 8000) + 750
-    let getRandomWidth = () => Math.floor(Math.random() * 10000) + 1000
 
-    // Add random users
-    for (let i = 0; i < 100; i++) {
-      await firebase.addUser(
-        new User(require("cuid")(), getRandomWidth(), getRandomHeight())
-      )
-    }
+    // Add an interested, and an uninterested user
+    await firebase.addUser(new User(require("cuid")(), 1, 1))
+    await firebase.addUser(new User(require("cuid")(), 9999, 9999))
 
     let examplePost = new RedditPost("https://placehold.it/1920x1080")
-    examplePost.height = getRandomHeight()
-    examplePost.width = getRandomWidth()
+    examplePost.height = 1080
+    examplePost.width = 1920
 
     let interestedUsers: User[] = await firebase.getInterestedUsers(examplePost)
 
-    assert.isAtLeast(interestedUsers.length, 1)
+    assert.equal(interestedUsers.length, 1)
     for (let i = 0; i < interestedUsers.length; i++) {
       assert.isAtLeast(
         examplePost.height,
