@@ -9,8 +9,8 @@ import RedditClient from "../clients/reddit-client"
  * If new images exist on Reddit, they are added to the master list
  */
 export default async () => {
-  let firebase = FirebaseClient.getInstance()
-  let topPosts = await RedditClient.getTopPosts()
+  let firebase = FirebaseClient.GET_INSTANCE()
+  let topPosts = await RedditClient.GET_TOP_POSTS()
   let newPosts = 0
 
   for (let i = 0; i < topPosts.length; i++) {

@@ -1,8 +1,8 @@
 import * as admin from "firebase-admin"
 import * as functions from "firebase-functions"
 import Config from "../objects/config"
-import User from "../objects/user"
 import RedditPost from "../objects/reddit-post"
+import User from "../objects/user"
 
 export default class FirebaseClient {
   private static _instance: FirebaseClient
@@ -13,7 +13,7 @@ export default class FirebaseClient {
     admin.initializeApp(config.firebase)
   }
 
-  public static getInstance() {
+  public static GET_INSTANCE() {
     if (!this._instance) {
       this._instance = new FirebaseClient()
     }
@@ -54,7 +54,10 @@ export default class FirebaseClient {
   }
 
   public async addUser(user: User) {
-    await admin.database().ref(`${Config.userListRef}/${user.id}`).set(user)
+    await admin
+      .database()
+      .ref(`${Config.userListRef}/${user.id}`)
+      .set(user)
   }
 
   public async getInterestedUsers(redditpost: RedditPost): Promise<User[]> {

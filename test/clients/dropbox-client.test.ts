@@ -1,6 +1,6 @@
-import * as sinon from "sinon"
 import { assert, expect } from "chai"
 import Dropbox from "dropbox"
+import * as sinon from "sinon"
 import DropboxClient from "../../src/clients/dropbox-client"
 
 describe("DropboxClient", () => {

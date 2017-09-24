@@ -1,11 +1,11 @@
-import { assert, expect } from "chai"
-import Peppermint from "../../src/peppermint"
-import RedditPost from "../../src/objects/reddit-post"
-import StubCreator from "../helpers/stub-creator"
+import { assert } from "chai"
 import * as admin from "firebase-admin"
-import Config from "../../src/objects/config"
-import User from "../../src/objects/user"
 import FirebaseClient from "../../src/clients/firebase-client"
+import Config from "../../src/objects/config"
+import RedditPost from "../../src/objects/reddit-post"
+import User from "../../src/objects/user"
+import Peppermint from "../../src/peppermint"
+import StubCreator from "../helpers/stub-creator"
 
 describe("Peppermint.onNewMasterImage", () => {
   // test event referring to one of the posts in the test reddit payload
@@ -14,8 +14,8 @@ describe("Peppermint.onNewMasterImage", () => {
 
   beforeEach(async () => {
     // Stub firebase with test posts
-    StubCreator.stubFirebase()
-    StubCreator.stubRedditTopPosts()
+    StubCreator.STUB_FIREBASE()
+    StubCreator.STUB_REDDIT_TOP_POSTS()
     await Peppermint.onTriggerRedditUpdate()
 
     // mock requestImageSize so we can spy on calls
@@ -61,7 +61,10 @@ describe("Peppermint.onNewMasterImage", () => {
     await Peppermint.onNewMasterImage(testEvent)
 
     // Get the test post back from firebase
-    redditPost = (await admin.database().ref(firebaseUri).once("value")).val()
+    redditPost = (await admin
+      .database()
+      .ref(firebaseUri)
+      .once("value")).val()
 
     // Assert width and heigth are now defined
     assert.isNumber(redditPost.width)
@@ -72,8 +75,8 @@ describe("Peppermint.onNewMasterImage", () => {
     let interestedUser = new User("TEST_TOKEN", 1, 1)
     let uninterestedUser = new User("TEST_TOKEN", 90000, 90000)
 
-    await FirebaseClient.getInstance().addUser(interestedUser)
-    await FirebaseClient.getInstance().addUser(uninterestedUser)
+    await FirebaseClient.GET_INSTANCE().addUser(interestedUser)
+    await FirebaseClient.GET_INSTANCE().addUser(uninterestedUser)
 
     await Peppermint.onNewMasterImage(testEvent)
 
