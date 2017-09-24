@@ -60,6 +60,13 @@ export default class FirebaseClient {
       .set(user)
   }
 
+  public async updateUser(userId: number, updates: any) {
+    await admin
+      .database()
+      .ref(`${Config.userListRef}/${userId}`)
+      .update(updates)
+  }
+
   public async getInterestedUsers(redditpost: RedditPost): Promise<User[]> {
     let users: User[] = []
     let presortedUsers = (await admin

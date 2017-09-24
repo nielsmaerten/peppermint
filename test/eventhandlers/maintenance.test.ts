@@ -1,7 +1,6 @@
 import { assert } from "chai"
 import * as admin from "firebase-admin"
 import Maintenance from "../../src/agents/maintenance"
-import FirebaseClient from "../../src/clients/firebase-client"
 import Config from "../../src/objects/config"
 import StubCreator from "../helpers/stub-creator"
 
@@ -59,11 +58,11 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     )
   })
 
-  it("should remove an image that's older than max-age", async () => {
+  it("should remove an image that's older than max-age", () => {
     fail("Not implemented")
   })
 
-  it("should remove the oldest image(s) if max-number-of-images is surpassed", async () => {
+  it("should remove the oldest image(s) if max-number-of-images is surpassed", () => {
     fail("Not implemented")
   })
 
