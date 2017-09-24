@@ -1,18 +1,17 @@
-import { assert, expect } from "chai"
-import Peppermint from "../../src/peppermint"
-import StubCreator from "../helpers/stub-creator"
+import { assert } from "chai"
 import * as admin from "firebase-admin"
-import Config from "../../src/objects/config"
-import User from "../../src/objects/user"
-import RedditPost from "../../src/objects/reddit-post"
+import Maintenance from "../../src/agents/maintenance"
 import FirebaseClient from "../../src/clients/firebase-client"
+import Config from "../../src/objects/config"
+import StubCreator from "../helpers/stub-creator"
 
 describe("Peppermint.onNewUserImage.maintenance", () => {
+  // Import the fake user we'll run our tests on
+  // This user already has a list of images, but some need to be pruned...
   let fakeUser = require("../helpers/fake-user").user
-  let fakeEvent = require("../helpers/new-userimage-event").event
-  fakeEvent.data.val = () => fakeEvent.data
 
   beforeAll(() => {
+    // Stub Dropbox.filesSaveUrl
     jest.mock("dropbox", () => {
       let Dropbox = jest.fn()
       Dropbox.prototype.filesSaveUrl = jest.fn()
@@ -20,39 +19,37 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     })
   })
 
-  beforeEach(StubCreator.stubFirebase)
-  afterEach(StubCreator.restoreFirebase)
-
-  it("should remove some posts from user's list", async () => {
-    let fakeUserRef = admin
+  beforeEach(() => {
+    // Put the fake user into the fake Firebase
+    StubCreator.STUB_FIREBASE()
+    admin
       .database()
       .ref(`${Config.userListRef}/${fakeUser.id}`)
+      .set(fakeUser)
+  })
+  afterEach(StubCreator.RESTORE_FIREBASE)
 
-    await fakeUserRef.set(fakeUser)
-    await fakeUserRef.update({
-      // Way in the past :)
-      lastMaintained: new Date().setFullYear(2000).toString()
-    })
-
+  it("should remove some posts from user's list", async () => {
+    // Check how many images the testUser currently has in their list
+    let fakeUserRef = admin
+      .database()
+      .ref(Config.userListRef + "/" + fakeUser.id)
     let getNrOfPosts = () =>
       Object.keys((fakeUserRef as any).getData().images).length
     let originalNrOfPosts = getNrOfPosts()
 
-    // trigger with fake event
-    await Peppermint.onNewUserImage(fakeEvent)
+    // Run maintenance on the testUser
+    await Maintenance.RUN_FOR_USER(fakeUser.id)
 
+    // Some images should have been removed from their list now
     assert.isBelow(getNrOfPosts(), originalNrOfPosts)
   })
 
-  it("should remove images that don't meet user's requirements from their list", async () => {
-    // - Remove all images that no longer meet the user's requirements* from the user's list
-    let userId = fakeEvent.params.userId
-    let deprecatedPost = new RedditPost("http://placehold.it/73x42")
-    deprecatedPost.height = 73
-    deprecatedPost.width = 42
-    await FirebaseClient.getInstance().addPostToUserList(deprecatedPost, userId)
+  it("should remove an image that doesn't meet size requirements", async () => {
+    let userId = fakeUser.id
+    let deprecatedPost = fakeUser.images["too-small"]
 
-    // TODO: RUN MAINTENANCE
+    await Maintenance.RUN_FOR_USER(fakeUser.id)
 
     assert.isNull(
       require("firebase-admin")
@@ -60,14 +57,30 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
         .ref(`${Config.userListRef}/${userId}/images/${deprecatedPost.id}`)
         .getData()
     )
-    // (*) Requirements can include: width, heigth, max-age, max-number-of-files (optional),...
+  })
+
+  it("should remove an image that's older than max-age", async () => {
+    fail("Not implemented")
+  })
+
+  it("should remove the oldest image(s) if max-number-of-images is surpassed", async () => {
+    fail("Not implemented")
   })
 
   it("should remove images no longer in the user's list from their dropbox", () => {
     // - Remove all images that are no longer in the user's list from their dropbox
+    fail("Not implemented")
   })
 
-  it("should update the last-maintained date", () => {
-    //  - Update date last maintained
+  it("should update the last-maintained date", async () => {
+    const userRef = require("firebase-admin")
+      .database()
+      .ref(`${Config.userListRef}/${fakeUser.id}`)
+
+    const lastMaintained = userRef.getData().lastMaintained
+    await Maintenance.RUN_FOR_USER(fakeUser.id)
+    const newLastMaintained = userRef.getData().lastMaintained
+
+    assert.isAbove(newLastMaintained, lastMaintained)
   })
 })

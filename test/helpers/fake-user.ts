@@ -1,13 +1,13 @@
 exports.user = {
   id: "YYYYYY",
   images: {
-    "01cdd22759a631d84535e948e3f59a6d14d4db3f": {
-      height: 3477,
+    "too-small": {
+      height: 100,
       id: "01cdd22759a631d84535e948e3f59a6d14d4db3f",
       imageUrl:
         "https://i.redditmedia.com/QIGTJxJXwLFaK2icoARHdbyOQUnpa2TwRmoAqweG1tY.jpg?s=c3ae6ffee7fab4c28956aab5e7539e17",
       type: "jpg",
-      width: 6598
+      width: 100
     },
     "3288d861c5b5a47ee65b3ed95e01ca3b30fb32c7": {
       height: 4000,
@@ -108,5 +108,6 @@ exports.user = {
   },
   prefMinHeight: 1080,
   prefMinWidth: 1920,
-  token: "XXXXX"
+  token: "XXXXX",
+  lastMaintained: 1506268307
 }
