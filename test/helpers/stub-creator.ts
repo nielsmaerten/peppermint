@@ -3,6 +3,7 @@ import * as functions from "firebase-functions"
 import * as Q from "q"
 import * as sinon from "sinon"
 import RedditClient from "../../src/clients/reddit-client"
+import RedditPost from "../../src/objects/reddit-post"
 
 export default class StubCreator {
   /**
@@ -43,6 +44,25 @@ export default class StubCreator {
 
     // Stub the existing admin.database() with the stub
     sinon.stub(admin, "database").returns(mocksdk.database())
+  }
+
+  /**
+   * Gets the current list of top posts from RedditClient.GET_TOP_POSTS.
+   * Then adds @param newPost to the list, and stubs RedditClient with the new list
+   * @param newPost New post to add to the mock GET_TOP_POSTS call
+   */
+  public static async ADD_POST_TO_STUB(newPost: RedditPost) {
+    // Get the current list of topPosts
+    let posts = await RedditClient.GET_TOP_POSTS()
+
+    // Restore the stub to its original state
+    ;(RedditClient.GET_TOP_POSTS as any).restore()
+
+    // Add the newPost to the list
+    posts.push(newPost)
+
+    // Re-stub with the augmented list
+    sinon.stub(RedditClient, "GET_TOP_POSTS").returns(Q.resolve(posts))
   }
 
   public static RESTORE_FIREBASE() {
