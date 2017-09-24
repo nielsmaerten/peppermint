@@ -1,7 +1,7 @@
-import onTriggerRedditUpdate from "./eventhandlers/on-trigger-reddit-update"
+import connectUser from "./eventhandlers/connect-user"
 import onNewMasterImage from "./eventhandlers/on-new-master-image"
 import onNewUserImage from "./eventhandlers/on-new-user-image"
-import connectUser from "./eventhandlers/connect-user"
+import onTriggerRedditUpdate from "./eventhandlers/on-trigger-reddit-update"
 
 export default class Peppermint {
   static onTriggerRedditUpdate = onTriggerRedditUpdate

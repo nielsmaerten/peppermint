@@ -2,5 +2,15 @@
   "extends": [
     "tslint-config-standard",
     "tslint-config-prettier"
-  ]
+  ],
+    "rulesDirectory": [
+      "node_modules/tslint-microsoft-contrib"
+    ],
+  "rules": {
+    "no-suspicious-comment": {
+      "severity": "warning"
+    },
+    "ordered-imports": true,
+    "function-name": true
+  }
 }

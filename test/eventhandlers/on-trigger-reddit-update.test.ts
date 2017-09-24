@@ -1,33 +1,42 @@
-import * as Q from "q"
+import { assert } from "chai"
 import * as sinon from "sinon"
-import { assert, expect } from "chai"
-import Config from "../../src/objects/config"
 import FirebaseClient from "../../src/clients/firebase-client"
-import Peppermint from "../../src/peppermint"
 import RedditClient from "../../src/clients/reddit-client"
+import Config from "../../src/objects/config"
 import RedditPost from "../../src/objects/reddit-post"
+import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
 
 describe("Peppermint.onTriggerRedditUpdate", () => {
   let firebase: FirebaseClient
   let admin: any
   beforeEach(() => {
-    StubCreator.stubFirebase()
-    StubCreator.stubRedditTopPosts()
-    firebase = FirebaseClient.getInstance()
+    StubCreator.STUB_FIREBASE()
+    StubCreator.STUB_REDDIT_TOP_POSTS()
+    firebase = FirebaseClient.GET_INSTANCE()
     admin = require("firebase-admin")
   })
   afterEach(StubCreator.restoreAll)
 
   it("should add items from Reddit to Firebase", async () => {
     // Confirm firebase is empty
-    assert.isNull(admin.database().ref(Config.masterListsRef).getData())
+    assert.isNull(
+      admin
+        .database()
+        .ref(Config.masterListsRef)
+        .getData()
+    )
 
     // Fill firebase with posts from reddit
     await Peppermint.onTriggerRedditUpdate()
 
     // Confirm data is present in Firebase
-    assert.isNotNull(admin.database().ref(Config.masterListsRef).getData())
+    assert.isNotNull(
+      admin
+        .database()
+        .ref(Config.masterListsRef)
+        .getData()
+    )
   })
 
   it("should add a new item to Firebase", async () => {
@@ -36,7 +45,10 @@ describe("Peppermint.onTriggerRedditUpdate", () => {
 
     // Add a new post to Reddit
     let newPost = new RedditPost("XXXXX")
-    await addPostToStub(newPost)
+    await StubCreator.ADD_POST_TO_STUB(newPost)
+
+    // Verify the post has been added
+    assert((await RedditClient.GET_TOP_POSTS()).indexOf(newPost) !== -1)
 
     // This post is not in Firebase
     assert.isNull(await firebase.getPost(newPost))
@@ -54,25 +66,3 @@ describe("Peppermint.onTriggerRedditUpdate", () => {
     assert.isNotNull(await firebase.getPost(newPost))
   })
 })
-
-/**
- * Gets the current list of top posts from RedditClient.getTopPosts.
- * Then adds @param newPost to the list, and stubs RedditClient with the new list
- * @param newPost New post to add to the mock getTopPosts call
- */
-let addPostToStub = async (newPost: RedditPost) => {
-  // Get the current list of topPosts
-  let posts = await RedditClient.getTopPosts()
-
-  // Restore the stub to its original state
-  ;(RedditClient.getTopPosts as any).restore()
-
-  // Add the newPost to the list
-  posts.push(newPost)
-
-  // Re-stub with the augmented list
-  sinon.stub(RedditClient, "getTopPosts").returns(Q.resolve(posts))
-
-  // Verify the post has been added
-  assert((await RedditClient.getTopPosts()).indexOf(newPost) !== -1)
-}

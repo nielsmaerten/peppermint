@@ -4,7 +4,7 @@ export default class DropboxClient {
   private dropbox = require("dropbox")
   private client: Dropbox
 
-  constructor(private accessToken: string) {
+  constructor(accessToken: string) {
     this.client = new this.dropbox({
       accessToken: accessToken
     })

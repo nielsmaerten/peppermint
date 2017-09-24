@@ -1,5 +1,5 @@
-import FirebaseClient from "../clients/firebase-client"
 import DropboxClient from "../clients/dropbox-client"
+import FirebaseClient from "../clients/firebase-client"
 /**
  * Triggered when a new image is added to a user's personal list
  * (by the onNewMasterImage function)
@@ -13,7 +13,7 @@ import DropboxClient from "../clients/dropbox-client"
  */
 export default async (event: any) => {
   console.log(`Getting token for user ${event.params.userId}...`)
-  let token = await FirebaseClient.getInstance().getUserToken(
+  let token = await FirebaseClient.GET_INSTANCE().getUserToken(
     event.params.userId
   )
   let dropbox = new DropboxClient(token)
