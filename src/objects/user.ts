@@ -2,6 +2,7 @@ import Config from "../objects/config"
 export default class User {
   public id: string
   public token: string
+  public lastMaintained: number
 
   // Preferences
   public prefMinWidth: number

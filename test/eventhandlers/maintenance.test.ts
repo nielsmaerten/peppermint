@@ -21,10 +21,10 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     })
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Put the fake user into the fake Firebase
     StubCreator.STUB_FIREBASE()
-    admin
+    await admin
       .database()
       .ref(`${Config.userListRef}/${fakeUser.id}`)
       .set(fakeUser)
