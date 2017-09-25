@@ -3,7 +3,7 @@ exports.user = {
   images: {
     "too-small": {
       height: 100,
-      id: "01cdd22759a631d84535e948e3f59a6d14d4db3f",
+      id: "too-small",
       imageUrl:
         "https://i.redditmedia.com/QIGTJxJXwLFaK2icoARHdbyOQUnpa2TwRmoAqweG1tY.jpg?s=c3ae6ffee7fab4c28956aab5e7539e17",
       type: "jpg",

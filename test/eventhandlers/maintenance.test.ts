@@ -1,6 +1,7 @@
 import { assert } from "chai"
 import * as admin from "firebase-admin"
-import Maintenance from "../../src/agents/maintenance"
+import { iocContainer } from "../../src/ioc/inversify.config"
+import { TYPES } from "../../src/ioc/types"
 import Config from "../../src/objects/config"
 import StubCreator from "../helpers/stub-creator"
 
@@ -8,6 +9,8 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
   // Import the fake user we'll run our tests on
   // This user already has a list of images, but some need to be pruned...
   let fakeUser = require("../helpers/fake-user").user
+
+  let Maintenance = iocContainer.get(TYPES.Maintenance)
 
   beforeAll(() => {
     // Stub Dropbox.filesSaveUrl
@@ -38,7 +41,7 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     let originalNrOfPosts = getNrOfPosts()
 
     // Run maintenance on the testUser
-    await Maintenance.RUN_FOR_USER(fakeUser.id)
+    await Maintenance.runForUser(fakeUser.id)
 
     // Some images should have been removed from their list now
     assert.isBelow(getNrOfPosts(), originalNrOfPosts)
@@ -48,7 +51,7 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     let userId = fakeUser.id
     let deprecatedPost = fakeUser.images["too-small"]
 
-    await Maintenance.RUN_FOR_USER(fakeUser.id)
+    await Maintenance.runForUser(fakeUser.id)
 
     assert.isNull(
       require("firebase-admin")
@@ -77,7 +80,7 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
       .ref(`${Config.userListRef}/${fakeUser.id}`)
 
     const lastMaintained = userRef.getData().lastMaintained
-    await Maintenance.RUN_FOR_USER(fakeUser.id)
+    await Maintenance.runForUser(fakeUser.id)
     const newLastMaintained = userRef.getData().lastMaintained
 
     assert.isAbove(newLastMaintained, lastMaintained)

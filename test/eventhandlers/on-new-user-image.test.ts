@@ -1,4 +1,7 @@
 import { assert } from "chai"
+import { injectable } from "inversify"
+import { iocContainer } from "../../src/ioc/inversify.config"
+import { TYPES } from "../../src/ioc/types"
 import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
 
@@ -6,6 +9,7 @@ describe("Peppermint.onNewUserImage", () => {
   let fakeEvent = require("../helpers/new-userimage-event").event
 
   beforeEach(async () => {
+    iocContainer.snapshot()
     StubCreator.STUB_FIREBASE()
 
     jest.mock("dropbox", () => {
@@ -21,6 +25,7 @@ describe("Peppermint.onNewUserImage", () => {
 
   afterEach(() => {
     StubCreator.RESTORE_FIREBASE()
+    iocContainer.restore()
   })
 
   it("should save a newly added image to Dropbox", async () => {
@@ -34,9 +39,19 @@ describe("Peppermint.onNewUserImage", () => {
     })
   })
 
-  it("should run maintenance for the user", async () => {
-    const maintenance = require("../agents/maintenance")
+  it("should run maintenance for the test user", async () => {
+    // Override Maintenance with a mocked class
+    const mock = jest.fn()
+    @injectable()
+    class MockMaintenance {
+      runForUser = mock
+    }
+    iocContainer.rebind(TYPES.Maintenance).to(MockMaintenance)
+
+    // Trigger the event handler
     await Peppermint.onNewUserImage(fakeEvent)
-    assert.lengthOf(maintenance.prototype.RUN_FOR_USER.mock.calls, 1)
+
+    // Check if the mock has been called
+    assert.lengthOf(mock.mock.calls, 1)
   })
 })
