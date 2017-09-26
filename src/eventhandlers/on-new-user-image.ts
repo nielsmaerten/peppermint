@@ -1,7 +1,8 @@
+import Maintenance from "../agents/maintenance"
 import DropboxClient from "../clients/dropbox-client"
 import FirebaseClient from "../clients/firebase-client"
-import {iocContainer} from "../ioc/inversify.config";
-import {TYPES} from "../ioc/types";
+import { iocContainer } from "../ioc/inversify.config"
+import { TYPES } from "../ioc/types"
 
 /**
  * Triggered when a new image is added to a user's personal list
@@ -27,6 +28,6 @@ export default async (event: any) => {
     `${event.params.postId}.${event.data.val().type}`
   )
 
-  const Maintenance = iocContainer.get(TYPES.Maintenance)
+  const Maintenance = iocContainer.get<Maintenance>(TYPES.Maintenance)
   await Maintenance.runForUser(event.params.userId)
 }

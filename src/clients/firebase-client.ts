@@ -60,11 +60,11 @@ export default class FirebaseClient {
       .set(user)
   }
 
-  public async getUser(userId: number): User {
+  public async getUser(userId: number): Promise<User> {
     const snapshot = await admin
       .database()
       .ref(`${Config.userListRef}/${userId}`)
-      .once()
+      .once("value")
     return snapshot.val()
   }
 

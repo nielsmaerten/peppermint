@@ -1,5 +1,6 @@
 import { assert } from "chai"
 import * as admin from "firebase-admin"
+import Maintenance from "../../src/agents/maintenance"
 import { iocContainer } from "../../src/ioc/inversify.config"
 import { TYPES } from "../../src/ioc/types"
 import Config from "../../src/objects/config"
@@ -10,7 +11,7 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
   // This user already has a list of images, but some need to be pruned...
   let fakeUser = require("../helpers/fake-user").user
 
-  let Maintenance = iocContainer.get(TYPES.Maintenance)
+  let Maintenance = iocContainer.get<Maintenance>(TYPES.Maintenance)
 
   beforeAll(() => {
     // Stub Dropbox.filesSaveUrl

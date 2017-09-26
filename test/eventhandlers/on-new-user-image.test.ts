@@ -8,8 +8,18 @@ import StubCreator from "../helpers/stub-creator"
 describe("Peppermint.onNewUserImage", () => {
   let fakeEvent = require("../helpers/new-userimage-event").event
 
-  beforeEach(async () => {
+  const mock = jest.fn()
+  @injectable()
+  class MockMaintenance {
+    runForUser = mock
+  }
+
+  beforeAll(() => {
     iocContainer.snapshot()
+    iocContainer.rebind(TYPES.Maintenance).to(MockMaintenance)
+  })
+
+  beforeEach(async () => {
     StubCreator.STUB_FIREBASE()
 
     jest.mock("dropbox", () => {
@@ -28,6 +38,10 @@ describe("Peppermint.onNewUserImage", () => {
     iocContainer.restore()
   })
 
+  afterAll(() => {
+    iocContainer.restore()
+  })
+
   it("should save a newly added image to Dropbox", async () => {
     await Peppermint.onNewUserImage(fakeEvent)
 
@@ -40,14 +54,6 @@ describe("Peppermint.onNewUserImage", () => {
   })
 
   it("should run maintenance for the test user", async () => {
-    // Override Maintenance with a mocked class
-    const mock = jest.fn()
-    @injectable()
-    class MockMaintenance {
-      runForUser = mock
-    }
-    iocContainer.rebind(TYPES.Maintenance).to(MockMaintenance)
-
     // Trigger the event handler
     await Peppermint.onNewUserImage(fakeEvent)
 
