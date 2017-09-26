@@ -35,7 +35,7 @@ describe("Peppermint.onNewUserImage", () => {
 
   afterEach(() => {
     StubCreator.RESTORE_FIREBASE()
-    iocContainer.restore()
+    mock.mockReset()
   })
 
   afterAll(() => {
