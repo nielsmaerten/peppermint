@@ -78,4 +78,14 @@ describe("Firebase Client", () => {
 
     assert.deepEqual(post, postInUserList)
   })
+
+  it("should get a user token from Firebase", async () => {
+    let testToken = require("cuid")()
+    let testUser = new User(testToken)
+
+    await FirebaseClient.GET_INSTANCE().addUser(testUser)
+    let token = await FirebaseClient.GET_INSTANCE().getUserToken(testUser)
+
+    assert.equal(token, testToken)
+  })
 })

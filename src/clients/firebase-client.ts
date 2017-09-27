@@ -102,10 +102,10 @@ export default class FirebaseClient {
       .set(post)
   }
 
-  public async getUserToken(userId: User): Promise<string> {
+  public async getUserToken(user: User): Promise<string> {
     return (await admin
       .database()
-      .ref(`${Config.userListRef}/${userId}/token`)
+      .ref(`${Config.userListRef}/${user.id}/token`)
       .once("value")).val() as string
   }
 }
