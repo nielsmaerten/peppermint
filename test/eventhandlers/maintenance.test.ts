@@ -13,15 +13,6 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
 
   let Maintenance = iocContainer.get<Maintenance>(TYPES.Maintenance)
 
-  beforeAll(() => {
-    // Stub Dropbox.filesSaveUrl
-    jest.mock("dropbox", () => {
-      let Dropbox = jest.fn()
-      Dropbox.prototype.filesSaveUrl = jest.fn()
-      return Dropbox
-    })
-  })
-
   beforeEach(async () => {
     // Put the fake user into the fake Firebase
     StubCreator.STUB_FIREBASE()
@@ -29,6 +20,14 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
       .database()
       .ref(`${Config.userListRef}/${fakeUser.id}`)
       .set(fakeUser)
+
+    // Stub dropbox API
+    jest.mock("dropbox", () => {
+      let Dropbox = jest.fn()
+      Dropbox.prototype.filesSaveUrl = jest.fn()
+      Dropbox.prototype.filesDeleteBatch = jest.fn()
+      return Dropbox
+    })
   })
   afterEach(StubCreator.RESTORE_FIREBASE)
 
@@ -62,17 +61,26 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     )
   })
 
-  it("should remove an image that's older than max-age", () => {
+  xit("should remove an image that's older than max-age", () => {
     fail("Not implemented")
   })
 
-  it("should remove the oldest image(s) if max-number-of-images is surpassed", () => {
-    fail("Not implemented")
-  })
+  xit(
+    "should remove the oldest image(s) if max-number-of-images is surpassed",
+    () => {
+      fail("Not implemented")
+    }
+  )
 
-  it("should remove images no longer in the user's list from their dropbox", () => {
-    // - Remove all images that are no longer in the user's list from their dropbox
-    fail("Not implemented")
+  it("should remove images no longer in the user's list from their dropbox", async () => {
+    // Run maintenance for the test user
+    await Maintenance.runForUser(fakeUser.id)
+
+    // The test user has at least 1 image that should be removed
+
+    // Check if dropbox API was called to remove something
+    let mockDelete = require("dropbox").prototype.filesDeleteBatch.mock
+    assert.isAbove(mockDelete.calls.length, 0)
   })
 
   it("should update the last-maintained date", async () => {
@@ -85,5 +93,27 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     const newLastMaintained = userRef.getData().lastMaintained
 
     assert.isAbove(newLastMaintained, lastMaintained)
+  })
+
+  it("should skip maintenance if the date is in range", async () => {
+    // Our testuser was last maintained on 2017-09-24
+    // Set the maintenanceInterval very short
+
+    // Run maintenance, it should run
+    let result = await Maintenance.runForUser(fakeUser.id)
+    assert.notEqual(result, -1, "Maintenance was due, but was skipped")
+
+    // Set a very LONG interval (1000 years)
+    ;(global as any).peppermintFirebaseConfig = {}
+    ;(global as any).peppermintFirebaseConfig.maintenanceInterval =
+      1000 * 365 * 24 * 60
+
+    // Run again, it should be skipped now
+    result = await Maintenance.runForUser(fakeUser.id)
+    assert.equal(
+      result,
+      -1,
+      "Maintenance wasn't due for another few centuries, it should have been skipped"
+    )
   })
 })
