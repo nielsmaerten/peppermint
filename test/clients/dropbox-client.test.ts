@@ -23,7 +23,13 @@ describe("DropboxClient", () => {
   it("should upload an image to my dropbox", async () => {
     let imageUrl = "http://placehold.it/500x500.jpg?text=Hello%20World!"
     let filename = "testfile.jpg"
-    await client.uploadImage(imageUrl, filename)
+    await client.uploadImage({
+      id: "testfile",
+      imageUrl: "http://placehold.it/500x500.jpg?text=Hello%20World!",
+      type: "jpg",
+      width: 500,
+      height: 500
+    })
     assert.isTrue(fileSaveUrlStub.called)
   })
 })

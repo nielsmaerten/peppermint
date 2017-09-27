@@ -3,6 +3,7 @@ export default class User {
   public id: string
   public token: string
   public lastMaintained: number
+  public images: any
 
   // Preferences
   public prefMinWidth: number

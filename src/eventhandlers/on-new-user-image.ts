@@ -23,10 +23,7 @@ export default async (event: any) => {
   let dropbox = new DropboxClient(token)
 
   console.log(`Uploading post ${event.params.postId} to user's dropbox...`)
-  await dropbox.uploadImage(
-    event.data.val().imageUrl,
-    `${event.params.postId}.${event.data.val().type}`
-  )
+  await dropbox.uploadImage(event.data.val())
 
   const Maintenance = iocContainer.get<Maintenance>(TYPES.Maintenance)
   await Maintenance.runForUser(event.params.userId)
