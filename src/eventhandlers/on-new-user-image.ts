@@ -17,9 +17,8 @@ import { TYPES } from "../ioc/types"
  */
 export default async (event: any) => {
   console.log(`Getting token for user ${event.params.userId}...`)
-  let token = await FirebaseClient.GET_INSTANCE().getUserToken(
-    event.params.userId
-  )
+  let token = await FirebaseClient.GET_INSTANCE().getUserToken(event.params
+    .userId as string)
   let dropbox = new DropboxClient(token)
 
   console.log(`Uploading post ${event.params.postId} to user's dropbox...`)
