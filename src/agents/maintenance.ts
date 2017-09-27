@@ -2,14 +2,12 @@ import { injectable } from "inversify"
 import moment from "moment"
 import DropboxClient from "../clients/dropbox-client"
 import FirebaseClient from "../clients/firebase-client"
+import Config from "../objects/config"
 import RedditPost from "../objects/reddit-post"
 import User from "../objects/user"
 
 @injectable()
 export default class Maintenance {
-  // Create an update object to hold images to be removed
-  private firebaseUpdates: any = {}
-
   // Create an array to hold the RedditPosts marked for removal
   private postsToBeRemoved: RedditPost[] = []
 
@@ -80,7 +78,6 @@ export default class Maintenance {
         post.height < this.user.prefMinHeight ||
         post.width < this.user.prefMinWidth
       ) {
-        this.firebaseUpdates[post.id] = null
         this.postsToBeRemoved.push(post)
         count++
       }
@@ -104,7 +101,6 @@ export default class Maintenance {
       let post: RedditPost = this.user.images[postId]
 
       if (post.dateAdded < deleteBefore) {
-        this.firebaseUpdates[post.id] = null
         this.postsToBeRemoved.push(post)
         count++
       }
@@ -127,14 +123,23 @@ export default class Maintenance {
   }
 
   private async updateFirebase() {
-    await FirebaseClient.GET_INSTANCE().updateUser(this.user.id, {
+    let firebaseUpdates: any = {
       // Last maintained: now
       lastMaintained: moment()
         .utc()
-        .unix(),
+        .unix()
+    }
 
-      // PostIDs set to null will be removed by Firebase
-      images: this.firebaseUpdates
+    this.postsToBeRemoved.forEach(post => {
+      // https://firebase.google.com/docs/database/admin/save-data#section-update
+      // For each post, create a key with the relative path, and set it to null
+      // Firebase will then delete these posts, but not others.
+      firebaseUpdates[`${Config.personalLisRef}/${post.id}`] = null
     })
+
+    await FirebaseClient.GET_INSTANCE().updateUser(
+      this.user.id,
+      firebaseUpdates
+    )
   }
 }
