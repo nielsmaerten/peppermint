@@ -48,7 +48,7 @@ export default class Maintenance {
       (global as any).peppermintFirebaseConfig || functions.config()
 
     // Get the interval in minutes at which a list should be cleaned up
-    let maintenanceInterval = firebaseConfig.maintenanceInterval
+    let maintenanceInterval = firebaseConfig.peppermint.maintenanceinterval
 
     // Subtract the interval from the current time
     let maintenanceDeadline = moment()
@@ -65,7 +65,7 @@ export default class Maintenance {
     let humanized = moment
       .duration(timeSinceLastMaintenance * -1, "seconds")
       .humanize(true)
-    console.log("Last maintenance was ", humanized) // n minutes ago
+    console.log("Last maintenance was", humanized) // n minutes ago
 
     // If lastMaintained is LONGER AGO than the deadline, run maintenance
     return this.user.lastMaintained < maintenanceDeadline

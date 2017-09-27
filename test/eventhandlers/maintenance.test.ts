@@ -106,17 +106,19 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
   })
 
   it("should skip maintenance if the date is in range", async () => {
-    // Our testuser was last maintained on 2017-09-24
-    // Set the maintenanceInterval very short
+    // Our testuser was last maintained on 2017-09-24,
+    // And when testing, the default interval is 1 minute. (cf StubCreator)
 
     // Run maintenance, it should run
     let result = await Maintenance.runForUser(fakeUser.id)
     assert.notEqual(result, -1, "Maintenance was due, but was skipped")
 
     // Set a very LONG interval (1000 years)
-    ;(global as any).peppermintFirebaseConfig = {}
-    ;(global as any).peppermintFirebaseConfig.maintenanceInterval =
-      1000 * 365 * 24 * 60
+    ;(global as any).peppermintFirebaseConfig = {
+      peppermint: {
+        maintenanceinterval: 1000 * 365 * 24 * 60
+      }
+    }
 
     // Run again, it should be skipped now
     result = await Maintenance.runForUser(fakeUser.id)
