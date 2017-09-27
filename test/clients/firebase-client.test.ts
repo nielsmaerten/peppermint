@@ -41,8 +41,8 @@ describe("Firebase Client", () => {
     let firebase = FirebaseClient.GET_INSTANCE()
 
     // Add an interested, and an uninterested user
-    await firebase.addUser(new User(require("cuid")(), 1, 1))
-    await firebase.addUser(new User(require("cuid")(), 9999, 9999))
+    await firebase.addUser(new User(require("cuid")(), "", 1, 1))
+    await firebase.addUser(new User(require("cuid")(), "", 9999, 9999))
 
     let examplePost = new RedditPost("https://placehold.it/1920x1080")
     examplePost.height = 1080
@@ -64,7 +64,7 @@ describe("Firebase Client", () => {
 
   it("should add a post to a user's personal list", async () => {
     let post = new RedditPost("https://placehold.it/500")
-    let testuser = new User("TEST_TOKEN", 500, 500)
+    let testuser = new User("TEST_TOKEN", "", 500, 500)
 
     await FirebaseClient.GET_INSTANCE().addUser(testuser)
     await FirebaseClient.GET_INSTANCE().addPostToUserList(post, testuser.id)

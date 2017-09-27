@@ -8,15 +8,18 @@ export default class User {
   // Preferences
   public prefMinWidth: number
   public prefMinHeight: number
+  public prefMaxAge: number
 
   constructor(
     token: string,
+    id?: string,
     prefMinWidth?: number,
     prefMinHeight?: number,
-    id?: string
+    prefMaxAge?: number
   ) {
     this.token = token
     this.id = id || require("cuid")()
+    this.prefMaxAge = prefMaxAge || Config.defaultMaxAge
     this.prefMinHeight = prefMinHeight || Config.defaultMinHeight
     this.prefMinWidth = prefMinWidth || Config.defaultMinWidth
   }
