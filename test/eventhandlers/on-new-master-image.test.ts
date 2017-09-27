@@ -72,8 +72,8 @@ describe("Peppermint.onNewMasterImage", () => {
   })
 
   it("should add a post to list of interested users", async () => {
-    let interestedUser = new User("TEST_TOKEN", 1, 1)
-    let uninterestedUser = new User("TEST_TOKEN", 90000, 90000)
+    let interestedUser = new User("TEST_TOKEN", "", 1, 1)
+    let uninterestedUser = new User("TEST_TOKEN", "", 90000, 90000)
 
     await FirebaseClient.GET_INSTANCE().addUser(interestedUser)
     await FirebaseClient.GET_INSTANCE().addUser(uninterestedUser)

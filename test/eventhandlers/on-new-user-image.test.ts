@@ -1,17 +1,31 @@
 import { assert } from "chai"
+import { injectable } from "inversify"
+import { iocContainer } from "../../src/ioc/inversify.config"
+import { TYPES } from "../../src/ioc/types"
 import Peppermint from "../../src/peppermint"
 import StubCreator from "../helpers/stub-creator"
 
 describe("Peppermint.onNewUserImage", () => {
   let fakeEvent = require("../helpers/new-userimage-event").event
 
+  const mock = jest.fn()
+  @injectable()
+  class MockMaintenance {
+    runForUser = mock
+  }
+
+  beforeAll(() => {
+    iocContainer.snapshot()
+    iocContainer.rebind(TYPES.Maintenance).to(MockMaintenance)
+  })
+
   beforeEach(async () => {
     StubCreator.STUB_FIREBASE()
 
     jest.mock("dropbox", () => {
-      let DropboxClient = jest.fn()
-      DropboxClient.prototype.filesSaveUrl = jest.fn()
-      return DropboxClient
+      let Dropbox = jest.fn()
+      Dropbox.prototype.filesSaveUrl = jest.fn()
+      return Dropbox
     })
 
     // data is actually a Firebase DeltaSnapshot,
@@ -21,6 +35,11 @@ describe("Peppermint.onNewUserImage", () => {
 
   afterEach(() => {
     StubCreator.RESTORE_FIREBASE()
+    mock.mockReset()
+  })
+
+  afterAll(() => {
+    iocContainer.restore()
   })
 
   it("should save a newly added image to Dropbox", async () => {
@@ -34,12 +53,11 @@ describe("Peppermint.onNewUserImage", () => {
     })
   })
 
-  /*it("should remove old files from Dropbox", () => {
-    // https://github.com/nielsmaerten/peppermint/issues/14
-    // mock: dropboxClient.removeFile()
-    // fill user's list with some fake entries
-    // trigger with fake event
-    // assert dropboxClient.removeFile() was called
-    // assert user's list no longer contains the (deprecated) files
-  })*/
+  it("should run maintenance for the test user", async () => {
+    // Trigger the event handler
+    await Peppermint.onNewUserImage(fakeEvent)
+
+    // Check if the mock has been called
+    assert.lengthOf(mock.mock.calls, 1)
+  })
 })
