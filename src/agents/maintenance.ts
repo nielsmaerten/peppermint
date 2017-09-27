@@ -26,6 +26,9 @@ export default class Maintenance {
     // Remove images that do not meet size requirements
     this.markImagesBySize()
 
+    // Remove images that are older than the max-age
+    this.markImagesByAge()
+
     // Remove marked images from dropbox
     await this.removeImagesFromDropbox()
 
@@ -60,6 +63,23 @@ export default class Maintenance {
         post.height < this.user.prefMinHeight ||
         post.width < this.user.prefMinWidth
       ) {
+        this.firebaseUpdates[post.id] = null
+        this.postsToBeRemoved.push(post)
+      }
+    }
+  }
+
+  private markImagesByAge() {
+    const maxAgeInDays = this.user.prefMaxAge
+    const deleteBefore = moment()
+      .utc()
+      .subtract(maxAgeInDays, "days")
+      .unix()
+
+    for (let postId in this.user.images) {
+      let post: RedditPost = this.user.images[postId]
+
+      if (post.dateAdded < deleteBefore) {
         this.firebaseUpdates[post.id] = null
         this.postsToBeRemoved.push(post)
       }
