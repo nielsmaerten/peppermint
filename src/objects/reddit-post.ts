@@ -5,12 +5,16 @@ export default class RedditPost {
   public type: string
   public width: number
   public height: number
+  public dateAdded: number
 
   constructor(public imageUrl: string) {
     if (this.imageUrl === "") {
       throw new Error("Invalid URL!")
     } else {
-      this.id = crypto.createHash("sha").update(imageUrl).digest("hex")
+      this.id = crypto
+        .createHash("sha")
+        .update(imageUrl)
+        .digest("hex")
     }
   }
 }

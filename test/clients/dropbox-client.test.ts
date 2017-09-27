@@ -27,6 +27,7 @@ describe("DropboxClient", () => {
       id: "testfile",
       imageUrl: "http://placehold.it/500x500.jpg?text=Hello%20World!",
       type: "jpg",
+      dateAdded: 1,
       width: 500,
       height: 500
     })
