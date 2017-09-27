@@ -9,9 +9,10 @@ exports.user = {
       type: "jpg",
       width: 100
     },
-    "3288d861c5b5a47ee65b3ed95e01ca3b30fb32c7": {
+    "too-old": {
+      dateAdded: 946684800,
       height: 4000,
-      id: "3288d861c5b5a47ee65b3ed95e01ca3b30fb32c7",
+      id: "too-old",
       imageUrl:
         "https://i.redditmedia.com/3LnhxUXHXBvVjoB1d50K2haXwWiAgLgNgECGCrfDBWU.jpg?s=0ff999b173eb93d4390ddd2d354ebfb8",
       type: "jpg",
@@ -106,6 +107,7 @@ exports.user = {
       width: 3000
     }
   },
+  prefMaxAge: 30,
   prefMinHeight: 1080,
   prefMinWidth: 1920,
   token: "XXXXX",

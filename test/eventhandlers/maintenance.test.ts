@@ -61,8 +61,18 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
     )
   })
 
-  xit("should remove an image that's older than max-age", () => {
-    fail("Not implemented")
+  it("should remove an image that's older than max-age", async () => {
+    let userId = fakeUser.id
+    let deprecatedPost = fakeUser.images["too-old"]
+
+    await Maintenance.runForUser(fakeUser.id)
+
+    assert.isNull(
+      require("firebase-admin")
+        .database()
+        .ref(`${Config.userListRef}/${userId}/images/${deprecatedPost.id}`)
+        .getData()
+    )
   })
 
   xit(
