@@ -1,4 +1,6 @@
+import moment from "moment"
 import Config from "../objects/config"
+
 export default class User {
   public id: string
   public token: string
@@ -19,6 +21,9 @@ export default class User {
   ) {
     this.token = token
     this.id = id || require("cuid")()
+    this.lastMaintained = moment()
+      .utc()
+      .unix()
     this.prefMaxAge = prefMaxAge || Config.defaultMaxAge
     this.prefMinHeight = prefMinHeight || Config.defaultMinHeight
     this.prefMinWidth = prefMinWidth || Config.defaultMinWidth
