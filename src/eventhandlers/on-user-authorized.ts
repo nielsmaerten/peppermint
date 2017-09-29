@@ -25,7 +25,7 @@ export default async (req: any): Promise<string> => {
   console.log("Success. Storing access token in database...")
 
   await FirebaseClient.GET_INSTANCE().addUser(
-    new User(response.access_token, undefined, undefined, response.account_id)
+    new User(response.access_token, response.account_id)
   )
 
   return firebaseConfig.oauth.redirect_after_connect

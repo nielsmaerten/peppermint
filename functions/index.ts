@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
-const peppermint = require('peppermint')
+import peppermint from "peppermint"
 
-global.peppermintFirebaseConfig = functions.config()
+(global as any).peppermintFirebaseConfig = functions.config()
 
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   console.log("Reddit Update triggered.")
@@ -23,9 +23,9 @@ exports.newUserImage = functions.database.ref("users/{userId}/images/{postId}").
   return peppermint.onNewUserImage(event)
 })
 
-exports.connectUser = functions.https.onRequest((request, response) => {
+exports.onUserAuthorized = functions.https.onRequest((request, response) => {
   console.log("Connect user triggered.")
-  peppermint.connectUser(request)
+  peppermint.onUserAuthorized(request)
     .then(url => {
       response.redirect(url)
     })

@@ -10,27 +10,26 @@ cache:
   directories:
     - node_modules
 notifications:
-  email: false
+  email:
+    - niels@maerten.be
 node_js:
   - '7.5'
 before_install:
   - yarn global add greenkeeper-lockfile@1
 before_script:
-  - npm prune && npm cache clean
   - greenkeeper-lockfile-update
 script:
-  - npm run test:prod && npm run build
+  - npm run test:prod # No need to build, as it is run in post-install
 after_script:
   - greenkeeper-lockfile-upload
 after_success:
   - npm run report-coverage
-  - npm run deploy-docs
 before_deploy:
   - cd functions/
-  - yarn
+  - npm install # has to be npm, since firebase functions uses package-lock!
   - cd ..
 deploy:
-  skip_cleanup: true
+  skip_cleanup: true # needed because index.ts ==> index.js
   provider: firebase
   token: "$FIREBASE_TOKEN"
   message: "Deployed by Travis CI"

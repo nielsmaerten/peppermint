@@ -29,6 +29,9 @@ export default class StubCreator {
         databaseURL: "https://mock-firebase.firebaseio.com",
         storageBucket: "mock-firebase.appspot.com"
       },
+      peppermint: {
+        maintenanceinterval: 1
+      },
       dropbox: {},
       oauth: {}
     })

@@ -10,7 +10,7 @@
 Powered by Reddit's [r/earthporn](https://reddit.com/r/earthporn)
 
 ### Peppermint is now in Alpha!
-[Connect your Dropbox](https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=xjn72n4rmx0gw0w&redirect_uri=https://us-central1-peppermint-wallpapers.cloudfunctions.net/connectUser) to try it *  
+[Connect your Dropbox](https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=xjn72n4rmx0gw0w&redirect_uri=https://us-central1-peppermint-wallpapers.cloudfunctions.net/onUserAuthorized) to try it *  
 
 ### What _is_ Peppermint?
 Peppermint takes the top-rated images from [r/earthporn](https://reddit.com/r/earthporn), and saves them to your Dropbox.  

@@ -1,4 +1,6 @@
 import Dropbox from "dropbox"
+import RedditPost from "../objects/reddit-post"
+import DeleteArg = DropboxTypes.files.DeleteArg
 
 export default class DropboxClient {
   private dropbox = require("dropbox")
@@ -10,10 +12,22 @@ export default class DropboxClient {
     })
   }
 
-  public uploadImage(imageUrl: string, filename: string) {
+  public uploadImage(image: RedditPost) {
     return this.client.filesSaveUrl({
-      path: `/${filename}`,
-      url: imageUrl
+      path: this.getFilename(image),
+      url: image.imageUrl
     })
+  }
+
+  public deleteImages(images: RedditPost[]) {
+    let entries: DeleteArg[] = []
+    images.map(image => entries.push({ path: this.getFilename(image) }))
+    return this.client.filesDeleteBatch({
+      entries: entries
+    })
+  }
+
+  private getFilename(image: RedditPost) {
+    return `/${image.id}.${image.type}`
   }
 }

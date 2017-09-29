@@ -1,3 +1,4 @@
+import moment from "moment"
 import FirebaseClient from "../clients/firebase-client"
 import getImageProperties from "../objects/image-properties"
 import RedditPost from "../objects/reddit-post"
@@ -31,7 +32,10 @@ export default async (event: any) => {
     type: properties.type,
     imageUrl: imageUrl,
     width: properties.width,
-    height: properties.height
+    height: properties.height,
+    dateAdded: moment()
+      .utc()
+      .unix()
   }
 
   let interestedUsers = await FirebaseClient.GET_INSTANCE().getInterestedUsers(
@@ -44,6 +48,7 @@ export default async (event: any) => {
   console.log("Adding post to personal list of interested user(s)")
   for (let i = 0; i < interestedUsers.length; i++) {
     let user = interestedUsers[i]
+    // TODO: Refactor so this update is done in batch
     await FirebaseClient.GET_INSTANCE().addPostToUserList(post, user.id)
   }
 }

@@ -2,6 +2,7 @@ export default class Config {
   // Constants that don't really change
   public static defaultMinHeight = 1080
   public static defaultMinWidth = 1920
+  public static defaultMaxAge = 30
   public static masterListsRef = "masterlists"
   public static userListRef = "users"
   public static personalLisRef = "images"
