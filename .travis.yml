@@ -5,19 +5,16 @@ branches:
   only:
     - master
     - /^greenkeeper/.*$/
-cache: false
- # yarn: true
- # directories:
- #   - node_modules
- #   - functions/node_modules
+cache:
+  yarn: true
+  directories:
+    - node_modules
 notifications:
   email:
     - niels@maerten.be
 node_js:
   - '7.5'
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
-  - export PATH="$HOME/.yarn/bin:$PATH"
   - yarn global add greenkeeper-lockfile@1
 before_script:
   - greenkeeper-lockfile-update
@@ -29,10 +26,10 @@ after_success:
   - npm run report-coverage
 before_deploy:
   - cd functions/
-  - yarn
+  - npm install # has to be npm, since firebase functions uses package-lock!
   - cd ..
 deploy:
-  #skip_cleanup: true
+  skip_cleanup: true # needed because index.ts ==> index.js
   provider: firebase
   token: "$FIREBASE_TOKEN"
   message: "Deployed by Travis CI"
