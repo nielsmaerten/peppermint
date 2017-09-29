@@ -5,11 +5,11 @@ branches:
   only:
     - master
     - /^greenkeeper/.*$/
-cache:
-  yarn: true
-  directories:
-    - node_modules
-    - functions/node_modules
+cache: false
+ # yarn: true
+ # directories:
+ #   - node_modules
+ #   - functions/node_modules
 notifications:
   email:
     - niels@maerten.be
