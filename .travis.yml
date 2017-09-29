@@ -9,6 +9,7 @@ cache:
   yarn: true
   directories:
     - node_modules
+    - functions/node_modules
 notifications:
   email: false
 node_js:
@@ -16,7 +17,6 @@ node_js:
 before_install:
   - yarn global add greenkeeper-lockfile@1
 before_script:
-  - npm prune && npm cache clean
   - greenkeeper-lockfile-update
 script:
   - npm run test:prod && npm run build
@@ -25,11 +25,11 @@ after_script:
 after_success:
   - npm run report-coverage
 before_deploy:
-  - cd functions/
-  - yarn
-  - cd ..
+  #- cd functions/
+  #- yarn
+  #- cd ..
 deploy:
-  skip_cleanup: true
+  #skip_cleanup: true
   provider: firebase
   token: "$FIREBASE_TOKEN"
   message: "Deployed by Travis CI"
