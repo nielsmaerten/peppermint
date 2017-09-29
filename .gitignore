@@ -9,3 +9,4 @@ coverage
 dist
 compiled
 .awcache
+functions/index.js

@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
-const peppermint = require('peppermint')
+import peppermint from "peppermint"
 
-global.peppermintFirebaseConfig = functions.config()
+(global as any).peppermintFirebaseConfig = functions.config()
 
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   console.log("Reddit Update triggered.")
