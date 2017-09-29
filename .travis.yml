@@ -19,15 +19,15 @@ before_install:
 before_script:
   - greenkeeper-lockfile-update
 script:
-  - npm run test:prod && npm run build
+  - npm run test:prod # No need to build, as it is run in post-install
 after_script:
   - greenkeeper-lockfile-upload
 after_success:
   - npm run report-coverage
 before_deploy:
-  #- cd functions/
-  #- yarn
-  #- cd ..
+  - cd functions/
+  - yarn
+  - cd ..
 deploy:
   #skip_cleanup: true
   provider: firebase
