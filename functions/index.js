@@ -1,11 +1,11 @@
-import * as functions from 'firebase-functions'
-import Peppermint from 'peppermint'
+const functions = require('firebase-functions')
+const peppermint = require('peppermint')
 
-(global as any).peppermintFirebaseConfig = functions.config()
+global.peppermintFirebaseConfig = functions.config()
 
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   console.log("Reddit Update triggered.")
-  Peppermint.onTriggerRedditUpdate()
+  peppermint.onTriggerRedditUpdate()
     .then(() => response.sendStatus(200))
     .catch(error => {
       console.error(error)
@@ -15,17 +15,17 @@ exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
 
 exports.newMasterImage = functions.database.ref("masterlists/r/earthporn/{postId}").onCreate(event => {
   console.log("New master image triggered.")
-  return Peppermint.onNewMasterImage(event)
+  return peppermint.onNewMasterImage(event)
 })
 
 exports.newUserImage = functions.database.ref("users/{userId}/images/{postId}").onCreate(event => {
   console.log("New user image triggered.")
-  return Peppermint.onNewUserImage(event)
+  return peppermint.onNewUserImage(event)
 })
 
 exports.onUserAuthorized = functions.https.onRequest((request, response) => {
   console.log("Connect user triggered.")
-  Peppermint.onUserAuthorized(request)
+  peppermint.onUserAuthorized(request)
     .then(url => {
       response.redirect(url)
     })

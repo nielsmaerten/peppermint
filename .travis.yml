@@ -29,7 +29,7 @@ before_deploy:
   - npm install # has to be npm, since firebase functions uses package-lock!
   - cd ..
 deploy:
-  skip_cleanup: true # needed because index.ts ==> index.js
+  skip_cleanup: true
   provider: firebase
   token: "$FIREBASE_TOKEN"
   message: "Deployed by Travis CI"
