@@ -28,7 +28,6 @@
     "postinstall": "npm run build",
     "prebuild": "rimraf dist",
     "build": "tsc --project tsconfig.build.json && rollup -c && rimraf compiled",
-    "start": "tsc-watch --onSuccess \"rollup -c\"",
     "test": "jest",
     "test:debug": "nodemon --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "test:watch": "jest --watch",
