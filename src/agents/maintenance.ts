@@ -46,7 +46,10 @@ export default class Maintenance {
       (global as any).peppermintFirebaseConfig || functions.config()
 
     // Get the interval in minutes at which a list should be cleaned up
-    let maintenanceInterval = firebaseConfig.peppermint.maintenanceinterval
+    let maintenanceInterval = parseInt(
+      firebaseConfig.peppermint.maintenanceinterval,
+      10
+    )
     let humanMaintenanceInterval = moment
       .duration(maintenanceInterval, "minutes")
       .humanize()
