@@ -57,7 +57,7 @@ export default class FirebaseClient {
     await admin
       .database()
       .ref(`${Config.userListRef}/${user.id}`)
-      .set(user)
+      .update(user)
   }
 
   public async getUser(userId: string): Promise<User> {
