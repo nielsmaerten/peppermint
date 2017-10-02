@@ -47,6 +47,9 @@ export default class Maintenance {
 
     // Get the interval in minutes at which a list should be cleaned up
     let maintenanceInterval = firebaseConfig.peppermint.maintenanceinterval
+    let humanMaintenanceInterval = moment
+      .duration(maintenanceInterval, "minutes")
+      .humanize()
 
     // Subtract the interval from the current time
     let maintenanceDeadline = moment()
@@ -55,7 +58,7 @@ export default class Maintenance {
       .unix()
 
     console.log("Checking if user dropbox is due maintenance...")
-    console.log("Maintenance interval is", maintenanceInterval, "minutes.")
+    console.log("Maintenance interval is:", humanMaintenanceInterval)
     let timeSinceLastMaintenance =
       moment()
         .utc()
