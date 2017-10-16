@@ -28,7 +28,6 @@ export default class FirebaseClient {
   }
 
   public async getPost(post: RedditPost, subreddit?: string) {
-    // TODO: Can this be done faster? Like batching?
     subreddit = subreddit || Config.subreddit
 
     let snapshot = await admin

@@ -14,6 +14,7 @@ export default async () => {
   let newPosts = 0
 
   for (let i = 0; i < topPosts.length; i++) {
+    // https://github.com/nielsmaerten/peppermint/issues/38
     if (!await firebase.getPost(topPosts[i])) {
       newPosts++
       await firebase.addPost(topPosts[i])
