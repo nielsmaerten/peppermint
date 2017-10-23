@@ -30,11 +30,13 @@ export default class Maintenance {
 
     // Remove marked images from dropbox
     console.log("Deleting images from Dropbox...")
-    await this.removeImagesFromDropbox()
+    let pDropbox = this.removeImagesFromDropbox()
 
     // Push updates to Firebase
     console.log("Updating Firebase...")
-    await this.updateFirebase()
+    let pFirebase = this.updateFirebase()
+
+    await Promise.all([pDropbox, pFirebase])
 
     console.log("Maintenance completed.")
   }

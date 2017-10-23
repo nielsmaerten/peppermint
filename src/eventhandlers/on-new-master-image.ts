@@ -46,9 +46,13 @@ export default async (event: any) => {
   )
 
   console.log("Adding post to personal list of interested user(s)")
+  let promises = []
   for (let i = 0; i < interestedUsers.length; i++) {
     let user = interestedUsers[i]
     // https://github.com/nielsmaerten/peppermint/issues/37
-    await FirebaseClient.GET_INSTANCE().addPostToUserList(post, user.id)
+    promises.push(
+      FirebaseClient.GET_INSTANCE().addPostToUserList(post, user.id)
+    )
   }
+  await Promise.all(promises)
 }
