@@ -108,7 +108,7 @@
     "prompt": "^1.0.0",
     "q": "^1.5.0",
     "reflect-metadata": "^0.1.10",
-    "replace-in-file": "^2.5.0",
+    "replace-in-file": "^3.0.0",
     "request-image-size": "^2.0.0",
     "request-promise": "^4.2.1",
     "rimraf": "^2.6.1",
