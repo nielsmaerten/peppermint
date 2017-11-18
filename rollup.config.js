@@ -1,4 +1,3 @@
-import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import sourceMaps from 'rollup-plugin-sourcemaps'
 const pkg = require('./package.json')
@@ -9,18 +8,21 @@ const libraryName = 'peppermint'
 export default {
   input: `compiled/${libraryName}.js`,
   output: [{
-      file: pkg.main,
-      name: camelCase(libraryName),
-      format: 'umd'
-    },
-    {
-      file: pkg.module,
-      format: 'es'
-    }
+    file: pkg.main,
+    name: camelCase(libraryName),
+    format: 'umd'
+  },
+  {
+    file: pkg.module,
+    format: 'es'
+  }
   ],
   sourcemapFile: true,
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-  external: [],
+  external: [
+    'moment', 'firebase-admin', 'firebase-functions',
+    'inversify', 'request', 'crypto', 'reflect-metadata'
+  ],
   plugins: [
     // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
     commonjs(),
