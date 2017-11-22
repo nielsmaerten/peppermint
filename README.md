@@ -5,6 +5,8 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/nielsmaerten/peppermint.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/nielsmaerten/peppermint.svg?branch=master)](https://travis-ci.org/nielsmaerten/peppermint)
 [![Coverage Status](https://coveralls.io/repos/github/nielsmaerten/peppermint/badge.svg?branch=master)](https://coveralls.io/github/nielsmaerten/peppermint?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b28fed4ace7959d2e8c7/maintainability)](https://codeclimate.com/github/nielsmaerten/peppermint/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b28fed4ace7959d2e8c7/test_coverage)](https://codeclimate.com/github/nielsmaerten/peppermint/test_coverage)
 
 ## Earth's best wallpapers: in your Dropbox.
 Powered by Reddit's [r/earthporn](https://reddit.com/r/earthporn)

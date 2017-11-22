@@ -1,4 +1,7 @@
 language: node_js
+env:
+  global:
+    - CC_TEST_REPORTER_ID=0e875a9f6ad5f556564f48eec36289892958059f327692089d407f3d226fa9fa
 dist: trusty
 sudo: false
 branches:
@@ -18,10 +21,14 @@ before_install:
   - yarn global add greenkeeper-lockfile@1
 before_script:
   - greenkeeper-lockfile-update
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - npm run test:prod # No need to build, as it is run in post-install
 after_script:
   - greenkeeper-lockfile-upload
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 after_success:
   - npm run report-coverage
 before_deploy:
