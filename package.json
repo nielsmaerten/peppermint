@@ -96,7 +96,7 @@
     "firebase": "^4.3.0",
     "firebase-admin": "^5.2.1",
     "firebase-functions": "^0.7.0",
-    "firebase-mock": "^1.1.5",
+    "firebase-mock": "^2.0.0",
     "husky": "^0.14.0",
     "inversify": "^4.3.0",
     "jest": "^22.0.1",
