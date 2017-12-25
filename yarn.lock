@@ -1616,9 +1616,9 @@ firebase-functions@^0.7.0:
     lodash "^4.6.1"
     sha1 "^1.1.1"
 
-firebase-mock@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/firebase-mock/-/firebase-mock-1.1.5.tgz#24ee3c0d866ab9a030519d0442ae96135334d101"
+firebase-mock@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/firebase-mock/-/firebase-mock-2.0.0.tgz#81a12407ae7cce32165acea5ccc96f4915110754"
   dependencies:
     firebase-auto-ids "~1.1.0"
     lodash "^3.10.1"
@@ -4197,7 +4197,7 @@ rollup-pluginutils@^2.0.1:
     estree-walker "^0.3.0"
     micromatch "^2.3.11"
 
-rollup@0.53.0:
+rollup@^0.53.0:
   version "0.53.0"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.53.0.tgz#7a3d5a04ba2b0a8f2405899fa6a0ac48da480ed1"
 
