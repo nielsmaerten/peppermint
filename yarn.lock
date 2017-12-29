@@ -95,9 +95,9 @@
   version "9.1.8"
   resolved "https://registry.yarnpkg.com/@types/highlight.js/-/highlight.js-9.1.8.tgz#d227f18bcb8f3f187e16965f2444859a04689758"
 
-"@types/jest@^21.1.0":
-  version "21.1.1"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-21.1.1.tgz#70008ecce439774a45c7d0b543d879ec58a1b332"
+"@types/jest@22.0.0":
+  version "22.0.0"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.0.0.tgz#23009941178aad7979a9591e026f7a96054d7bc0"
 
 "@types/jsonwebtoken@^7.1.32", "@types/jsonwebtoken@^7.1.33":
   version "7.2.3"
@@ -4197,9 +4197,9 @@ rollup-pluginutils@^2.0.1:
     estree-walker "^0.3.0"
     micromatch "^2.3.11"
 
-rollup@0.53.0:
-  version "0.53.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.53.0.tgz#7a3d5a04ba2b0a8f2405899fa6a0ac48da480ed1"
+rollup@^0.53.0:
+  version "0.53.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.53.1.tgz#58c3a43c8375385b3f92f0dc36fb4e9dbe872542"
 
 rsvp@^3.3.3:
   version "3.6.2"
