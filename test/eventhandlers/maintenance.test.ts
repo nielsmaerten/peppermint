@@ -53,11 +53,11 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
 
     await Maintenance.runForUser(fakeUser.id)
 
-    assert.isNull(
+    assert.isUndefined(
       require("firebase-admin")
         .database()
-        .ref(`${Config.userListRef}/${userId}/images/${deprecatedPost.id}`)
-        .getData()
+        .ref(`${Config.userListRef}/${fakeUser.id}/`)
+        .getData()["images"][deprecatedPost.id]
     )
   })
 
@@ -67,11 +67,11 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
 
     await Maintenance.runForUser(fakeUser.id)
 
-    assert.isNull(
+    assert.isUndefined(
       require("firebase-admin")
         .database()
-        .ref(`${Config.userListRef}/${userId}/images/${deprecatedPost.id}`)
-        .getData()
+        .ref(`${Config.userListRef}/${fakeUser.id}/`)
+        .getData()["images"][deprecatedPost.id]
     )
   })
 
