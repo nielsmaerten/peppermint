@@ -2036,9 +2036,9 @@
       }
     },
     "firebase-mock": {
-      "version": "1.1.5",
-      "resolved": "https://registry.npmjs.org/firebase-mock/-/firebase-mock-1.1.5.tgz",
-      "integrity": "sha512-/uMVefBj5RyRPQUNrGz+strP4FHJfhPCyFVReZ4FYuBnbwxqQ8EXiOo5SmoxLDGRCqpxfH5yNVYhItbm6CKX4Q==",
+      "version": "2.0.14",
+      "resolved": "https://registry.npmjs.org/firebase-mock/-/firebase-mock-2.0.14.tgz",
+      "integrity": "sha512-cdyzuz6XoNyWw+VwKk0KMXR6oPsYvOCYSmvZrLfozSLAUcuV8hPQnUgCx7lKYEvVH0aHeIoENE99C+JNElEQFg==",
       "requires": {
         "firebase-auto-ids": "1.1.0",
         "lodash": "3.10.1",

@@ -1604,9 +1604,9 @@ firebase-functions@^0.8.0:
     lodash "^4.6.1"
     sha1 "^1.1.1"
 
-firebase-mock@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/firebase-mock/-/firebase-mock-1.1.5.tgz#24ee3c0d866ab9a030519d0442ae96135334d101"
+firebase-mock@^2.0.14:
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/firebase-mock/-/firebase-mock-2.0.14.tgz#b6b0292d3224a180923c4e4101e4373084c7230b"
   dependencies:
     firebase-auto-ids "~1.1.0"
     lodash "^3.10.1"
