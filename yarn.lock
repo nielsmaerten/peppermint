@@ -1591,9 +1591,9 @@ firebase-auto-ids@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/firebase-auto-ids/-/firebase-auto-ids-1.1.0.tgz#378ffb8590888c37eb2dd8b704659ad0f49f9061"
 
-firebase-functions@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-0.7.0.tgz#a3a7041601c8500d9ab81bcf92f6a391fd87028e"
+firebase-functions@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-0.8.0.tgz#ed6af0cc2f706d9cd23551cd85563b2e8dd4e68d"
   dependencies:
     "@types/express" "^4.0.33"
     "@types/jsonwebtoken" "^7.1.32"
