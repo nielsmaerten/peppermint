@@ -1,10 +1,9 @@
 {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
-  "dependencies": {
-    "firebase-admin": "^5.8.2",
-    "firebase-functions": "^0.8.1",
-    "peppermint": "https://github.com/nielsmaerten/peppermint/archive/master.tar.gz"
-  },
-  "private": true
+  "name": "peppermint-firebase-functions",
+  "version": "1.0.0",
+  "description": "Firebase functions for Peppermint Wallpapers",
+  "main": "index.js",
+  "repository": "https://github.com/nielsmaerten/peppermint",
+  "author": "Niels Maerten",
+  "license": "MIT"
 }
