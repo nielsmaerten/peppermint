@@ -1,5 +1,6 @@
 import commonjs from 'rollup-plugin-commonjs'
 import sourceMaps from 'rollup-plugin-sourcemaps'
+import replace from 'rollup-plugin-replace'
 const pkg = require('./package.json')
 const camelCase = require('lodash.camelcase')
 
@@ -28,6 +29,15 @@ export default {
     commonjs(),
 
     // Resolve source maps to the original source
-    sourceMaps()
+    sourceMaps(),
+
+    // Replace placeholders in code files
+    replace({
+    exclude: 'node_modules/**',
+    delimiters: ['<@', '@>'],
+    values: {
+      VERSION: pkg.version,
+    }
+  })
   ]
 }

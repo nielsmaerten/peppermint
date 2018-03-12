@@ -17,7 +17,12 @@ export default class RedditClient {
       subreddit = subreddit || Config.subreddit
       topPostCount = topPostCount || Config.topPostCount
       let requestUrl = `${subreddit}/top/.json?limit=${topPostCount}`.toLowerCase()
-      let requestOptions = { baseUrl: Config.redditBaseUrl }
+      let requestOptions: request.CoreOptions = {
+        baseUrl: Config.redditBaseUrl,
+        headers: {
+          "User-Agent": "nodejs:me.niels.peppermint:<@VERSION@> (by /u/naerten)"
+        }
+      }
 
       // fire off the request
       console.log(`Requesting: ${requestOptions.baseUrl}/${requestUrl}`)
@@ -43,8 +48,8 @@ export default class RedditClient {
     let posts: RedditPost[] = []
     for (let i = 0; i < payload.data.children.length; i++) {
       let element = payload.data.children[i]
-      if (element.data.preview) {
-        posts.push(new RedditPost(element.data.preview.images[0].source.url))
+      if (element.data.url) {
+        posts.push(new RedditPost(element.data.url))
       }
     }
     console.log(`Request parsed into ${posts.length} RedditPost(s).`)
