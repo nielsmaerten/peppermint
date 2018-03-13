@@ -11,7 +11,7 @@ describe("Image Properties", () => {
     let type = "jpg"
 
     let properties = await getImageProperties(
-      `http://placehold.it/${width}x${height}.${type}`
+      `https://placehold.it/${width}x${height}.${type}`
     )
     expect(properties).to.have.property("height")
     expect(properties).to.have.property("width")

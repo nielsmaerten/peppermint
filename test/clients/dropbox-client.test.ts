@@ -21,11 +21,11 @@ describe("DropboxClient", () => {
   })
 
   it("should upload an image to my dropbox", async () => {
-    let imageUrl = "http://placehold.it/500x500.jpg?text=Hello%20World!"
+    let imageUrl = "https://placehold.it/500x500.jpg?text=Hello%20World!"
     let filename = "testfile.jpg"
     await client.uploadImage({
       id: "testfile",
-      imageUrl: "http://placehold.it/500x500.jpg?text=Hello%20World!",
+      imageUrl: "https://placehold.it/500x500.jpg?text=Hello%20World!",
       type: "jpg",
       dateAdded: 1,
       width: 500,
