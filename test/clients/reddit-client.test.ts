@@ -19,9 +19,7 @@ describe("RedditClient", () => {
       expect(post).to.have.property("imageUrl")
     })
 
-    expect(posts[0].imageUrl).to.equal(
-      "https://i.redditmedia.com/ycDpouFO79-fN1NVCUZUbfxBO4sUlXdB2zTDsJBHxa8.jpg?s=68041c0aaa86722789e4bed8dabe1388"
-    )
+    expect(posts[0].imageUrl).to.equal("https://i.redd.it/txbc6xxcf8hz.jpg")
   })
 
   it("should reject a failed api request", done => {

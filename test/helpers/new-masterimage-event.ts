@@ -5,14 +5,13 @@ exports.event = {
     admin: true
   },
   data: {
-    id: "0b56222665f0f8efe188e977fa32e6c5964ece02",
-    imageUrl:
-      "https://i.redditmedia.com/OfmYFlg6QNyBQnKr5fFT-JapyzLazOwm7GZSeNY84mo.jpg?s=b6c5a114c34265c5fdcd7d553ddf19da"
+    id: "ac1272ca6e613b44f0cf4db24444fa9e0d15701c",
+    imageUrl: "https://i.redd.it/txbc6xxcf8hz.jpg"
   },
   params: {
-    postId: "0b56222665f0f8efe188e977fa32e6c5964ece02"
+    postId: "ac1272ca6e613b44f0cf4db24444fa9e0d15701c"
   },
   eventId: "fnenYvfRlMJ6pFyUJ9/ilhmKVfs=",
   resource:
-    "projects/_/instances/peppermint-wallpapers/refs/masterlists/r/earthporn/0b56222665f0f8efe188e977fa32e6c5964ece02"
+    "projects/_/instances/peppermint-wallpapers/refs/masterlists/r/earthporn/ac1272ca6e613b44f0cf4db24444fa9e0d15701c"
 }
