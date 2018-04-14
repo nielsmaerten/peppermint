@@ -1,13 +1,12 @@
-import Dropbox from "dropbox"
-import RedditPost from "../objects/reddit-post"
+import { Dropbox } from "dropbox"
 import DeleteArg = DropboxTypes.files.DeleteArg
+import RedditPost from "../objects/reddit-post"
 
 export default class DropboxClient {
-  private dropbox = require("dropbox")
   private client: Dropbox
 
   constructor(accessToken: string) {
-    this.client = new this.dropbox({
+    this.client = new Dropbox({
       accessToken: accessToken
     })
   }

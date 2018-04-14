@@ -20,14 +20,6 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
       .database()
       .ref(`${Config.userListRef}/${fakeUser.id}`)
       .set(fakeUser)
-
-    // Stub dropbox API
-    jest.mock("dropbox", () => {
-      let Dropbox = jest.fn()
-      Dropbox.prototype.filesSaveUrl = jest.fn()
-      Dropbox.prototype.filesDeleteBatch = jest.fn()
-      return Dropbox
-    })
   })
   afterEach(StubCreator.RESTORE_FIREBASE)
 
@@ -83,14 +75,16 @@ describe("Peppermint.onNewUserImage.maintenance", () => {
   )
 
   it("should remove images no longer in the user's list from their dropbox", async () => {
+    // get Dropbox so we can inspect the spy
+    let spy = require("dropbox").Dropbox.stubFilesDeleteBatch as sinon.SinonSpy
+    let initialCallCount = spy.callCount
+
     // Run maintenance for the test user
     await Maintenance.runForUser(fakeUser.id)
 
     // The test user has at least 1 image that should be removed
-
-    // Check if dropbox API was called to remove something
-    let mockDelete = require("dropbox").prototype.filesDeleteBatch.mock
-    assert.isAbove(mockDelete.calls.length, 0)
+    // The spy should have been called now
+    assert.equal(spy.callCount, initialCallCount + 1)
   })
 
   it("should update the last-maintained date", async () => {
