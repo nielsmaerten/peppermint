@@ -1,14 +1,12 @@
 import { assert, expect } from "chai"
-import Dropbox from "dropbox"
-import * as sinon from "sinon"
+import { Dropbox } from "dropbox"
+import sinon from "sinon"
 import DropboxClient from "../../src/clients/dropbox-client"
 
 describe("DropboxClient", () => {
   let client: DropboxClient
-  let fileSaveUrlStub: any
 
   beforeAll(() => {
-    fileSaveUrlStub = sinon.stub(Dropbox.prototype, "filesSaveUrl").resolves()
     client = new DropboxClient("TOKEN")
   })
 
@@ -31,6 +29,15 @@ describe("DropboxClient", () => {
       width: 500,
       height: 500
     })
-    assert.isTrue(fileSaveUrlStub.called)
+
+    // Reach into DropboxClient for the actual Dropbox instance,
+    // and get our spy for method filesSaveUrl:
+    let spy = client["client"].filesSaveUrl as sinon.SinonSpy
+
+    // Verify it was just called with the parameters above
+    spy.lastCall.calledWith({
+      path: "/testfile.jpg",
+      url: "http://placehold.it/500x500.jpg?text=Hello%20World!"
+    })
   })
 })

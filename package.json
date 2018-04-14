@@ -92,7 +92,7 @@
     "cross-env": "^5.0.1",
     "cuid": "^2.0.2",
     "cz-conventional-changelog": "^2.0.0",
-    "dropbox": "^2.5.7",
+    "dropbox": "^4.0.3",
     "firebase": "^4.3.0",
     "firebase-admin": "^5.2.1",
     "firebase-functions": "^0.8.0",

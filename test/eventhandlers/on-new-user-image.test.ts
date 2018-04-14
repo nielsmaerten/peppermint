@@ -1,5 +1,6 @@
 import { assert } from "chai"
 import { injectable } from "inversify"
+import sinon from "sinon"
 import { iocContainer } from "../../src/ioc/inversify.config"
 import { TYPES } from "../../src/ioc/types"
 import Peppermint from "../../src/peppermint"
@@ -22,12 +23,6 @@ describe("Peppermint.onNewUserImage", () => {
   beforeEach(async () => {
     StubCreator.STUB_FIREBASE()
 
-    jest.mock("dropbox", () => {
-      let Dropbox = jest.fn()
-      Dropbox.prototype.filesSaveUrl = jest.fn()
-      return Dropbox
-    })
-
     // data is actually a Firebase DeltaSnapshot,
     // so let's fake it's 'val()' function:
     fakeEvent.data.val = () => fakeEvent.data
@@ -46,8 +41,9 @@ describe("Peppermint.onNewUserImage", () => {
     await Peppermint.onNewUserImage(fakeEvent)
 
     // Dropbox's filesSaveUrl should have been called now
-    let dropbox = require("dropbox")
-    assert.deepEqual(dropbox.prototype.filesSaveUrl.mock.calls[0][0], {
+    let dropbox = require("dropbox").Dropbox
+    let spy = dropbox.stubFilesSaveUrl as sinon.SinonSpy
+    spy.lastCall.calledWith(dropbox.stubFilesSaveUrl, {
       path: `/${fakeEvent.data.id}.${fakeEvent.data.type}`,
       url: fakeEvent.data.imageUrl
     })
