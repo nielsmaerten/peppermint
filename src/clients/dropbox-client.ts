@@ -1,6 +1,8 @@
 import { Dropbox } from "dropbox"
 import DeleteArg = DropboxTypes.files.DeleteArg
 import RedditPost from "../objects/reddit-post"
+require("es6-promise").polyfill()
+import "isomorphic-fetch"
 
 export default class DropboxClient {
   private client: Dropbox
