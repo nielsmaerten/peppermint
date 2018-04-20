@@ -27,6 +27,13 @@ export default class FirebaseClient {
       .set(post)
   }
 
+  public async removePost(postId: string) {
+    await admin
+      .database()
+      .ref(`${Config.masterListsRef}/${Config.subreddit}/${postId}`)
+      .remove()
+  }
+
   public async getPost(post: RedditPost, subreddit?: string) {
     subreddit = subreddit || Config.subreddit
 

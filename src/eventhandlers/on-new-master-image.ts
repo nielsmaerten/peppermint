@@ -1,6 +1,6 @@
 import moment from "moment"
 import FirebaseClient from "../clients/firebase-client"
-import getImageProperties from "../objects/image-properties"
+import ImageHelper from "../objects/image-helper"
 import RedditPost from "../objects/reddit-post"
 
 /**
@@ -19,7 +19,16 @@ export default async (event: any) => {
   let imageUrl = event.data.val().imageUrl
   console.log(`Getting properties for PostId: ${postId}, ImageUrl: ${imageUrl}`)
 
-  let properties = await getImageProperties(imageUrl)
+  imageUrl = await ImageHelper.validateAndFixImageUrl(imageUrl)
+  if (imageUrl === undefined) {
+    console.warn("Could not find a valid image for PostId:", postId)
+    console.log("Removing post from Firebase...")
+    await FirebaseClient.GET_INSTANCE().removePost(postId)
+    console.log("Function will now abort.")
+    return Promise.resolve()
+  }
+
+  let properties = await ImageHelper.requestImageSize(imageUrl)
   console.log(
     `Width: ${properties.width}, Height: ${properties.height}. Updating Firebase...`
   )
