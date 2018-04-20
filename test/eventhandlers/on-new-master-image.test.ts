@@ -1,5 +1,6 @@
 import { assert } from "chai"
 import * as admin from "firebase-admin"
+import sinon, { SinonStub } from "sinon"
 import FirebaseClient from "../../src/clients/firebase-client"
 import Config from "../../src/objects/config"
 import RedditPost from "../../src/objects/reddit-post"
@@ -9,10 +10,15 @@ import StubCreator from "../helpers/stub-creator"
 
 describe("Peppermint.onNewMasterImage", () => {
   // test event referring to one of the posts in the test reddit payload
-  let testEvent = require("../helpers/new-masterimage-event").event
-  testEvent.data.val = () => testEvent.data
+  let testEventBackup = JSON.stringify(
+    require("../helpers/new-masterimage-event").event
+  )
+  let testEvent: any
 
   beforeEach(async () => {
+    testEvent = JSON.parse(testEventBackup)
+    testEvent.data.val = () => testEvent.data
+
     // Stub firebase with test posts
     StubCreator.STUB_FIREBASE()
     StubCreator.STUB_REDDIT_TOP_POSTS()
@@ -28,6 +34,14 @@ describe("Peppermint.onNewMasterImage", () => {
 
   afterEach(() => {
     StubCreator.restoreAll()
+  })
+
+  it("should remove an image if it has no valid URL", async () => {
+    testEvent.data.imageUrl = "https://example.com/invalid-url"
+
+    await Peppermint.onNewMasterImage(testEvent)
+
+    assert.isEmpty(FirebaseClient.GET_INSTANCE().getPost(testEvent.data))
   })
 
   it("should request properties of the new image", async () => {

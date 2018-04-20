@@ -94,6 +94,7 @@
     "cz-conventional-changelog": "^2.0.0",
     "dropbox": "^4.0.3",
     "es6-promise": "^4.2.4",
+    "file-type": "^7.6.0",
     "firebase": "^4.3.0",
     "firebase-admin": "^5.2.1",
     "firebase-functions": "^0.8.0",
