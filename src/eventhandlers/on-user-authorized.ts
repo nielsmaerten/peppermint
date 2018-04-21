@@ -3,24 +3,28 @@ import Config from "../objects/config"
 import User from "../objects/user"
 
 export default async (req: any): Promise<string> => {
-  const request = require("request-promise")
   const functions = require("firebase-functions")
   const firebaseConfig =
     (global as any).peppermintFirebaseConfig || functions.config()
 
   console.log("Exchanging auth code with Dropbox API for an access token...")
-  let response: DropboxToken = await request.post({
-    json: true,
-    url: Config.dropbox.oauthUri,
-    formData: {
-      code: req.query.code,
-      grant_type: "authorization_code",
-      redirect_uri: firebaseConfig.dropbox.redirect_uri
-    },
-    auth: {
-      user: firebaseConfig.dropbox.client_id,
-      pass: firebaseConfig.dropbox.client_secret
-    }
+  let response = await new Promise<DropboxToken>(resolve => {
+    require("request").post(
+      {
+        json: true,
+        url: Config.dropbox.oauthUri,
+        formData: {
+          code: req.query.code,
+          grant_type: "authorization_code",
+          redirect_uri: firebaseConfig.dropbox.redirect_uri
+        },
+        auth: {
+          user: firebaseConfig.dropbox.client_id,
+          pass: firebaseConfig.dropbox.client_secret
+        }
+      },
+      (r: DropboxToken) => resolve(r)
+    )
   })
   console.log("Success. Storing access token in database...")
 

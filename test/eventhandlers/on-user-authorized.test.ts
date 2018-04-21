@@ -4,9 +4,11 @@ import StubCreator from "../helpers/stub-creator"
 
 describe("Peppermint.onUserAuthorized", () => {
   beforeEach(() => {
-    jest.mock("request-promise", () => {
+    jest.mock("request", () => {
       return {
-        post: jest.fn().mockReturnValue({ access_token: "" })
+        post: jest.fn((options: any, cb: Function) => {
+          cb({ access_token: "" })
+        })
       }
     })
     StubCreator.STUB_FIREBASE()
@@ -19,7 +21,7 @@ describe("Peppermint.onUserAuthorized", () => {
       query: { code: "FAKE_AUTH_CODE" }
     })
 
-    let request = require("request-promise")
+    let request = require("request")
     assert.lengthOf(request.post.mock.calls, 1)
   })
 })
