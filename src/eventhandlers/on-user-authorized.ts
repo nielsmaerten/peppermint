@@ -8,24 +8,7 @@ export default async (req: any): Promise<string> => {
     (global as any).peppermintFirebaseConfig || functions.config()
 
   console.log("Exchanging auth code with Dropbox API for an access token...")
-  let response = await new Promise<DropboxToken>(resolve => {
-    require("request").post(
-      {
-        json: true,
-        url: Config.dropbox.oauthUri,
-        formData: {
-          code: req.query.code,
-          grant_type: "authorization_code",
-          redirect_uri: firebaseConfig.dropbox.redirect_uri
-        },
-        auth: {
-          user: firebaseConfig.dropbox.client_id,
-          pass: firebaseConfig.dropbox.client_secret
-        }
-      },
-      (r: DropboxToken) => resolve(r)
-    )
-  })
+  let response = await exchangeDropboxToken(firebaseConfig, req.query.code);
   console.log("Success. Storing access token in database...")
 
   await FirebaseClient.GET_INSTANCE().addUser(
@@ -42,6 +25,27 @@ export default async (req: any): Promise<string> => {
   }, response.account_id)
 
   return firebaseConfig.oauth.redirect_after_connect
+}
+
+function exchangeDropboxToken(firebaseConfig: any, dropboxCode: string): Promise<DropboxToken> {
+  return new Promise<DropboxToken>(resolve => {
+    require("request").post(
+      {
+        json: true,
+        url: Config.dropbox.oauthUri,
+        formData: {
+          code: dropboxCode,
+          grant_type: "authorization_code",
+          redirect_uri: firebaseConfig.dropbox.redirect_uri
+        },
+        auth: {
+          user: firebaseConfig.dropbox.client_id,
+          pass: firebaseConfig.dropbox.client_secret
+        }
+      },
+      (response: DropboxToken) => resolve(response)
+    )
+  })
 }
 
 // tslint:disable variable-name
