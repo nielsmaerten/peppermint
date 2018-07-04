@@ -81,6 +81,13 @@ export default class FirebaseClient {
       .update(updates)
   }
 
+  public async deleteUser(userId: string) {
+    await admin
+      .database()
+      .ref(`${Config.userListRef}/${userId}`)
+      .remove()
+  }
+
   public async getInterestedUsers(redditpost: RedditPost): Promise<User[]> {
     let users: User[] = []
     let presortedUsers = (await admin

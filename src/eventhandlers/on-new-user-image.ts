@@ -22,7 +22,19 @@ export default async (event: any) => {
   let dropbox = new DropboxClient(token)
 
   console.log(`Uploading post ${event.params.postId} to user's dropbox...`)
-  await dropbox.uploadImage(event.data.val())
+  try {
+    await dropbox.uploadImage(event.data.val())
+  } catch (error) {
+    if (error.error[".tag"] === "invalid_access_token") {
+      console.warn("User", event.params.userId, "seems to have disconnected Peppermint from their Dropbox. Removing their account");
+      await FirebaseClient.GET_INSTANCE().deleteUser(event.params.userId);
+      return;
+    } else {
+      console.error("Failed to upload post", event.params.postId, "to Dropbox of user", event.params.userId)
+      throw error
+    }
+  }
+
 
   const Maintenance = iocContainer.get<Maintenance>(TYPES.Maintenance)
   await Maintenance.runForUser(event.params.userId)
