@@ -32,6 +32,15 @@ export default async (req: any): Promise<string> => {
     new User(response.access_token, response.account_id)
   )
 
+  await FirebaseClient.GET_INSTANCE().addPostToUserList({
+    dateAdded: 0,
+    height: 3646,
+    width: 6000,
+    id: "welcome",
+    type: "jpg",
+    imageUrl: "https://peppermint-wallpapers.firebaseapp.com/welcome.jpg"
+  }, response.account_id)
+
   return firebaseConfig.oauth.redirect_after_connect
 }
 
