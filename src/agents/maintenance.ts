@@ -121,16 +121,21 @@ export default class Maintenance {
     console.log("Marked", count, "image(s) older than max age for deletion.")
   }
 
-  private async removeImagesFromDropbox() {
-    const dropboxToken = await FirebaseClient.GET_INSTANCE().getUserToken(
-      this.user.id
-    )
-    const dropboxClient = new DropboxClient(dropboxToken)
+  private removeImagesFromDropbox() {
+    return new Promise(async (resolve, reject) => {
+      const dropboxToken = await FirebaseClient.GET_INSTANCE().getUserToken(
+        this.user.id
+      )
+      const dropboxClient = new DropboxClient(dropboxToken)
 
-    return dropboxClient.deleteImages(this.postsToBeRemoved)
+      dropboxClient
+        .deleteImages(this.postsToBeRemoved)
+        .then(resolve)
+        .catch(reject)
+    })
   }
 
-  private async updateFirebase() {
+  private updateFirebase() {
     let firebaseUpdates: any = {
       // Last maintained: now
       lastMaintained: moment()
@@ -145,7 +150,7 @@ export default class Maintenance {
       firebaseUpdates[`${Config.personalLisRef}/${post.id}`] = null
     })
 
-    await FirebaseClient.GET_INSTANCE().updateUser(
+    return FirebaseClient.GET_INSTANCE().updateUser(
       this.user.id,
       firebaseUpdates
     )
