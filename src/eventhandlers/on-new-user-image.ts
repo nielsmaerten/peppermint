@@ -25,7 +25,7 @@ export default async (event: any) => {
   try {
     await dropbox.uploadImage(event.data.val())
   } catch (error) {
-    if (error.error[".tag"] === "invalid_access_token") {
+    if (error.error.error[".tag"] === "invalid_access_token") {
       console.warn("User", event.params.userId, "seems to have disconnected Peppermint from their Dropbox. Removing their account");
       await FirebaseClient.GET_INSTANCE().deleteUser(event.params.userId);
       return;
