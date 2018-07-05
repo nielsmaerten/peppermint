@@ -1,23 +1,7 @@
-//@ts-check
 const functions = require('firebase-functions')
 const peppermint = require('peppermint')
 
 global.peppermintFirebaseConfig = functions.config()
-
-exports.randomImage = functions.https.onRequest((request, response) => {
-  peppermint.getRandomImageUrl().then(url => {
-    // redirect to this url, and cache the redirect for 10 minutes
-    response.writeHead(302, {
-      'Location': url,
-      "Cache-Control": "max-age=600, public"
-    });
-    response.end();
-  })
-    .catch(error => {
-      console.error(error)
-      response.sendStatus(500)
-    })
-})
 
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   console.log("Reddit Update triggered.")

@@ -45,19 +45,6 @@ export default class FirebaseClient {
     return snapshot.val()
   }
 
-  public async getRandomPost(subreddit?: string) {
-    subreddit = subreddit || Config.subreddit
-
-    let snapshot = await admin
-      .database()
-      .ref(`${Config.masterListsRef}/${subreddit}/`)
-      .orderByChild("id")
-      .startAt((Math.random()*1000)%1)
-      .limitToFirst(1)
-      .once("value")
-    return snapshot.val()
-  }
-
   public async setPostProperties(
     postId: string,
     properties: { width: number; height: number; type: string }
