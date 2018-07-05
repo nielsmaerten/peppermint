@@ -1,4 +1,4 @@
-# Peppermint
+# Peppermint - https://peppermint-wallpapers.firebaseapp.com
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nielsmaerten/peppermint/master/LICENSE)
 [![Dependencies](https://david-dm.org/nielsmaerten/peppermint.svg)](https://david-dm.org/nielsmaerten/peppermint)
@@ -8,18 +8,13 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b28fed4ace7959d2e8c7/maintainability)](https://codeclimate.com/github/nielsmaerten/peppermint/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b28fed4ace7959d2e8c7/test_coverage)](https://codeclimate.com/github/nielsmaerten/peppermint/test_coverage)
 
-## Earth's best wallpapers: in your Dropbox.
-Powered by Reddit's [r/earthporn](https://reddit.com/r/earthporn)
+## Start here: [**Connect your Dropbox**](https://peppermint-wallpapers.firebaseapp.com)
+## Nature's most beautiful wallpapers: Right in your Dropbox!
 
-### Peppermint is now in Alpha!
-[Connect your Dropbox](https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=xjn72n4rmx0gw0w&redirect_uri=https://us-central1-peppermint-wallpapers.cloudfunctions.net/onUserAuthorized) to try it *  
-
-### What _is_ Peppermint?
-Peppermint takes the top-rated images from [r/earthporn](https://reddit.com/r/earthporn), and saves them to your Dropbox.  
+Peppermint takes the top-rated images from Reddit's [r/earthporn](https://reddit.com/r/earthporn), and saves them to your Dropbox.  
 Configure your system to cycle through them, and you'll have an always up-to-date collection of amazing wallpapers.
 
 ### How to I set Peppermint as my wallpaper?
 [Windows Instructions](https://www.google.com/search?q=wallpaper+slideshow+windows)  
 [Mac OS Instructions](https://www.google.com/search?q=wallpaper+slideshow+mac+os)
 
- \* _Note:_ Images are added as they get upvoted on Reddit. It may take a few hours before any appear in your Dropbox.
