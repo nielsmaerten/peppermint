@@ -44,7 +44,7 @@ function exchangeDropboxToken(firebaseConfig: any, dropboxCode: string): Promise
         }
       },
       (error: any, httpResponse: any, body: DropboxToken) => {
-        if (!error) reject(error);
+        if (error) reject(error);
         else resolve(body)
       }
     )
