@@ -16,7 +16,7 @@ describe("Peppermint.onUserAuthorized", () => {
 
   afterEach(StubCreator.RESTORE_FIREBASE)
 
-  xit("should exchange an authCode for an access token", async () => {
+  it("should exchange an authCode for an access token", async () => {
     await Peppermint.onUserAuthorized({
       query: { code: "FAKE_AUTH_CODE" }
     })
