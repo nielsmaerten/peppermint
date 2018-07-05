@@ -28,7 +28,7 @@ export default async (req: any): Promise<string> => {
 }
 
 function exchangeDropboxToken(firebaseConfig: any, dropboxCode: string): Promise<DropboxToken> {
-  return new Promise<DropboxToken>(resolve => {
+  return new Promise<DropboxToken>((resolve, reject) => {
     require("request").post(
       {
         json: true,
@@ -43,7 +43,10 @@ function exchangeDropboxToken(firebaseConfig: any, dropboxCode: string): Promise
           pass: firebaseConfig.dropbox.client_secret
         }
       },
-      (response: DropboxToken) => resolve(response)
+      (error: any, httpResponse: any, body: DropboxToken) => {
+        if (!error) reject(error);
+        else resolve(body)
+      }
     )
   })
 }
