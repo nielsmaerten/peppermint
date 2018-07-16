@@ -16,18 +16,18 @@ export default class DropboxClient {
 
   public uploadImage(image: RedditPost) {
     return new Promise((resolve, reject) => {
-      const imageContents = Buffer.alloc(0)
+      const chunks: Buffer[] = []
       this.getHttpOrHttps(
         image.imageUrl
       ).get(image.imageUrl, (response: IncomingMessage) => {
         response
-          .on("data", (chunk: Buffer) => chunk.copy(imageContents))
+          .on("data", (chunk: Buffer) => chunks.push(chunk))
           .on("end", () => {
             this.client
               .filesUpload({
                 mute: true,
                 path: this.getFilename(image),
-                contents: imageContents
+                contents: Buffer.concat(chunks)
               })
               .then(resolve)
               .catch(reject)
