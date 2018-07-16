@@ -1,5 +1,6 @@
 import { Dropbox } from "dropbox"
 import DeleteArg = DropboxTypes.files.DeleteArg
+import https from "https"
 import RedditPost from "../objects/reddit-post"
 require("es6-promise").polyfill()
 import "isomorphic-fetch"
@@ -14,9 +15,22 @@ export default class DropboxClient {
   }
 
   public uploadImage(image: RedditPost) {
-    return this.client.filesSaveUrl({
-      path: this.getFilename(image),
-      url: image.imageUrl
+    return new Promise((resolve, reject) => {
+      const imageContents = Buffer.alloc(0)
+      https.get(image.imageUrl, response => {
+        response
+          .on("data", (chunk: Buffer) => chunk.copy(imageContents))
+          .on("end", () => {
+            this.client
+              .filesUpload({
+                mute: true,
+                path: this.getFilename(image),
+                contents: imageContents
+              })
+              .then(resolve)
+              .catch(reject)
+          })
+      })
     })
   }
 

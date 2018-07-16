@@ -39,13 +39,12 @@ describe("Peppermint.onNewUserImage", () => {
 
   it("should save a newly added image to Dropbox", async () => {
     await Peppermint.onNewUserImage(fakeEvent)
-
-    // Dropbox's filesSaveUrl should have been called now
+    // Dropbox's filesUpload method should have been called now
     let dropbox = require("dropbox").Dropbox
-    let spy = dropbox.stubFilesSaveUrl as sinon.SinonSpy
-    spy.lastCall.calledWith(dropbox.stubFilesSaveUrl, {
+    let spy = dropbox.stubFilesUpload as sinon.SinonSpy
+    spy.lastCall.calledWith(dropbox.stubFilesUpload, {
       path: `/${fakeEvent.data.id}.${fakeEvent.data.type}`,
-      url: fakeEvent.data.imageUrl
+      mute: true
     })
   })
 

@@ -31,13 +31,13 @@ describe("DropboxClient", () => {
     })
 
     // Reach into DropboxClient for the actual Dropbox instance,
-    // and get our spy for method filesSaveUrl:
-    let spy = client["client"].filesSaveUrl as sinon.SinonSpy
+    // and get our spy for method filesUpload:
+    let spy = client["client"].filesUpload as sinon.SinonSpy
 
     // Verify it was just called with the parameters above
     spy.lastCall.calledWith({
       path: "/testfile.jpg",
-      url: "http://placehold.it/500x500.jpg?text=Hello%20World!"
+      mute: true
     })
   })
 })
