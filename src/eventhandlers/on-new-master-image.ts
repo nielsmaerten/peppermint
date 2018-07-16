@@ -10,7 +10,7 @@ import RedditPost from "../objects/reddit-post"
  * 1. Gets the properties of the image (width, height) and stores them
  * with the image in the list (?)
  *
- * 2. Queries a list of all users who are intersted in an image of this size
+ * 2. Queries a list of all users who are interested in an image of this size
  *
  * 3. Adds the image to the personal list of these users
  */
@@ -21,10 +21,20 @@ export default async (event: any) => {
 
   imageUrl = await ImageHelper.validateAndFixImageUrl(imageUrl)
   if (imageUrl === undefined) {
-    console.warn("Could not find a valid image for PostId:", postId)
-    console.log("Removing post from Firebase...")
-    await FirebaseClient.GET_INSTANCE().removePost(postId)
-    console.log("Function will now abort.")
+    console.warn(
+      "Could not find a valid image for PostId:",
+      postId,
+      "Aborting."
+    )
+
+    // 2016-07-16: I'm no longer removing the post from Firebase,
+    // since this will just re-add it, and trigger this error again on the next check.
+    // Now, the post is just left in Firebase as an empty node,
+    // which will never be added to a user list
+
+    // console.log("Removing post from Firebase...")
+    // await FirebaseClient.GET_INSTANCE().removePost(postId)
+
     return Promise.resolve()
   }
 
