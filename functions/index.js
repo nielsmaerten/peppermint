@@ -6,7 +6,11 @@ global.peppermintFirebaseConfig = functions.config()
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
   console.log("Reddit Update triggered.")
   peppermint.onTriggerRedditUpdate()
-    .then(() => response.sendStatus(200))
+    .then(() => {
+      // Firebase CDN will cache the response,
+      // so this function will only be executed once every 10 minutes
+      response.setHeader("Cache-Control",`public, max-age=${60*10}`)
+      response.sendStatus(200) })
     .catch(error => {
       console.error(error)
       response.sendStatus(500)
