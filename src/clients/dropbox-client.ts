@@ -23,14 +23,21 @@ export default class DropboxClient {
         response
           .on("data", (chunk: Buffer) => chunks.push(chunk))
           .on("end", () => {
-            this.client
-              .filesUpload({
-                mute: true,
-                path: this.getFilename(image),
-                contents: Buffer.concat(chunks)
-              })
-              .then(resolve)
-              .catch(reject)
+            const contents = Buffer.concat(chunks)
+            if (contents.byteLength === 0) {
+              console.error(
+                `Attempted to download image ${image.imageUrl}, but got 0 bytes.`
+              )
+            } else {
+              this.client
+                .filesUpload({
+                  mute: true,
+                  path: this.getFilename(image),
+                  contents
+                })
+                .then(resolve)
+                .catch(reject)
+            }
           })
       })
     })
