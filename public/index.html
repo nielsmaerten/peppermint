@@ -119,20 +119,33 @@
               <a href="http://reddit.com/r/earthporn">r/earthporn</a>
             </small>
           </p>
-          <p><small>Try it yourself. Click the button below:</small></p>
+          <p>
+            <small>Try it yourself. Click the button below:</small>
+          </p>
         </div>
         <div class="col-lg-12">
           <a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=xjn72n4rmx0gw0w&redirect_uri=https://us-central1-peppermint-wallpapers.cloudfunctions.net/onUserAuthorized"
             class="btn btn-warning btn-lg">Connect your Dropbox</a>
+          <p></p>
+          <a id="prefs" style="display:none" onclick="setPreferences()" class="btn btn-success btn-sm">Change your preferences</a>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- Bootstrap core JavaScript -->
+  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="src/main.js"></script>
+  <script>
+    // Show the settings button if the user is authenticated
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        document.getElementById("prefs").style.display = "inline";
+      }
+    })
+  </script>
 
 </body>
 
