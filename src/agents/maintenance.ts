@@ -123,7 +123,7 @@ export default class Maintenance {
 
   private removeImagesFromDropbox() {
     return new Promise(async (resolve, reject) => {
-      const dropboxToken = await FirebaseClient.GET_INSTANCE().getUserToken(
+      const dropboxToken = await FirebaseClient.GET_INSTANCE().getUserDropboxToken(
         this.user.id
       )
       const dropboxClient = new DropboxClient(dropboxToken)

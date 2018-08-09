@@ -84,7 +84,9 @@ describe("Firebase Client", () => {
     let testUser = new User(testToken)
 
     await FirebaseClient.GET_INSTANCE().addUser(testUser)
-    let token = await FirebaseClient.GET_INSTANCE().getUserToken(testUser.id)
+    let token = await FirebaseClient.GET_INSTANCE().getUserDropboxToken(
+      testUser.id
+    )
 
     assert.equal(token, testToken)
   })

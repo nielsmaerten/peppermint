@@ -8,26 +8,36 @@ export default async (req: any): Promise<string> => {
     (global as any).peppermintFirebaseConfig || functions.config()
 
   console.log("Exchanging auth code with Dropbox API for an access token...")
-  let response = await exchangeDropboxToken(firebaseConfig, req.query.code);
+  let response = await exchangeDropboxToken(firebaseConfig, req.query.code)
   console.log("Success. Storing access token in database...")
 
   await FirebaseClient.GET_INSTANCE().addUser(
     new User(response.access_token, response.account_id)
   )
 
-  await FirebaseClient.GET_INSTANCE().addPostToUserList({
-    dateAdded: 0,
-    height: 3646,
-    width: 6000,
-    id: "welcome",
-    type: "jpg",
-    imageUrl: "https://peppermint-wallpapers.firebaseapp.com/welcome.jpg"
-  }, response.account_id)
+  await FirebaseClient.GET_INSTANCE().addPostToUserList(
+    {
+      dateAdded: 0,
+      height: 3646,
+      width: 6000,
+      id: "welcome",
+      type: "jpg",
+      imageUrl: "https://peppermint-wallpapers.firebaseapp.com/welcome.jpg"
+    },
+    response.account_id
+  )
 
-  return firebaseConfig.oauth.redirect_after_connect
+  const customToken = await FirebaseClient.GET_INSTANCE().getUserSignInToken(
+    response.account_id
+  )
+
+  return `${firebaseConfig.oauth.redirect_after_connect}#token=${customToken}`
 }
 
-function exchangeDropboxToken(firebaseConfig: any, dropboxCode: string): Promise<DropboxToken> {
+function exchangeDropboxToken(
+  firebaseConfig: any,
+  dropboxCode: string
+): Promise<DropboxToken> {
   return new Promise<DropboxToken>((resolve, reject) => {
     require("request").post(
       {
@@ -44,7 +54,7 @@ function exchangeDropboxToken(firebaseConfig: any, dropboxCode: string): Promise
         }
       },
       (error: any, httpResponse: any, body: DropboxToken) => {
-        if (error) reject(error);
+        if (error) reject(error)
         else resolve(body)
       }
     )

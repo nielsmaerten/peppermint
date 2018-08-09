@@ -74,6 +74,10 @@ export default class FirebaseClient {
     return snapshot.val()
   }
 
+  public async getUserSignInToken(userId: string): Promise<string> {
+    return admin.auth().createCustomToken(userId)
+  }
+
   public async updateUser(userId: string, updates: any) {
     await admin
       .database()
@@ -115,7 +119,7 @@ export default class FirebaseClient {
       .set(post)
   }
 
-  public async getUserToken(userId: string): Promise<string> {
+  public async getUserDropboxToken(userId: string): Promise<string> {
     return (await admin
       .database()
       .ref(`${Config.userListRef}/${userId}/token`)

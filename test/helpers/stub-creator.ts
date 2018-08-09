@@ -47,6 +47,9 @@ export default class StubCreator {
 
     // Stub the existing admin.database() with the stub
     sinon.stub(admin, "database").returns(mocksdk.database())
+    sinon.stub(admin, "auth").returns({
+      createCustomToken: () => "CUSTOM-TEST-TOKEN"
+    })
   }
 
   /**
@@ -72,6 +75,7 @@ export default class StubCreator {
     ;(admin.initializeApp as any).restore()
     ;(functions.config as any).restore()
     ;(admin.database as any).restore()
+    ;(admin.auth as any).restore()
   }
 
   public static RESTORE_REDDIT_CLIENT() {
