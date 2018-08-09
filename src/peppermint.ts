@@ -1,8 +1,8 @@
 import onNewMasterImage from "./eventhandlers/on-new-master-image"
 import onNewUserImage from "./eventhandlers/on-new-user-image"
+import onSetPreferences from "./eventhandlers/on-set-preferences"
 import onTriggerRedditUpdate from "./eventhandlers/on-trigger-reddit-update"
 import onUserAuthorized from "./eventhandlers/on-user-authorized"
-import onSetPreferences from "./eventhandlers/on-set-preferences"
 
 export default class Peppermint {
   static onTriggerRedditUpdate = onTriggerRedditUpdate
