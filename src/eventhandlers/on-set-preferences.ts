@@ -9,14 +9,10 @@ export default async (data: any, auth: any) => {
   console.log("Settings payload:", data)
 
   try {
-    const prefMinWidth = parseInt(data.prefMinWidth, 2)
-    const prefMinHeight = parseInt(data.prefMinHeight, 2)
-    const prefMaxAge = parseInt(data.prefMaxAge, 2)
-
     const update = {
-      prefMinHeight,
-      prefMinWidth,
-      prefMaxAge
+      prefMinHeight: +data.prefMinHeight,
+      prefMinWidth: +data.prefMinWidth,
+      prefMaxAge: +data.prefMaxAge
     }
 
     console.log("Submitting update to Firebase", update)
