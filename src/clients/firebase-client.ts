@@ -10,12 +10,13 @@ export default class FirebaseClient {
   private constructor() {
     const config =
       (global as any).peppermintFirebaseConfig || functions.config()
+    const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG as any || "{}")
     if (config.oauth.privatekey) {
-      config.firebase.credential = admin.credential.cert(
+      adminConfig.credential = admin.credential.cert(
         config.oauth.privatekey
       )
     }
-    admin.initializeApp(config.firebase)
+    admin.initializeApp(adminConfig)
   }
 
   public static GET_INSTANCE() {
