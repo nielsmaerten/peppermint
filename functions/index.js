@@ -1,3 +1,4 @@
+// @ts-check
 const functions = require('firebase-functions')
 const peppermint = require('peppermint')
 
@@ -40,5 +41,6 @@ exports.onUserAuthorized = functions.https.onRequest((request, response) => {
 });
 
 exports.setPreferences = functions.https.onCall((data, context) => {
-  console.log(data, context)
+  console.log("Set user preferences triggered.")
+  return peppermint.onSetPreferences(data, context.auth)
 });
