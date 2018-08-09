@@ -38,3 +38,7 @@ exports.onUserAuthorized = functions.https.onRequest((request, response) => {
       response.sendStatus(500)
     })
 });
+
+exports.setPreferences = functions.https.onCall((data, context) => {
+  console.log(data, context)
+});

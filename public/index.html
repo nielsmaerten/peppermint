@@ -67,6 +67,14 @@
           opacity: 0.85 !important;
           color: #000000 !important;
         }
+
+        #prefs {
+          margin-top: 1em;
+        }
+
+        .hidden {
+          display: none;
+        }
       </style>
       <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
       <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/nielsm">
@@ -126,8 +134,11 @@
         <div class="col-lg-12">
           <a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=xjn72n4rmx0gw0w&redirect_uri=https://us-central1-peppermint-wallpapers.cloudfunctions.net/onUserAuthorized"
             class="btn btn-warning btn-lg">Connect your Dropbox</a>
-          <p></p>
-          <a id="prefs" style="display:none" onclick="setPreferences()" class="btn btn-success btn-sm">Change your preferences</a>
+
+          <p id="prefs" class="hidden">
+            <a  onclick="setPreferences()" class="btn btn-success btn-sm">
+                Change your preferences.</a>
+          </p>
         </div>
 
       </div>
@@ -141,8 +152,8 @@
   <script>
     // Show the settings button if the user is authenticated
     firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        document.getElementById("prefs").style.display = "inline";
+      if (user != null) {
+        document.getElementById("prefs").classList.remove("hidden")
       }
     })
   </script>
