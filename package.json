@@ -20,9 +20,6 @@
     "url": "https://github.com/nielsmaerten/peppermint"
   },
   "license": "MIT",
-  "engines": {
-    "node": ">=6.0.0"
-  },
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "postinstall": "npm run build",
@@ -94,8 +91,8 @@
     "es6-promise": "^4.2.4",
     "file-type": "^7.6.0",
     "firebase": "^4.3.0",
-    "firebase-admin": "^5.2.1",
-    "firebase-functions": "^0.8.0",
+    "firebase-admin": "^5.13.1",
+    "firebase-functions": "^2.0.4",
     "firebase-mock": "^2.0.14",
     "husky": "^0.14.0",
     "inversify": "^4.3.0",
