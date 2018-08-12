@@ -14,9 +14,9 @@ import RedditPost from "../objects/reddit-post"
  *
  * 3. Adds the image to the personal list of these users
  */
-export default async (event: any) => {
-  let postId = event.params.postId
-  let imageUrl = event.data.val().imageUrl
+export default async (data: any, context: any) => {
+  let postId = context.params.postId
+  let imageUrl = data.val().imageUrl
   console.log(`Getting properties for PostId: ${postId}, ImageUrl: ${imageUrl}`)
 
   imageUrl = await ImageHelper.validateAndFixImageUrl(imageUrl)

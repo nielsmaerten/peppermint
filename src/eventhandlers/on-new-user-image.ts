@@ -15,15 +15,15 @@ import { TYPES } from "../ioc/types"
  * 3. If the dropbox needs maintenance, removes images that
  * are no longer wanted from the user's list, and dropbox
  */
-export default async (event: any) => {
-  console.log(`Getting token for user ${event.params.userId}...`)
-  let token = await FirebaseClient.GET_INSTANCE().getUserDropboxToken(event
+export default async (data: any, context: any) => {
+  console.log(`Getting token for user ${context.params.userId}...`)
+  let token = await FirebaseClient.GET_INSTANCE().getUserDropboxToken(context
     .params.userId as string)
   let dropbox = new DropboxClient(token)
 
-  console.log(`Uploading post ${event.params.postId} to user's dropbox...`)
+  console.log(`Uploading post ${context.params.postId} to user's dropbox...`)
   try {
-    await dropbox.uploadImage(event.data.val())
+    await dropbox.uploadImage(data.val())
   } catch (error) {
     // WTF dropbox... Could you nest this any deeper??
     if (
@@ -33,22 +33,22 @@ export default async (event: any) => {
     ) {
       console.warn(
         "User",
-        event.params.userId,
+        context.params.userId,
         "seems to have disconnected Peppermint from their Dropbox. Removing their account"
       )
-      await FirebaseClient.GET_INSTANCE().deleteUser(event.params.userId)
+      await FirebaseClient.GET_INSTANCE().deleteUser(context.params.userId)
       return
     } else {
       console.error(
         "Failed to upload post",
-        event.params.postId,
+        context.params.postId,
         "to Dropbox of user",
-        event.params.userId
+        context.params.userId
       )
       throw error
     }
   }
 
   const Maintenance = iocContainer.get<Maintenance>(TYPES.Maintenance)
-  await Maintenance.runForUser(event.params.userId)
+  await Maintenance.runForUser(context.params.userId)
 }
