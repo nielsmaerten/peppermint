@@ -128,15 +128,16 @@
             </small>
           </p>
           <p>
-            <small>Try it yourself. Click the button below:</small>
+            <small id="txtDropboxUnlinked">Try it yourself. Click the button below:</small>
+            <small id="txtDropboxLinked" class="hidden">Looks like your Dropbox is already connected!</small>
           </p>
         </div>
         <div class="col-lg-12">
           <a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=xjn72n4rmx0gw0w&redirect_uri=https://us-central1-peppermint-wallpapers.cloudfunctions.net/onUserAuthorized"
-            class="btn btn-warning btn-lg">Connect your Dropbox</a>
+            class="btn btn-warning btn-lg" id="connectDropbox">Connect your Dropbox</a>
 
           <p id="prefs" class="hidden">
-            <a  onclick="setPreferences()" class="btn btn-success btn-sm">
+            <a  onclick="setPreferences()" class="btn btn-success btn-lg">
                 Change your preferences</a>
           </p>
         </div>
@@ -153,7 +154,15 @@
     // Show the settings button if the user is authenticated
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        document.getElementById("prefs").classList.remove("hidden")
+        document.getElementById("prefs").classList.remove("hidden");
+
+        var btnDropbox = document.getElementById("connectDropbox");
+        btnDropbox.innerText = "Re-connect your Dropbox";
+        btnDropbox.classList.remove("btn-lg");
+        btnDropbox.classList.add("btn-sm")
+
+        document.getElementById("txtDropboxLinked").classList.remove("hidden");
+        document.getElementById("txtDropboxUnlinked").classList.add("hidden");
       }
     })
   </script>
