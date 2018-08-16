@@ -22,7 +22,7 @@ export default async (req: any): Promise<string> => {
       width: 6000,
       id: "welcome",
       type: "jpg",
-      imageUrl: "https://peppermint-wallpapers.firebaseapp.com/welcome.jpg"
+      imageUrl: "https://peppermint.pw/welcome.jpg"
     },
     response.account_id
   )
