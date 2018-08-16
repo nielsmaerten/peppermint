@@ -9,7 +9,6 @@ branches:
     - master
     - /^greenkeeper/.*$/
 cache:
-  # yarn: true
   directories:
     - node_modules
 notifications:
@@ -31,10 +30,6 @@ after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 after_success:
   - npm run report-coverage
-before_deploy:
-  - cd functions/
-  - npm install # has to be npm, since firebase functions uses package-lock!
-  - cd ..
 deploy:
   skip_cleanup: true
   provider: firebase
