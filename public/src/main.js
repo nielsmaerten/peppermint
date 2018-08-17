@@ -13,9 +13,9 @@ function initialize() {
 function setPreferences() {
   const firebaseSetPreferences = firebase.functions().httpsCallable('setPreferences');
 
-  const prefMaxAge = +prompt("(1/3) After how many days do you want old wallpapers to be deleted?", 30);
-  const prefMinWidth = +prompt("(2/3) What should be the minimum with of new wallpapers? (in pixels)", 1920);
-  const prefMinHeight = +prompt("(3/3) What should be the minimum height of new wallpapers? (in pixels)", 1080);
+  const prefMaxAge = +prompt("(1/3) Keep wallpapers for this many days before they're removed again:", 30);
+  const prefMinWidth = +prompt("(2/3) New wallpapers should be at least this many pixels wide:", 1920);
+  const prefMinHeight = +prompt("(3/3) New wallpapers should be at least this many pixels high:", 1080);
 
   firebaseSetPreferences({ prefMinHeight, prefMinWidth, prefMaxAge })
     .then(() =>
