@@ -1,3 +1,4 @@
+import getRandomImage from "./eventhandlers/get-random-image"
 import onNewMasterImage from "./eventhandlers/on-new-master-image"
 import onNewUserImage from "./eventhandlers/on-new-user-image"
 import onSetPreferences from "./eventhandlers/on-set-preferences"
@@ -51,4 +52,13 @@ exports.onUserAuthorized = functions.https.onRequest((request, response) => {
 exports.setPreferences = functions.https.onCall((data, context) => {
   console.log("Set user preferences triggered.")
   return onSetPreferences(data, context.auth)
+})
+
+exports.randomImage = functions.https.onRequest(async (request, response) => {
+  console.log("Requesting random image from DB...")
+  const maxAge = 60 * 60 // Refreshes hourly
+  response.setHeader("Cache-Control", "public,max-age=" + maxAge)
+  const url = await getRandomImage()
+  console.log("Returning 301 redirect to", url)
+  response.redirect(url)
 })

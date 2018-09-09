@@ -10,11 +10,9 @@ export default class FirebaseClient {
   private constructor() {
     const config =
       (global as any).peppermintFirebaseConfig || functions.config()
-    const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG as any || "{}")
+    const adminConfig = JSON.parse((process.env.FIREBASE_CONFIG as any) || "{}")
     if (config.oauth.privatekey) {
-      adminConfig.credential = admin.credential.cert(
-        config.oauth.privatekey
-      )
+      adminConfig.credential = admin.credential.cert(config.oauth.privatekey)
     }
     admin.initializeApp(adminConfig)
   }
@@ -130,5 +128,16 @@ export default class FirebaseClient {
       .database()
       .ref(`${Config.userListRef}/${userId}/token`)
       .once("value")).val() as string
+  }
+
+  public async getRandomImage(): Promise<string> {
+    const snapshot = await admin
+      .database()
+      .ref(`${Config.masterListsRef}/${Config.subreddit}`)
+      .once("value")
+    const images: RedditPost[] = snapshot.val()
+    const i = Math.floor(Math.random() * (images.length - 1))
+    const url = images[i].imageUrl
+    return url
   }
 }
