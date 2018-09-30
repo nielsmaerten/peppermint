@@ -58,7 +58,7 @@ exports.randomImage = functions.https.onRequest(async (request, response) => {
   console.log("Requesting random image from DB...")
   const maxAge = 60 * 60 // Refreshes hourly
   response.setHeader("Cache-Control", "public,max-age=" + maxAge)
-  const url = await getRandomImage()
+  const url = await getRandomImage(request.query.img)
   console.log("Returning 301 redirect to", url)
   response.redirect(url)
 })

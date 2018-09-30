@@ -73,5 +73,8 @@ export default async (data: any, context: any) => {
       FirebaseClient.GET_INSTANCE().addPostToUserList(post, user.id)
     )
   }
+
+  console.log("Adding URL to website images")
+  promises.push(FirebaseClient.GET_INSTANCE().addPostToWebsite(post))
   await Promise.all(promises)
 }

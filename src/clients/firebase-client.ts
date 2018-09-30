@@ -130,14 +130,24 @@ export default class FirebaseClient {
       .once("value")).val() as string
   }
 
-  public async getRandomImage(): Promise<string> {
+  public async getRandomImage(imgIndex: number): Promise<string> {
+    console.log("You want website image", imgIndex)
     const snapshot = await admin
       .database()
-      .ref(`${Config.masterListsRef}/${Config.subreddit}`)
+      .ref(`website-images`)
       .once("value")
-    const images: RedditPost[] = snapshot.val()
-    const i = Math.floor(Math.random() * (images.length - 1))
-    const url = images[i].imageUrl
-    return url
+    const imageUrls: string[] = snapshot.val()
+
+    console.log(imageUrls)
+    return imageUrls[imgIndex]
+  }
+
+  public async addPostToWebsite(post: RedditPost) {
+    // Flip a coin!
+    const i = Math.floor(Math.random() * 20)
+    await admin
+      .database()
+      .ref(`website-images/${i}`)
+      .set(post.imageUrl)
   }
 }
