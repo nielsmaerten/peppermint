@@ -130,15 +130,13 @@ export default class FirebaseClient {
       .once("value")).val() as string
   }
 
-  public async getRandomImage(imgIndex: number): Promise<string> {
-    console.log("You want website image", imgIndex)
+  public async getWebsiteImage(imgIndex: number): Promise<string> {
     const snapshot = await admin
       .database()
       .ref(`website-images`)
       .once("value")
     const imageUrls: string[] = snapshot.val()
 
-    console.log(imageUrls)
     return imageUrls[imgIndex]
   }
 

@@ -1,4 +1,4 @@
-import getRandomImage from "./eventhandlers/get-random-image"
+import getWebsiteImage from "./eventhandlers/get-website-image"
 import onNewMasterImage from "./eventhandlers/on-new-master-image"
 import onNewUserImage from "./eventhandlers/on-new-user-image"
 import onSetPreferences from "./eventhandlers/on-set-preferences"
@@ -54,11 +54,19 @@ exports.setPreferences = functions.https.onCall((data, context) => {
   return onSetPreferences(data, context.auth)
 })
 
-exports.randomImage = functions.https.onRequest(async (request, response) => {
-  console.log("Requesting random image from DB...")
-  const maxAge = 60 * 60 // Refreshes hourly
+exports.websiteImage = functions.https.onRequest(async (request, response) => {
+  const imgIndex = request.query.img
+  console.log("Requesting website image", imgIndex, "from DB...")
+
+  // Get the URL of the image
+  const url = await getWebsiteImage(imgIndex)
+  console.log("Redirecting to", url)
+
+  // Cache response for 1 hour
+  const maxAge = 60 * 60
   response.setHeader("Cache-Control", "public,max-age=" + maxAge)
-  const url = await getRandomImage(request.query.img)
-  console.log("Returning 301 redirect to", url)
-  response.redirect(url)
+
+  // Use a temporary redirect, cached for 1 hour
+  // https://httpstatuses.com/302
+  response.redirect(302, url)
 })
