@@ -1,3 +1,4 @@
+import getPostUrl from "./eventhandlers/get-post-url"
 import getWebsiteImage from "./eventhandlers/get-website-image"
 import onNewMasterImage from "./eventhandlers/on-new-master-image"
 import onNewUserImage from "./eventhandlers/on-new-user-image"
@@ -70,3 +71,19 @@ exports.websiteImage = functions.https.onRequest(async (request, response) => {
   // https://httpstatuses.com/302
   response.redirect(302, url)
 })
+
+exports.lookupImageCredits = functions.https.onRequest(
+  async (request, response) => {
+    const imageId = request.query.id
+
+    // Get the url of the original post
+    const postUrl = await getPostUrl(imageId)
+    console.log("Redirecting to", postUrl)
+
+    // Cache for maximum (1 year)
+    const maxAge = 60 * 60 * 24 * 365
+    response.setHeader("Cache-Control", "public,max-age=" + maxAge)
+
+    response.redirect(301, postUrl)
+  }
+)

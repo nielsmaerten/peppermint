@@ -17,6 +17,7 @@ import RedditPost from "../objects/reddit-post"
 export default async (data: any, context: any) => {
   let postId = context.params.postId
   let imageUrl = data.val().imageUrl
+  let postUrl = data.val().postUrl
   console.log(`Getting properties for PostId: ${postId}, ImageUrl: ${imageUrl}`)
 
   imageUrl = await ImageHelper.validateAndFixImageUrl(imageUrl)
@@ -49,7 +50,8 @@ export default async (data: any, context: any) => {
   let post: RedditPost = {
     id: postId,
     type: properties.type,
-    imageUrl: imageUrl,
+    imageUrl,
+    postUrl,
     width: properties.width,
     height: properties.height,
     dateAdded: moment()

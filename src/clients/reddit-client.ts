@@ -49,7 +49,12 @@ export default class RedditClient {
     for (let i = 0; i < payload.data.children.length; i++) {
       let element = payload.data.children[i]
       if (element.data.url) {
-        posts.push(new RedditPost(element.data.url))
+        posts.push(
+          new RedditPost(
+            element.data.url,
+            "https://reddit.com" + element.data.permalink
+          )
+        )
       }
     }
     console.log(`Request parsed into ${posts.length} RedditPost(s).`)
