@@ -22,7 +22,8 @@ export default async (req: any): Promise<string> => {
       width: 6000,
       id: "welcome",
       type: "jpg",
-      imageUrl: "https://peppermint.pw/welcome.jpg"
+      imageUrl: "https://peppermint.pw/welcome.jpg",
+      postUrl: "https://unsplash.com/photos/pAoo1Rs1Yy8"
     },
     response.account_id
   )

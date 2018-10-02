@@ -148,4 +148,12 @@ export default class FirebaseClient {
       .ref(`website-images/${i}`)
       .set(post.imageUrl)
   }
+
+  public async getPostUrl(imageId: string) {
+    const postUrlSnapshot = await admin
+      .database()
+      .ref(`${Config.masterListsRef}/${Config.subreddit}/${imageId}/postUrl`)
+      .once("value")
+    return postUrlSnapshot.val()
+  }
 }

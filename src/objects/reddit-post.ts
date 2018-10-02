@@ -7,7 +7,7 @@ export default class RedditPost {
   public height: number
   public dateAdded: number
 
-  constructor(public imageUrl: string) {
+  constructor(public imageUrl: string, public postUrl: string) {
     if (this.imageUrl === "") {
       throw new Error("Invalid URL!")
     } else {
