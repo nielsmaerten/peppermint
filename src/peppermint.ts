@@ -78,12 +78,20 @@ exports.lookupImageCredits = functions.https.onRequest(
 
     // Get the url of the original post
     const postUrl = await getPostUrl(imageId)
-    console.log("Redirecting to", postUrl)
+
+    // Return a 404 if not found
+    if (postUrl == null) {
+      response
+        .status(404)
+        .send("Peppermint did not find an image with ID: " + imageId)
+      return
+    }
 
     // Cache for maximum (1 year)
     const maxAge = 60 * 60 * 24 * 365
     response.setHeader("Cache-Control", "public,max-age=" + maxAge)
 
+    console.log("Redirecting to", postUrl)
     response.redirect(301, postUrl)
   }
 )
