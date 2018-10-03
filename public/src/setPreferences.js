@@ -39,6 +39,7 @@ function setPreferences() {
 
   const token = hash.substr(i + 6)
   firebase.auth().signInWithCustomToken(token).then(function () {
+    fbq('track', 'CompleteRegistration');
     window.location.href = "/#settings";
   });
 })()

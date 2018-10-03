@@ -27,6 +27,7 @@ function dragOverHandler(ev) {
 }
 
 function lookup(filename) {
+  fbq('track', 'ImageLookup');
   var id = /[a-zA-Z0-9]+/.exec(filename)[0]
   var url =
     "https://us-central1-peppermint-wallpapers.cloudfunctions.net/lookupImageCredits?id=" +
