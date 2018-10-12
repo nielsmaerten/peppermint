@@ -40,6 +40,7 @@ function setPreferences() {
   const token = hash.substr(i + 6)
   firebase.auth().signInWithCustomToken(token).then(function () {
     fbq('track', 'CompleteRegistration');
+    gtag_report_conversion();
     window.location.href = "/#settings";
   });
 })()
