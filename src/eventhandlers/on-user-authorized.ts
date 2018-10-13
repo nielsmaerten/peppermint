@@ -11,9 +11,15 @@ export default async (req: any): Promise<string> => {
   let response = await exchangeDropboxToken(firebaseConfig, req.query.code)
   console.log("Success. Storing access token in database...")
 
-  await FirebaseClient.GET_INSTANCE().addUser(
-    new User(response.access_token, response.account_id)
-  )
+  try {
+    await FirebaseClient.GET_INSTANCE().addUser(
+      new User(response.access_token, response.account_id)
+    )
+  } catch (error) {
+    throw new Error(
+      `Add user failed. Error: ${error} | Dropbox response: ${response}`
+    )
+  }
 
   await FirebaseClient.GET_INSTANCE().addPostToUserList(
     {

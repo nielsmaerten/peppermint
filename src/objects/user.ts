@@ -19,6 +19,11 @@ export default class User {
     prefMinHeight?: number,
     prefMaxAge?: number
   ) {
+    if (!token) {
+      throw new Error(
+        `Token was '${token}', but is required to create a new user.`
+      )
+    }
     this.token = token
     this.id = id || require("cuid")()
     this.lastMaintained = moment()
