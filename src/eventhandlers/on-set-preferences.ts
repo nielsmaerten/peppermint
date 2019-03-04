@@ -10,9 +10,9 @@ export default async (data: any, auth: any) => {
 
   try {
     const update = {
-      prefMinHeight: +data.prefMinHeight,
-      prefMinWidth: +data.prefMinWidth,
-      prefMaxAge: +data.prefMaxAge
+      prefMinHeight: +data.prefMinHeight || 1080,
+      prefMinWidth: +data.prefMinWidth || 1920,
+      prefMaxAge: +data.prefMaxAge || 30
     }
 
     console.log("Submitting update to Firebase", update)
