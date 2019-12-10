@@ -107,7 +107,20 @@ export default class FirebaseClient {
 
     for (let userId in presortedUsers) {
       if (presortedUsers[userId].prefMinHeight <= redditpost.height) {
-        users.push(presortedUsers[userId])
+        let userOrientation = presortedUsers[userId].prefOrientation
+        let postOrientation = redditpost.getOrientation()
+        console.log(
+          "Post",
+          redditpost.id,
+          "is oriented: ",
+          postOrientation,
+          ". User wants",
+          userOrientation
+        )
+        if (!userOrientation || userOrientation === postOrientation) {
+          console.log("Adding post", redditpost.id, "to user list")
+          users.push(presortedUsers[userId])
+        }
       }
     }
 

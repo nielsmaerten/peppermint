@@ -47,17 +47,14 @@ export default async (data: any, context: any) => {
   await FirebaseClient.GET_INSTANCE().setPostProperties(postId, properties)
   console.log("Properties saved in Firebase.")
 
-  let post: RedditPost = {
-    id: postId,
-    type: properties.type,
-    imageUrl,
-    postUrl,
-    width: properties.width,
-    height: properties.height,
-    dateAdded: moment()
-      .utc()
-      .unix()
-  }
+  let post = new RedditPost(imageUrl, postUrl)
+  post.id = postId
+  post.type = properties.type
+  post.width = properties.width
+  post.height = properties.height
+  post.dateAdded = moment()
+    .utc()
+    .unix()
 
   let interestedUsers = await FirebaseClient.GET_INSTANCE().getInterestedUsers(
     post

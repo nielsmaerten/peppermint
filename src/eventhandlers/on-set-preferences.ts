@@ -12,7 +12,8 @@ export default async (data: any, auth: any) => {
     const update = {
       prefMinHeight: +data.prefMinHeight || 1080,
       prefMinWidth: +data.prefMinWidth || 1920,
-      prefMaxAge: +data.prefMaxAge || 30
+      prefMaxAge: +data.prefMaxAge || 30,
+      prefOrientation: +data.prefOrientation || 0
     }
 
     console.log("Submitting update to Firebase", update)

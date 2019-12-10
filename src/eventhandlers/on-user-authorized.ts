@@ -1,5 +1,6 @@
 import FirebaseClient from "../clients/firebase-client"
 import Config from "../objects/config"
+import RedditPost from "../objects/reddit-post"
 import User from "../objects/user"
 
 export default async (req: any): Promise<string> => {
@@ -21,16 +22,17 @@ export default async (req: any): Promise<string> => {
     )
   }
 
+  let welcomePost = new RedditPost(
+    "https://peppermint.pw/welcome.jpg",
+    "https://unsplash.com/photos/pAoo1Rs1Yy8"
+  )
+  welcomePost.dateAdded = 0
+  welcomePost.height = 3646
+  welcomePost.width = 6000
+  welcomePost.id = "welcome"
+  welcomePost.type = "jpg"
   await FirebaseClient.GET_INSTANCE().addPostToUserList(
-    {
-      dateAdded: 0,
-      height: 3646,
-      width: 6000,
-      id: "welcome",
-      type: "jpg",
-      imageUrl: "https://peppermint.pw/welcome.jpg",
-      postUrl: "https://unsplash.com/photos/pAoo1Rs1Yy8"
-    },
+    welcomePost,
     response.account_id
   )
 
