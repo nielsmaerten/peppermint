@@ -15,7 +15,7 @@ notifications:
   email:
     - niels@maerten.be
 node_js:
-  - 'lts/*'
+  - 8
 before_install:
   - npm install -g greenkeeper-lockfile@1
 before_script:
