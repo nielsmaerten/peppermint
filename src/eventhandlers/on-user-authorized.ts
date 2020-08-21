@@ -23,7 +23,7 @@ export default async (req: any): Promise<string> => {
   }
 
   let welcomePost = new RedditPost(
-    "https://peppermint.pw/welcome.jpg",
+    "https://peppermint-wallpapers.web.app/welcome.jpg",
     "https://unsplash.com/photos/pAoo1Rs1Yy8"
   )
   welcomePost.dateAdded = 0
