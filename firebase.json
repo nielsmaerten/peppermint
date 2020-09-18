@@ -11,6 +11,7 @@
     ]
   },
   "functions": {
-    "source": "/"
+    "runtime": "nodejs10",
+    "source": "dist/"
   }
 }

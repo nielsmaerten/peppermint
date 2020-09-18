@@ -1,0 +1,17 @@
+{
+  "name": "peppermint-dist",
+  "version": "1.0.0",
+  "description": "Distributable package of Peppermint Wallpapers",
+  "main": "peppermint.umd.js",
+  "private": "true",
+  "dependencies": {
+    "dropbox": "^4.0.3",
+    "firebase-admin": "^5.13.1",
+    "firebase-functions": "^2.0.4",
+    "inversify": "^4.3.0",
+    "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.19.4",
+    "reflect-metadata": "^0.1.10"
+  },
+  "license": "MIT"
+}

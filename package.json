@@ -20,13 +20,12 @@
     "url": "https://github.com/nielsmaerten/peppermint"
   },
   "engines": {
-    "node": "10"
+    "node": "8"
   },
   "license": "MIT",
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "postinstall": "npm run build",
-    "prebuild": "rimraf dist",
     "build": "tsc --project tsconfig.build.json && rollup -c && rimraf compiled",
     "test": "jest",
     "test:debug": "nodemon --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",

@@ -6,6 +6,6 @@ coverage
 *.log
 .vscode
 .idea
-dist
 compiled
 .awcache
+.firebase
