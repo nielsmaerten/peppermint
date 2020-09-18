@@ -1,3 +1,6 @@
+### This project is in Maintenance Mode. No new features will be added. 
+### If you're interested in taking over development, contact me on Gitter or email.
+
 # Peppermint - https://peppermint-wallpapers.web.app
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nielsmaerten/peppermint/master/LICENSE)
