@@ -18,6 +18,7 @@ export default class DropboxClient {
   }
 
   async delete(filenames: string[]) {
+    if (filenames.length === 0) return;
     try {
       await this.dropbox.filesDeleteBatch({
         entries: filenames.map((filename) => {
