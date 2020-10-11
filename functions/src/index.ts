@@ -9,7 +9,7 @@ import _deleteOldImages from './events/delete-old-imgs';
 initializeApp();
 
 // Scheduled functions
-export const fetchNewPosts = functions.pubsub.schedule('every 24 hours').onRun(_fetchNewPosts);
+export const fetchNewPosts = functions.pubsub.schedule('every 4 hours').onRun(_fetchNewPosts);
 export const deleteOldImages = functions.pubsub.schedule('every 60 minutes').onRun(_deleteOldImages);
 
 // New image triggers
