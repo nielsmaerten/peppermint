@@ -41,6 +41,6 @@
     }
   },
   "lint-staged": {
-    "*.{ts}": "prettier --write"
+    "*.{ts}": "yarn lint:fix"
   }
 }
