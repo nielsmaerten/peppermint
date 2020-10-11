@@ -7,6 +7,10 @@ import onTriggerRedditUpdate from "./eventhandlers/on-trigger-reddit-update"
 import onUserAuthorized from "./eventhandlers/on-user-authorized"
 
 import * as functions from "firebase-functions"
+import { iocContainer } from "./ioc/inversify.config"
+import Maintenance from "./agents/maintenance"
+import { TYPES } from "./ioc/types"
+import admin from "firebase-admin"
 ;(global as any).peppermintFirebaseConfig = functions.config()
 
 exports.triggerRedditUpdate = functions.https.onRequest((request, response) => {
@@ -95,3 +99,29 @@ exports.lookupImageCredits = functions.https.onRequest(
     response.redirect(301, postUrl)
   }
 )
+
+exports.legacyMaintenance = functions.https.onRequest(async (req, res) => {
+  if (admin.apps.length === 0) admin.initializeApp()
+  try {
+    await admin
+      .database()
+      .ref("/users")
+      .once("value", async sn => {
+        const allUsers = sn.val()
+        for (const user in allUsers) {
+          if (Object.prototype.hasOwnProperty.call(allUsers, user)) {
+            const element = allUsers[user]
+            console.log("Legacy maintenance starting for", element.id)
+            const userId = element.id
+            const Maintenance = iocContainer.get<Maintenance>(TYPES.Maintenance)
+            await Maintenance.runForUser(userId)
+            console.log("Legacy maintenance completed for", element.id)
+          }
+        }
+        res.send("ok")
+      })
+  } catch (error) {
+    console.error(error)
+    res.status(500).send("sorry")
+  }
+})

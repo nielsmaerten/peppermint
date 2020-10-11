@@ -14,7 +14,7 @@ export default class FirebaseClient {
     if (config.oauth.privatekey) {
       adminConfig.credential = admin.credential.cert(config.oauth.privatekey)
     }
-    admin.initializeApp(adminConfig)
+    if (admin.apps.length === 0) admin.initializeApp(adminConfig)
   }
 
   public static GET_INSTANCE() {
