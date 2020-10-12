@@ -4,8 +4,17 @@ import * as functions from 'firebase-functions';
 import RedditPost from '../types/RedditPost';
 import { userAgent } from '../';
 
+const defaultSubReddits = String(functions.config().reddit.default_subs).split(';');
+
 export default class RedditClient {
-  public static async getTopPosts(count = 50, subreddit = 'earthporn'): Promise<RedditPost[]> {
+  public static async getTopPosts(count = 50, subreddits = defaultSubReddits): Promise<RedditPost[]> {
+    const promises = subreddits.map((sub) => this.getTopPostsFromSub(count, sub));
+    const allSubs = await Promise.all(promises);
+    const allPosts = new Array<RedditPost>();
+    return allPosts.concat(...allSubs);
+  }
+
+  public static async getTopPostsFromSub(count: number, subreddit: string): Promise<RedditPost[]> {
     // Configure Request
     const request: AxiosRequestConfig = {
       baseURL: 'https://reddit.com',
