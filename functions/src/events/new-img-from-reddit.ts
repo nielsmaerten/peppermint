@@ -11,7 +11,7 @@ const newImgFromReddit = async (snapshot: QueryDocumentSnapshot, context: functi
   );
 
   // Get User objects from query
-  const users: any[] = await getInterestedUsers(post.width, post.height);
+  const users: any[] = await getInterestedUsers(post.width, post.height, post.subreddit);
   functions.logger.info(`Found ${users.length} interested user(s).`);
   const batch = firestore().batch();
 
@@ -32,9 +32,13 @@ export default newImgFromReddit;
 /**
  * Gets all users who accept an image of this width and height
  */
-const getInterestedUsers = async (width: number, height: number) => {
+const getInterestedUsers = async (width: number, height: number, subreddit: string) => {
   // Query users by width from Firestore
-  const userSnapshots = await firestore().collection('users').where('minWidth', '<=', width).get();
+  const userSnapshots = await firestore()
+    .collection('users')
+    .where('subreddits', 'array-contains', subreddit)
+    .where('minWidth', '<=', width)
+    .get();
 
   // Filter users by height
   return userSnapshots.docs.map((user) => user.data()).filter((user) => user.minHeight <= height);
