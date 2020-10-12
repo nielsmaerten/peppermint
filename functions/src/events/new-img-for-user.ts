@@ -38,7 +38,9 @@ const newImgForUser = async (snapshot: QueryDocumentSnapshot, context: functions
 
   // Upload to user's storage provicer
   functions.logger.info(`${imageId} has passed all checks. Uploading.`);
-  await user.uploadImageToStorageProvider(`${imageId}.${ext}`, cropped);
+  const subfolder = user.singleFolder ? '' : `${redditPost.subreddit}/`;
+  const filename = `${subfolder}${imageId}.${ext}`;
+  await user.uploadImageToStorageProvider(filename, cropped);
 };
 
 export default newImgForUser;

@@ -6,6 +6,7 @@ export default class User {
   dropboxToken?: string;
   maxAge!: number;
   id!: string;
+  singleFolder = true;
   private dropboxClient: DropboxClient;
 
   constructor(tokens: any) {
@@ -34,6 +35,7 @@ export default class User {
     logger.info(`${snapshots.size} image(s) marked for deletion.`);
 
     const filenames = snapshots.docs.map((d) => d.data().id).map((id) => `/${id}.jpg`);
+    // TODO: Feature: upload-into-subfolders: This will fail if user has enabled subfolders
     await this.deleteImagesFromStorageProvider(filenames);
 
     const batch = firestore().batch();
