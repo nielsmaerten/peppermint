@@ -18,9 +18,9 @@ const newImgForUser = async (snapshot: QueryDocumentSnapshot, context: functions
   const redditPost = snapshot.data() as RedditPost;
 
   // Download the image and run a few checks
-  const { buffer, ext } = await ImageClient.downloadImage(redditPost);
+  const { buffer, ext, filePath } = await ImageClient.downloadImage(redditPost);
 
-  if (!buffer) {
+  if (!buffer || !filePath) {
     functions.logger.warn(`${imageId} is invalid: Image not downloadable.`);
     return;
   }
@@ -31,14 +31,14 @@ const newImgForUser = async (snapshot: QueryDocumentSnapshot, context: functions
   }
 
   // Crop whitespace from the image
-  const cropped = await ImageClient.cropWhitespace(buffer);
-  if (!ImageClient.verifySizeReqs(cropped, minWidth, minHeight)) {
+  await ImageClient.cropWhitespace(filePath);
+  if (!ImageClient.verifySizeReqs(filePath, minWidth, minHeight)) {
     functions.logger.warn(`${imageId} is invalid: Cropped image too small.`);
   }
 
-  // Upload to user's storage provicer
+  // Upload to user's storage provider
   functions.logger.info(`${imageId} has passed all checks. Uploading.`);
-  await user.uploadImageToStorageProvider(`${imageId}.${ext}`, cropped);
+  await user.uploadImageToStorageProvider(`${imageId}.${ext}`, filePath);
 };
 
 export default newImgForUser;

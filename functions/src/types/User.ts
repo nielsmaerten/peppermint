@@ -15,8 +15,8 @@ export default class User {
     } else throw new Error('Only Dropbox supported for now!');
   }
 
-  public async uploadImageToStorageProvider(filename: string, imageBuffer: Buffer) {
-    await this.dropboxClient.upload(filename, imageBuffer);
+  public async uploadImageToStorageProvider(filename: string, imagePath: string) {
+    await this.dropboxClient.upload(filename, imagePath);
   }
 
   public async deleteImagesFromStorageProvider(filenames: string[]) {
