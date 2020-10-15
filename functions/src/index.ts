@@ -5,6 +5,7 @@ import _fetchNewPosts from './events/fetch-new-posts';
 import _newImgFromReddit from './events/new-img-from-reddit';
 import _newImgForUser from './events/new-img-for-user';
 import _deleteOldImages from './events/delete-old-imgs';
+import _newUser from './events/new-user';
 
 initializeApp();
 
@@ -17,6 +18,7 @@ export const newImgFromReddit = functions.firestore.document('images/{imageId}')
 export const newImgForUser = functions.firestore
   .document('users/{userId}/images/{imageId}')
   .onCreate(_newImgForUser);
+export const newUser = functions.firestore.document('users/{userId}').onCreate(_newUser);
 
 // Manual triggers
 export const fetchNewPostsManual = functions.https.onRequest(async (req, res) => {
