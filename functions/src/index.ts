@@ -10,7 +10,7 @@ initializeApp();
 
 // Scheduled functions
 export const fetchNewPosts = functions.pubsub.schedule('every 4 hours').onRun(_fetchNewPosts);
-export const deleteOldImages = functions.pubsub.schedule('every 60 minutes').onRun(_deleteOldImages);
+export const deleteOldImages = functions.pubsub.schedule('every 4 hours').onRun(_deleteOldImages);
 
 // New image triggers
 export const newImgFromReddit = functions.firestore.document('images/{imageId}').onCreate(_newImgFromReddit);
