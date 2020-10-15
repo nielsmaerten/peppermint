@@ -1,5 +1,6 @@
 import { Dropbox } from 'dropbox';
 import { logger } from 'firebase-functions';
+import { readFileSync } from 'fs';
 
 export default class DropboxClient {
   private dropbox: Dropbox;
@@ -8,9 +9,9 @@ export default class DropboxClient {
     this.dropbox = new Dropbox({ accessToken: token });
   }
 
-  async upload(filename: string, buffer: Buffer) {
+  async upload(filename: string, imagePath: string) {
     await this.dropbox.filesUpload({
-      contents: buffer,
+      contents: readFileSync(imagePath),
       path: `/${filename}`,
       mute: true,
     });

@@ -14,9 +14,8 @@ export const deleteOldImages = functions.pubsub.schedule('every 60 minutes').onR
 
 // New image triggers
 export const newImgFromReddit = functions.firestore.document('images/{imageId}').onCreate(_newImgFromReddit);
-export const newImgForUser = functions
-  .runWith({ memory: '2GB' })
-  .firestore.document('users/{userId}/images/{imageId}')
+export const newImgForUser = functions.firestore
+  .document('users/{userId}/images/{imageId}')
   .onCreate(_newImgForUser);
 
 // Manual triggers

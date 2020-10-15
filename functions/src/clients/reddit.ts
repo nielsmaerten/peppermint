@@ -4,10 +4,12 @@ import * as functions from 'firebase-functions';
 import RedditPost from '../types/RedditPost';
 import { userAgent } from '../';
 
-const defaultSubReddits = String(functions.config().reddit.default_subs).split(';');
+const defaultSubs_config = functions.config().reddit?.default_subs;
+const defaultSubs_fallback = 'earthporn';
+const defaultSubs = String(defaultSubs_config || defaultSubs_fallback).split(';');
 
 export default class RedditClient {
-  public static async getTopPosts(count = 50, subreddits = defaultSubReddits): Promise<RedditPost[]> {
+  public static async getTopPosts(count = 50, subreddits = defaultSubs): Promise<RedditPost[]> {
     const promises = subreddits.map((sub) => this.getTopPostsFromSub(count, sub));
     const allSubs = await Promise.all(promises);
     const allPosts = new Array<RedditPost>();
