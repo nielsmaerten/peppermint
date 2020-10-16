@@ -1,9 +1,9 @@
 import RedditPost from '../types/RedditPost';
 import axios from 'axios';
-import * as functions from 'firebase-functions';
 import * as im from 'imagemagick';
 import { writeFileSync } from 'fs';
 import { userAgent } from '..';
+import { logger } from 'firebase-functions';
 
 export default class ImageClient {
   public static async downloadImage(post: RedditPost) {
@@ -22,10 +22,10 @@ export default class ImageClient {
     const isJpegImage = urlEndsWithJpg || urlEndsWithJpeg || contentTypeIsJpeg;
 
     if (!isJpegImage) {
-      functions.logger.warn(`${post.id} is not supported because the image is not JPEG.`);
+      logger.warn(`${post.id} is not supported because the image is not JPEG.`);
       return {};
     } else {
-      functions.logger.info(`${post.id} image was downloaded succesfully.`);
+      logger.info(`${post.id} image was downloaded succesfully.`);
     }
 
     // Write image to tmp folder
@@ -55,13 +55,15 @@ export default class ImageClient {
     });
   }
 
-  public static async cropWhitespace(filePath: string) {
+  public static cropWhitespace(filePath: string): Promise<string> {
+    logger.info(`Cropping whitespace from ${filePath}`);
     return new Promise((resolve, reject) => {
       // Use ImageMagick to 'trim' borders from the image
-      // write the result back to the same file
-      im.convert([filePath, '-trim', filePath], (error) => {
+      const outPath = `${filePath}-cropped.jpg`;
+      const inPath = filePath;
+      im.convert([inPath, '-trim', outPath], (error) => {
         if (error) reject(error);
-        resolve(filePath);
+        resolve(outPath);
       });
     });
   }

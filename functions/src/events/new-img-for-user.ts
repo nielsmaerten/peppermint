@@ -31,8 +31,8 @@ const newImgForUser = async (snapshot: QueryDocumentSnapshot, context: functions
   }
 
   // Crop whitespace from the image
-  await ImageClient.cropWhitespace(filePath);
-  if (!ImageClient.verifySizeReqs(filePath, minWidth, minHeight)) {
+  const croppedPath = await ImageClient.cropWhitespace(filePath);
+  if (!ImageClient.verifySizeReqs(croppedPath, minWidth, minHeight)) {
     functions.logger.warn(`${imageId} is invalid: Cropped image too small.`);
   }
 
