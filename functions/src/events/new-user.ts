@@ -8,7 +8,7 @@ const newUser = async (change: functions.Change<QueryDocumentSnapshot>, context:
   if (user.triggerSeeding !== true) return;
 
   // Get the most recent images from the master list
-  const images = await firestore().collection('images').orderBy('added', 'desc').limit(20).get();
+  const images = await firestore().collection('images').orderBy('added', 'desc').limit(100).get();
 
   // Add the images to the user's list
   const batch = firestore().batch();
