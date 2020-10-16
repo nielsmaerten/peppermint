@@ -8,6 +8,7 @@ import _deleteOldImages from './events/delete-old-imgs';
 import _newUser from './events/new-user';
 
 initializeApp();
+const _10minutesInS = 9 * 60;
 
 // Scheduled functions
 export const fetchNewPosts = functions.pubsub.schedule('every 4 hours').onRun(_fetchNewPosts);
@@ -15,10 +16,11 @@ export const deleteOldImages = functions.pubsub.schedule('every 4 hours').onRun(
 
 // New image triggers
 export const newImgFromReddit = functions.firestore.document('images/{imageId}').onCreate(_newImgFromReddit);
-export const newImgForUser = functions.firestore
-  .document('users/{userId}/images/{imageId}')
+export const newImgForUser = functions
+  .runWith({ timeoutSeconds: _10minutesInS })
+  .firestore.document('users/{userId}/images/{imageId}')
   .onCreate(_newImgForUser);
-export const newUser = functions.firestore.document('users/{userId}').onCreate(_newUser);
+export const newUser = functions.firestore.document('users/{userId}').onUpdate(_newUser);
 
 // Manual triggers
 export const fetchNewPostsManual = functions.https.onRequest(async (req, res) => {
