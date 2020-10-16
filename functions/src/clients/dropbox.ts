@@ -10,24 +10,18 @@ export default class DropboxClient {
   }
 
   upload(filename: string, imagePath: string) {
-    return new Promise<void>(async (resolve, reject) => {
-
-      const dropboxResponse = (await this.dropbox
+    return new Promise<void>((resolve, reject) => {
+      this.dropbox
         .filesUpload({
           contents: readFileSync(imagePath),
           path: `/${filename}`,
           mute: true,
           mode: 'overwrite' as any,
-        })) as any;
-
-      if (dropboxResponse.status && dropboxResponse.status !== 200) {
-        logger.error(`${filename}: upload to Dropbox failed`);
-        reject();
-      } else {
-        logger.info(`${filename}: upload to Dropbox OK`);
-        resolve();
-      }
-
+        })
+        .then(
+          () => resolve(),
+          (error) => reject(error)
+        );
     });
   }
 
