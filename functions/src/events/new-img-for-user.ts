@@ -38,7 +38,7 @@ const newImgForUser = async (snapshot: QueryDocumentSnapshot, context: functions
 
   // Upload to user's storage provider
   functions.logger.info(`${imageId} has passed all checks. Uploading.`);
-  await user.uploadImageToStorageProvider(`${imageId}.${ext}`, filePath);
+  return user.uploadImageToStorageProvider(`${imageId}.${ext}`, filePath);
 };
 
 export default newImgForUser;

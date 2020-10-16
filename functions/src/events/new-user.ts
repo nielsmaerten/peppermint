@@ -2,9 +2,10 @@ import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 
-const newUser = async (snapshot: QueryDocumentSnapshot, context: functions.EventContext) => {
+const newUser = async (change: functions.Change<QueryDocumentSnapshot>, context: functions.EventContext) => {
   // Get the user's object
-  const user = snapshot.data();
+  const user = change.after.data();
+  if (user.triggerSeeding !== true) return;
 
   // Get the most recent images from the master list
   const images = await firestore().collection('images').orderBy('added', 'desc').limit(20).get();
@@ -39,7 +40,10 @@ const newUser = async (snapshot: QueryDocumentSnapshot, context: functions.Event
     .map((img) => {
       batch.set(userImgCollectionRef.doc(img.id), img);
     });
-  await batch.commit();
+
+  // Set seeding trigger switch back to false
+  batch.set(change.after.ref, { triggerSeeding: false }, { merge: true });
+  return batch.commit();
 };
 
 export default newUser;
