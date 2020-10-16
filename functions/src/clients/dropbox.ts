@@ -9,13 +9,26 @@ export default class DropboxClient {
     this.dropbox = new Dropbox({ accessToken: token });
   }
 
-  async upload(filename: string, imagePath: string) {
-    await this.dropbox.filesUpload({
-      contents: readFileSync(imagePath),
-      path: `/${filename}`,
-      mute: true,
+  upload(filename: string, imagePath: string) {
+    return new Promise<void>(async (resolve, reject) => {
+
+      const dropboxResponse = (await this.dropbox
+        .filesUpload({
+          contents: readFileSync(imagePath),
+          path: `/${filename}`,
+          mute: true,
+          mode: 'overwrite' as any,
+        })) as any;
+
+      if (dropboxResponse.status && dropboxResponse.status !== 200) {
+        logger.error(`${filename}: upload to Dropbox failed`);
+        reject();
+      } else {
+        logger.info(`${filename}: upload to Dropbox OK`);
+        resolve();
+      }
+
     });
-    logger.info(`${filename}: uploaded to Dropbox OK`);
   }
 
   async delete(filenames: string[]) {
@@ -27,8 +40,9 @@ export default class DropboxClient {
         }),
       });
       logger.info(`${filenames.join(', ')}: deleted from Dropbox OK`);
-    } catch (error) {
-      logger.error(`${filenames.join(', ')}: deleting from dropbox failed`);
+    } catch (err) {
+      logger.error(`${filenames.join(', ')}: deleting from dropbox failed: ${err}`);
+      throw err;
     }
   }
 }
