@@ -13,13 +13,29 @@ const newUser = async (snapshot: QueryDocumentSnapshot, context: functions.Event
   const batch = firestore().batch();
   const userImgCollectionRef = firestore().collection('users').doc(user.id).collection('images');
   images.docs
+    // Get image objects
     .map((img) => img.data())
+
+    // Filter out images that don't meet minimum height/width requirements
     .filter((img) => {
       const isSizeOk = img.height >= user.minHeight && img.width >= user.minWidth;
-      const isOrientationOK = true;
-      // (user.onlyLandscape && img.isPortrait) || (user.onlyPortrait && img.isLandscape);
-      return isSizeOk && isOrientationOK;
+      return isSizeOk;
     })
+
+    // Filter out images that don't meet orientation requirement
+    .filter((img) => {
+      if (user.onlyLandscape && img.isPortrait) return false;
+      if (user.onlyPortrait && img.isLandscape) return false;
+      return true;
+    })
+
+    // Filter out images that don't meet subreddit requirement
+    .filter((img) => {
+      const subs = user.subreddits as string[];
+      return subs.includes(img.subreddit);
+    })
+
+    // Write image object to user's personal collection
     .map((img) => {
       batch.set(userImgCollectionRef.doc(img.id), img);
     });

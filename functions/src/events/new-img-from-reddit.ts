@@ -11,15 +11,11 @@ const newImgFromReddit = async (snapshot: QueryDocumentSnapshot, context: functi
   );
 
   // Get User objects from query
-  const users: any[] = await getInterestedUsers(post.width, post.height, post.subreddit);
+  const users: any[] = await getInterestedUsers(post);
   functions.logger.info(`Found ${users.length} interested user(s).`);
   const batch = firestore().batch();
 
   users.forEach((user) => {
-    // Bail if user wants only portrait/landscape, but the image isn't
-    if (user.onlyPortrait && !post.isPortrait) return;
-    if (user.onlyLandscape && !post.isLandscape) return;
-
     // Image matches the user's requirements: add it to their collection
     const ref = firestore().doc(`users/${user.id}`).collection('images').doc(post.id);
     batch.create(ref, post);
@@ -32,14 +28,29 @@ export default newImgFromReddit;
 /**
  * Gets all users who accept an image of this width and height
  */
-const getInterestedUsers = async (width: number, height: number, subreddit: string) => {
-  // Query users by width from Firestore
+const getInterestedUsers = async (post: RedditPost) => {
+  const { subreddit, width, height, isLandscape, isPortrait } = post;
+
+  // Query users for whom image meets minWidth and subreddit requirement
   const userSnapshots = await firestore()
     .collection('users')
     .where('subreddits', 'array-contains', subreddit)
     .where('minWidth', '<=', width)
     .get();
 
-  // Filter users by height
-  return userSnapshots.docs.map((user) => user.data()).filter((user) => user.minHeight <= height);
+  return (
+    userSnapshots.docs
+      // Get user objects
+      .map((user) => user.data())
+
+      // Filter users for whom image doesn't meet minHeight requirement
+      .filter((user) => user.minHeight <= height)
+
+      // Filter users for whom image doesn't meet orientation requirement
+      .filter((user) => {
+        if (user.onlyLandscape && isPortrait) return false;
+        if (user.onlyPortrait && isLandscape) return false;
+        return true;
+      })
+  );
 };
