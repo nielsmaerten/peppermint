@@ -1,7 +1,7 @@
 import RedditPost from '../types/RedditPost';
 import axios from 'axios';
 import * as im from 'imagemagick';
-import { writeFileSync } from 'fs';
+import { writeFileSync, unlinkSync } from 'fs';
 import { userAgent } from '..';
 import { logger } from 'firebase-functions';
 
@@ -66,5 +66,10 @@ export default class ImageClient {
         resolve(outPath);
       });
     });
+  }
+
+  public static deleteImage(filePath: string) {
+    unlinkSync(filePath);
+    logger.debug(filePath, 'has been deleted.');
   }
 }
