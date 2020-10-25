@@ -17,3 +17,11 @@ export const intervals = {
   fetchNewPosts: 'every 4 hours',
   deleteOldImages: 'every 4 hours',
 };
+
+// Subreddits that should be checked for new posts
+import * as functions from 'firebase-functions';
+let subredditSources = {
+  config: String(functions.config().reddit?.default_subs || '').split(';');
+}
+const subredditSources_Config = 
+export const subredditSources = ['earthporn'];

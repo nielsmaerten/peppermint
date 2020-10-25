@@ -1,6 +1,6 @@
 import { firestore } from 'firebase-admin';
 import { logger } from 'firebase-functions';
-import { pruningInterval } from '../contants';
+import { pruningInterval } from '../constants';
 import User from '../types/User';
 
 const pruneOldImages = async () => {

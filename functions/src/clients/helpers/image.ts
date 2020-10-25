@@ -2,7 +2,7 @@ import RedditPost from '../../types/RedditPost';
 import axios from 'axios';
 import * as im from 'imagemagick';
 import { writeFileSync, unlinkSync } from 'fs';
-import { userAgentString } from '../../contants';
+import { userAgentString } from '../../constants';
 import { logger } from 'firebase-functions';
 
 /**

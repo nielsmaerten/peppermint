@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import { initializeApp } from 'firebase-admin';
-import { maximumFunctionRuntime, intervals } from './contants';
+import { maximumFunctionRuntime, intervals } from './constants';
 
 import _fetchNewPosts from './events/fetch-new-posts';
 import _newImgFromReddit from './events/new-img-from-reddit';

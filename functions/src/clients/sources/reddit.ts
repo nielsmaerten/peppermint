@@ -2,14 +2,15 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { createHash } from 'crypto';
 import * as functions from 'firebase-functions';
 import RedditPost from '../../types/RedditPost';
-import { userAgentString } from '../../contants';
+import { userAgentString, subredditSources } from '../../constants';
 
-const defaultSubs_config = functions.config().reddit?.default_subs;
-const defaultSubs_fallback = 'earthporn';
-const defaultSubs = String(defaultSubs_config || defaultSubs_fallback).split(';');
+const subredditSources_Config = functions.config().reddit?.default_subs || '';
+const subredditSources_Defaults = subredditSources;
+const subredditsSources =
+  subredditSources_Config.length > 0 ? subredditSources_Config : subredditSources_Defaults;
 
 export default class RedditClient {
-  public static async getTopPosts(count = 50, subreddits = defaultSubs): Promise<RedditPost[]> {
+  public static async getTopPosts(count = 50, subreddits = subredditSources): Promise<RedditPost[]> {
     const promises = subreddits.map((sub) => this.getTopPostsFromSub(count, sub));
     const allSubs = await Promise.all(promises);
     const allPosts = new Array<RedditPost>();
