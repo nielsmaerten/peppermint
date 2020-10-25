@@ -1,7 +1,7 @@
 import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-import ImageClient from '../clients/image';
+import ImageClient from '../clients/helpers/image';
 import RedditPost from '../types/RedditPost';
 import User from '../types/User';
 

@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import { firestore } from 'firebase-admin';
-import Reddit from '../clients/reddit';
+import Reddit from '../clients/sources/reddit';
 import RedditPost from '../types/RedditPost';
 
 const fetchNewPosts = async () => {

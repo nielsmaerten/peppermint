@@ -1,8 +1,9 @@
 import { Dropbox } from 'dropbox';
 import { logger } from 'firebase-functions';
 import { readFileSync } from 'fs';
+import iDestination from './iDestination';
 
-export default class DropboxClient {
+export default class DropboxClient implements iDestination {
   private dropbox: Dropbox;
 
   constructor(token: string) {

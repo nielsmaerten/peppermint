@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { createHash } from 'crypto';
 import * as functions from 'firebase-functions';
-import RedditPost from '../types/RedditPost';
-import { userAgent } from '../';
+import RedditPost from '../../types/RedditPost';
+import { userAgentString } from '../../contants';
 
 const defaultSubs_config = functions.config().reddit?.default_subs;
 const defaultSubs_fallback = 'earthporn';
@@ -22,7 +22,7 @@ export default class RedditClient {
       baseURL: 'https://reddit.com',
       url: `/r/${subreddit}/top/.json?limit=${count}`,
       headers: {
-        'User-Agent': userAgent,
+        'User-Agent': userAgentString,
       },
     };
 

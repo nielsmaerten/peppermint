@@ -1,17 +1,23 @@
-import RedditPost from '../types/RedditPost';
+import RedditPost from '../../types/RedditPost';
 import axios from 'axios';
 import * as im from 'imagemagick';
 import { writeFileSync, unlinkSync } from 'fs';
-import { userAgent } from '..';
+import { userAgentString } from '../../contants';
 import { logger } from 'firebase-functions';
 
+/**
+ * Provides methods to:
+ * - download images
+ * - verify image sizes
+ * - trim borders from images
+ */
 export default class ImageClient {
   public static async downloadImage(post: RedditPost) {
     // Download the image into an arraybuffer
     const axiosResponse = await axios.get(post.imgUrl, {
       responseType: 'arraybuffer',
       headers: {
-        'User-Agent': userAgent,
+        'User-Agent': userAgentString,
       },
     });
 
