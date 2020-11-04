@@ -21,7 +21,7 @@ export default class User {
     try {
       await this.useBackoff(uploadOperation, 'Upload');
     } catch (e) {
-      logger.error(`Failed uploading ${filename} to user's storage provider`);
+      logger.error(`Failed uploading ${filename} to user's ${this.id} storage provider`);
     }
   }
 
