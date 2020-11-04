@@ -30,7 +30,7 @@ export default class User {
     try {
       await this.useBackoff(deleteOperation, 'Delete');
     } catch (e) {
-      logger.error(`Failed deleting ${filenames} from user's storage provider`);
+      logger.error(`Failed deleting ${filenames} from user's ${this.id} storage provider`);
     }
   }
 

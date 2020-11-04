@@ -3,13 +3,11 @@ import { createHash } from 'crypto';
 import * as functions from 'firebase-functions';
 import RedditPost from '../types/RedditPost';
 import { userAgent } from '../';
-
-const defaultSubs_config = functions.config().reddit?.default_subs;
-const defaultSubs_fallback = 'earthporn';
-const defaultSubs = String(defaultSubs_config || defaultSubs_fallback).split(';');
+import { firestore } from 'firebase-admin';
 
 export default class RedditClient {
-  public static async getTopPosts(count = 50, subreddits = defaultSubs): Promise<RedditPost[]> {
+  public static async getTopPosts(count = 50, _subreddits?: string[]): Promise<RedditPost[]> {
+    const subreddits = _subreddits ?? await this.getSubReddits();
     const promises = subreddits.map((sub) => this.getTopPostsFromSub(count, sub));
     const allSubs = await Promise.all(promises);
     const allPosts = new Array<RedditPost>();
@@ -39,6 +37,9 @@ export default class RedditClient {
     const children: any[] = data.data.children;
     return children
       .map((child) => child.data)
+      .filter((post) => {
+        return post.preview?.images[0] !== undefined
+      })
       .map((post) => {
         return {
           width: post.preview.images[0].source.width,
@@ -58,6 +59,14 @@ export default class RedditClient {
           isLandscape: post.width > post.height,
         };
       });
+  }
+
+  private static async getSubReddits() {
+    const snapshot = await firestore().collection("subreddits").get();
+    const docs = snapshot.docs;
+    const subreddits = docs.map(doc => doc.data().id as string);
+    functions.logger.info("Fetching posts from these subs:", subreddits);
+    return subreddits;
   }
 
   private static getPostId(url: string): string {
