@@ -47,11 +47,21 @@ export default class User {
     const filenames = snapshots.docs.map((d) => d.data().id).map((id) => `/${id}.jpg`);
     await this.deleteImagesFromStorageProvider(filenames);
 
-    const batch = firestore().batch();
-    snapshots.forEach((doc) => {
-      batch.delete(doc.ref);
-    });
-    await batch.commit();
+    let batch = firestore().batch();
+    let writesInQueue = 0;
+    for (let i = 0; i < snapshots.docs.length; i++) {
+      const currentDoc = snapshots.docs[i];
+      const isLastDoc = i === snapshots.docs.length - 1;
+
+      batch.delete(currentDoc.ref);
+      writesInQueue++;
+
+      if (writesInQueue === 400 || isLastDoc) {
+        await batch.commit();
+        batch = firestore().batch();
+        writesInQueue = 0;
+      }
+    }
   }
 
   /**
