@@ -7,7 +7,7 @@ import { firestore } from 'firebase-admin';
 
 export default class RedditClient {
   public static async getTopPosts(count = 50, _subreddits?: string[]): Promise<RedditPost[]> {
-    const subreddits = _subreddits ?? await this.getSubReddits();
+    const subreddits = _subreddits ?? (await this.getSubReddits());
     const promises = subreddits.map((sub) => this.getTopPostsFromSub(count, sub));
     const allSubs = await Promise.all(promises);
     const allPosts = new Array<RedditPost>();
@@ -38,7 +38,7 @@ export default class RedditClient {
     return children
       .map((child) => child.data)
       .filter((post) => {
-        return post.preview?.images[0] !== undefined
+        return post.preview?.images[0] !== undefined;
       })
       .map((post) => {
         return {
@@ -62,10 +62,10 @@ export default class RedditClient {
   }
 
   private static async getSubReddits() {
-    const snapshot = await firestore().collection("subreddits").get();
+    const snapshot = await firestore().collection('subreddits').get();
     const docs = snapshot.docs;
-    const subreddits = docs.map(doc => doc.data().id as string);
-    functions.logger.info("Fetching posts from these subs:", subreddits);
+    const subreddits = docs.map((doc) => doc.data().id as string);
+    functions.logger.info('Fetching posts from these subs:', subreddits);
     return subreddits;
   }
 
