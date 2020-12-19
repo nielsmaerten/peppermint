@@ -26,7 +26,7 @@ const newImgForUser = async (snapshot: QueryDocumentSnapshot, context: functions
   }
 
   if (ext && !['jpg', 'jpeg'].includes(ext)) {
-    functions.logger.warn(`${imageId} is invalid: Image fromat must be JPEG.`);
+    functions.logger.warn(`${imageId} is invalid: Image format must be JPEG.`);
     return;
   }
 
@@ -38,10 +38,11 @@ const newImgForUser = async (snapshot: QueryDocumentSnapshot, context: functions
 
   // Upload to user's storage provider
   functions.logger.info(`${imageId} has passed all checks. Uploading.`);
-  await user.uploadImageToStorageProvider(`${imageId}.${ext}`, filePath);
+  await user.uploadImageToStorageProvider(`${imageId}.${ext}`, croppedPath);
 
   // Delete image from temp folder
   ImageClient.deleteImage(filePath);
+  ImageClient.deleteImage(croppedPath);
   return;
 };
 

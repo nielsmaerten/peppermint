@@ -25,7 +25,7 @@ export default class ImageClient {
       logger.warn(`${post.id} is not supported because the image is not JPEG.`);
       return {};
     } else {
-      logger.info(`${post.id} image was downloaded succesfully.`);
+      logger.info(`${post.id} image was downloaded successfully.`);
     }
 
     // Write image to tmp folder
