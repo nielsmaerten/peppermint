@@ -10,9 +10,12 @@ import _newUser from './events/new-user';
 initializeApp();
 const _10minutesInS = 9 * 60;
 
+// Set crontab schedule: every 12 hours
+const schedule = '0 */12 * * *';
+
 // Scheduled functions
-export const fetchNewPosts = functions.pubsub.schedule('every 4 hours').onRun(_fetchNewPosts);
-export const deleteOldImages = functions.pubsub.schedule('every 4 hours').onRun(_deleteOldImages);
+export const fetchNewPosts = functions.pubsub.schedule(schedule).onRun(_fetchNewPosts);
+export const deleteOldImages = functions.pubsub.schedule(schedule).onRun(_deleteOldImages);
 
 // New image triggers
 export const newImgFromReddit = functions.firestore.document('images/{imageId}').onCreate(_newImgFromReddit);

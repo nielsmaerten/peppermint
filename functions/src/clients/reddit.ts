@@ -1,9 +1,10 @@
-import axios, { AxiosRequestConfig } from 'axios';
+// import axios, { AxiosRequestConfig } from 'axios';
 import { createHash } from 'crypto';
 import * as functions from 'firebase-functions';
 import RedditPost from '../types/RedditPost';
 import { userAgent } from '../';
 import { firestore } from 'firebase-admin';
+import * as snoowrap from 'snoowrap';
 
 export default class RedditClient {
   public static async getTopPosts(count = 50, _subreddits?: string[]): Promise<RedditPost[]> {
@@ -15,28 +16,21 @@ export default class RedditClient {
   }
 
   public static async getTopPostsFromSub(count: number, subreddit: string): Promise<RedditPost[]> {
-    // Configure Request
-    const request: AxiosRequestConfig = {
-      baseURL: 'https://reddit.com',
-      url: `/r/${subreddit}/top/.json?limit=${count}`,
-      headers: {
-        'User-Agent': userAgent,
-      },
-    };
+    // Configure Snoowrap
+    const r = new snoowrap({
+      userAgent: userAgent,
+      clientId: functions.config().reddit?.client_id || '',
+      clientSecret: functions.config().reddit?.client_secret|| '',
+      refreshToken: functions.config().reddit?.refresh_token || '',
+    });
 
-    // Send request
-    functions.logger.debug(`[reddit-client]: HTTP request: ${request.url}`);
-    const axiosResponse = await axios.request(request);
-
-    // Extract RedditPosts
-    const redditPosts = this.getRedditPosts(axiosResponse.data);
-    return redditPosts;
+    // Get the top posts from the subreddit
+    const posts = await r.getSubreddit(subreddit).getTop({ time: 'day', limit: count });
+    return this.getRedditPosts(posts, subreddit);
   }
 
-  private static getRedditPosts(data: any): RedditPost[] {
-    const children: any[] = data.data.children;
-    return children
-      .map((child) => child.data)
+  private static getRedditPosts(data: snoowrap.Listing<snoowrap.Submission>, subreddit = "N/A"): RedditPost[] {
+    return data
       .filter((post) => {
         return post.preview?.images[0] !== undefined;
       })
@@ -44,7 +38,7 @@ export default class RedditClient {
         return {
           width: post.preview.images[0].source.width,
           height: post.preview.images[0].source.height,
-          subreddit: String(post.subreddit).toLowerCase(),
+          subreddit,
           title: post.title,
           imgUrl: post.url,
           postUrl: post.permalink,
